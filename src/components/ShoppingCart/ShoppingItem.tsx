@@ -1,17 +1,22 @@
 import { FC } from "react";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { BookType } from "../../types/type";
 
-const ShoppingItem: FC = () => {
-  const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
-  const SHOPPING_STORAGE_ARRAY =
-    SHOPPING_STORAGE && JSON.parse(SHOPPING_STORAGE);
+type Props = {
+  shoppingArray: BookType[];
+  incrementQuantity: (id: number) => void;
+  decrementQuantity: (id: number) => void;
+  handleRemoveItem: (id: number) => void;
+};
 
-  const handleRemoveItem = () => {
-    localStorage.removeItem("shopping-cart");
-  };
-
-  return SHOPPING_STORAGE_ARRAY?.map((item: BookType, index: number) => {
+const ShoppingItem: FC<Props> = ({
+  shoppingArray,
+  incrementQuantity,
+  decrementQuantity,
+  handleRemoveItem,
+}) => {
+  return shoppingArray?.map((item: BookType, index: number) => {
     return (
       <div>
         <div
@@ -44,12 +49,26 @@ const ShoppingItem: FC = () => {
             </div>
             <div>
               <div className="card flex flex-column align-items-center">
-                <span className="font-bold text-4xl mb-5">{item.quantity}</span>
+                <span className=" mb-5 flex items-center gap-x-2">
+                  <div
+                    onClick={() => incrementQuantity(index)}
+                    className="cursor-pointer"
+                  >
+                    <FaPlus />
+                  </div>
+                  <div className="font-bold text-4xl">{item.quantity}</div>
+                  <div
+                    onClick={() => decrementQuantity(index)}
+                    className="cursor-pointer"
+                  >
+                    <FaMinus />
+                  </div>
+                </span>
               </div>
             </div>
             <div
               className="flex gap-x-2 items-center cursor-pointer"
-              onClick={handleRemoveItem}
+              onClick={() => handleRemoveItem(index)}
             >
               <IoTrashOutline />
               <span className="text-base fullHd:text-xl text-black">
@@ -58,8 +77,8 @@ const ShoppingItem: FC = () => {
             </div>
           </div>
         </div>
-        {index != SHOPPING_STORAGE_ARRAY.length - 1 && (
-          <div className="h-[1px] w-full bg-border-color my-8" />
+        {index != shoppingArray.length - 1 && (
+          <div className="h-[1px] w-full bg-border-color my-8" key={index} />
         )}
       </div>
     );
