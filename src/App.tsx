@@ -1,11 +1,7 @@
-import Homepage from "./pages/Homepage";
+import RoutesProvider from "./common/components/Routes/RoutesProvider";
 
 function App() {
-  return (
-    <>
-      <Homepage />
-    </>
-  );
+  return <RoutesProvider />;
 }
 
 export default App;

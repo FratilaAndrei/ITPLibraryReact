@@ -1,5 +1,11 @@
+import Navbar from "../common/components/Navbar/Navbar";
+
 const Homepage = () => {
-  return <div className="text-3xl text-red-500">Homepage</div>;
+  return (
+    <div className="flex flex-col justify-between">
+      <Navbar />
+    </div>
+  );
 };
 
 export default Homepage;
