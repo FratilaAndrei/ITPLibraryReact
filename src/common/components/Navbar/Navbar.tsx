@@ -13,7 +13,7 @@ import Sidebar from "./Sidebar";
 
 const Navbar = () => {
   return (
-    <nav className="bg-white h-[56px] fixed z-50 w-full flex fullHd:px-24 items-center justify-between fullHd:h-[72px]">
+    <nav className="bg-white h-[56px] fixed z-50 w-full flex fullHd:px-28 items-center justify-between fullHd:h-[72px]">
       <ul className="flex  items-center font-medium font-lora text-xl fullHd:text-[28px] ">
         <img src={logoImage} alt="logo-img" className="h-[55px] width-[70px]" />
         <li className="">ITP Library</li>
