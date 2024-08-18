@@ -1,22 +1,6 @@
 import { BOOKS_ROWS } from "../../../common/data/constants";
+import { BookRowType, BookType } from "../../../types/type";
 import Book from "./Book";
-
-type BookType = {
-  id: number;
-  image: string;
-  title: string;
-  author: string;
-  price: number;
-  isBestBook: boolean;
-  quantity: number;
-  status: string;
-};
-
-type BookRowType = {
-  title: string;
-  books: BookType[];
-  id: number;
-};
 
 const BooksSection = () => {
   const BookRow = BOOKS_ROWS.map((bookRow: BookRowType) => {

@@ -1,16 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-
-type BookType = {
-  id: number;
-  image: string;
-  title: string;
-  author: string;
-  price: number;
-  isBestBook: boolean;
-  quantity: number;
-  status: string;
-};
+import { BookType } from "../../../types/type";
 
 type Props = {
   book: BookType;
@@ -18,9 +8,10 @@ type Props = {
 
 const Book: FC<Props> = ({ book }) => {
   const handleAddToCart = () => {
-    const shoppingStorage = localStorage.getItem("shopping-cart");
-    if (shoppingStorage) {
-      const shoppingCart = JSON.parse(shoppingStorage);
+    const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
+
+    if (SHOPPING_STORAGE) {
+      const shoppingCart = JSON.parse(SHOPPING_STORAGE);
       const existingBook = shoppingCart.find(
         (targetBook: BookType) => targetBook.id === book.id
       );

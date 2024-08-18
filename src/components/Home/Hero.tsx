@@ -2,11 +2,7 @@ import { Carousel } from "primereact/carousel";
 import carrousel1 from "../../assets/images/carrousel1.png";
 import carrousel2 from "../../assets/images/carrousel2.png";
 import carrousel3 from "../../assets/images/carrousel3.png";
-
-type CarrouselItem = {
-  id: number;
-  image: string;
-};
+import { CarrouselItem } from "../../types/type";
 
 const CARROUSEL_ITEMS: CarrouselItem[] = [
   {
