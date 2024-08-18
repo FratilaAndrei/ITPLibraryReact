@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Link } from "react-router-dom";
 
 type BookType = {
   id: number;
@@ -18,10 +19,10 @@ type Props = {
 const Book: FC<Props> = ({ book }) => {
   return (
     <div
-      className="flex flex-col w-full md:w-[30%] lg:w-fit xl:w-[229px] justify-between"
+      className="flex flex-col w-full md:w-[30%] lg:w-fit xl:w-[229px] justify-between  px-8   md:px-0 "
       key={book.id}
     >
-      <a href="viewBook.html" className="flex flex-col h-fit w-full xl:w-fit">
+      <Link to="/book-details" className="flex flex-col h-fit w-full xl:w-fit">
         <img
           src={book.image}
           alt=""
@@ -42,7 +43,7 @@ const Book: FC<Props> = ({ book }) => {
             </div>
           </div>
         </div>
-      </a>
+      </Link>
       <button className="flex justify-center gap-x-2 xl:mt-6 fullHd:mt-14 fullHd:py-2 text-xs bg-black text-white-color items-center py-1.5 rounded-[4px]">
         <i className="fa fa-cart-shopping"></i>
         <div className="font-lora font-normal fullHd:text-sm">Add to Cart</div>

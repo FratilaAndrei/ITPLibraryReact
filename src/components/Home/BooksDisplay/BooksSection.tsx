@@ -25,7 +25,7 @@ const BooksSection = () => {
         key={bookRow.title}
       >
         <div className="w-full">
-          <div className="py-12 font-roboto text-2xl text-center lg:text-start font-normal fullHd:text-[24px] text-normal-black-color">
+          <div className="py-12 font-roboto text-2xl text-center md:text-start font-normal fullHd:text-[24px] text-normal-black-color">
             {bookRow.title}
           </div>
           <div className="flex flex-wrap lg:flex-nowrap md:gap-8 lg:gap-y-0 space-y-12 md:space-y-0 mx-auto fullHd:py-8 justify-center fullHd:-my-8 fullHd:max-w-full gap-x-8 fullHd:space-x-3 h-fit">
