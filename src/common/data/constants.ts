@@ -129,12 +129,14 @@ import book3 from "../../assets/images/the-idiot.jpg";
 
  export const BOOKS_ROWS = [
     {
+      id: 1,
       title: "Best Books of the Month",
       books: BOOKS.slice(0, 6),
     },
     {
-        title: "Recently Added",
-        books: BOOKS.slice(-6),
+      id:2 ,
+      title: "Recently Added",
+      books: BOOKS.slice(-6),
     }
   ];
 

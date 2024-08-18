@@ -17,6 +17,24 @@ type Props = {
 };
 
 const Book: FC<Props> = ({ book }) => {
+  const handleAddToCart = () => {
+    const shoppingStorage = localStorage.getItem("shopping-cart");
+    if (shoppingStorage) {
+      const shoppingCart = JSON.parse(shoppingStorage);
+      const existingBook = shoppingCart.find(
+        (targetBook: BookType) => targetBook.id === book.id
+      );
+      if (existingBook) {
+        existingBook.quantity += 1;
+      } else {
+        shoppingCart.push(book);
+      }
+      localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
+    } else {
+      localStorage.setItem("shopping-cart", JSON.stringify([book]));
+    }
+  };
+
   return (
     <div
       className="flex flex-col w-full md:w-[30%] lg:w-fit xl:w-[229px] justify-between  px-8   md:px-0 "
@@ -44,7 +62,10 @@ const Book: FC<Props> = ({ book }) => {
           </div>
         </div>
       </Link>
-      <button className="flex justify-center gap-x-2 xl:mt-6 fullHd:mt-14 fullHd:py-2 text-xs bg-black text-white-color items-center py-1.5 rounded-[4px]">
+      <button
+        className="flex justify-center gap-x-2 xl:mt-6 fullHd:mt-14 fullHd:py-2 text-xs bg-black text-white-color items-center py-1.5 rounded-[4px]"
+        onClick={handleAddToCart}
+      >
         <i className="fa fa-cart-shopping"></i>
         <div className="font-lora font-normal fullHd:text-sm">Add to Cart</div>
       </button>
