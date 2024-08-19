@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import ButtonGroup from "../../common/components/ButtonGroup";
+import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../common/data/routes";
 import { BookType } from "../../types/type";
 import ShoppingItem from "./ShoppingItem";
 
@@ -49,12 +51,12 @@ const ShoppingCartContainer = () => {
   }, [SHOPPING_STORAGE_ARRAY]);
 
   return (
-    <div className="flex flex-col items-center gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
+    <div className="flex flex-col items-center gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4 fullHd:my-16  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
       <div className="flex flex-col w-full gap-y-4">
         <div className="font-lora font-bold text-3xl fullHd:text-[38px]">
           Your products
         </div>
-        <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 ">
+        <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4 ">
           <ShoppingItem
             shoppingArray={SHOPPING_STORAGE_ARRAY}
             incrementQuantity={incrementQuantity}
@@ -68,14 +70,12 @@ const ShoppingCartContainer = () => {
           <div className="font-lora">Total:</div>
           <div className="font-roboto text-beige-color">${shoppingPrice}</div>
         </div>
-        <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
-          <button className=" rounded-sm ITPbutton text-black ">
-            Continue Shopping
-          </button>
-          <button className="rounded ITPbutton text-white bg-black ">
-            Place Order
-          </button>
-        </div>
+        <ButtonGroup
+          linkFirstBtn={HOME_PAGE_ROUTE}
+          linkSecondBtn={ORDER_DETAILS_ROUTE}
+          labelFirstBtn="Continue Shopping"
+          labelSecondBtn="Place Order"
+        />
       </div>
     </div>
   );
