@@ -1,8 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ButtonGroup from "../../common/components/ButtonGroup";
 import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../common/data/routes";
-import { BookType } from "../../types/type";
+import { BookType, ButtonGroupType } from "../../types/type";
 import ShoppingItem from "./ShoppingItem";
+
+const BUTTON_CANCEL_PLACE_ORDER_GROUP: ButtonGroupType[] = [
+  {
+    id: 1,
+    label: "Continue Shopping",
+    link: HOME_PAGE_ROUTE,
+    className: "bg-white text-slate-900",
+  },
+  {
+    id: 2,
+    label: "Place Order",
+    link: ORDER_DETAILS_ROUTE,
+  },
+];
 
 const ShoppingCartContainer = () => {
   const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
@@ -13,42 +27,37 @@ const ShoppingCartContainer = () => {
   const [shoppingArray, setShoppingArray] = useState<BookType[]>(
     SHOPPING_STORAGE_ARRAY
   );
-  const [shoppingPrice, setShoppingPrice] = useState(0);
+  const shoppingPrice = shoppingArray.reduce(
+    (total: number, item: BookType) => total + item.price * item.quantity,
+    0
+  );
 
   const updateShoppingArray = (updatedArray: BookType[]) => {
     localStorage.setItem("shopping-cart", JSON.stringify(updatedArray));
     setShoppingArray(updatedArray);
   };
 
-  const incrementQuantity = (index: number) => {
+  const incrementQuantity = (id: number) => {
     const updatedArray = [...shoppingArray];
-    updatedArray[index].quantity += 1;
+    const book = updatedArray.find((b) => b.id === id);
+    if (!book) return;
+    book.quantity += 1;
     updateShoppingArray(updatedArray);
   };
-  const decrementQuantity = (index: number) => {
+  const decrementQuantity = (id: number) => {
     const updatedArray = [...shoppingArray];
-    if (updatedArray[index].quantity > 1) {
-      updatedArray[index].quantity -= 1;
+    const book = updatedArray.find((b) => b.id === id);
+    if (!book) return;
+    if (book.quantity > 1) {
+      book.quantity -= 1;
       updateShoppingArray(updatedArray);
     }
   };
 
   const handleRemoveItem = (id: number) => {
-    const updatedArray = shoppingArray.filter((_, index) => index !== id);
+    const updatedArray = shoppingArray.filter((book) => book.id !== id);
     updateShoppingArray(updatedArray);
   };
-
-  useEffect(() => {
-    if (SHOPPING_STORAGE != null) {
-      const totalPrice = SHOPPING_STORAGE_ARRAY.reduce(
-        (total: number, item: BookType) => total + item.price * item.quantity,
-        0
-      );
-      setShoppingPrice(totalPrice);
-    } else {
-      setShoppingPrice(0);
-    }
-  }, [SHOPPING_STORAGE_ARRAY]);
 
   return (
     <div className="flex flex-col items-center gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4 fullHd:my-16  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
@@ -70,12 +79,7 @@ const ShoppingCartContainer = () => {
           <div className="font-lora">Total:</div>
           <div className="font-roboto text-beige-color">${shoppingPrice}</div>
         </div>
-        <ButtonGroup
-          linkFirstBtn={HOME_PAGE_ROUTE}
-          linkSecondBtn={ORDER_DETAILS_ROUTE}
-          labelFirstBtn="Continue Shopping"
-          labelSecondBtn="Place Order"
-        />
+        <ButtonGroup buttonGroup={BUTTON_CANCEL_PLACE_ORDER_GROUP} />
       </div>
     </div>
   );

@@ -1,6 +1,7 @@
  import book1 from "../../assets/images/medea.jpg";
 import book2 from "../../assets/images/the-book-of-disquiet.jpg";
 import book3 from "../../assets/images/the-idiot.jpg";
+import { SHOPPING_CART_ROUTE } from "./routes";
 
 
  export const BOOKS = [
@@ -139,5 +140,11 @@ import book3 from "../../assets/images/the-idiot.jpg";
       books: BOOKS.slice(-6),
     }
   ];
+
+  export const BUTTON_GROUP = [{
+    id: 1,
+    label: "Cancel Order",
+    link: {SHOPPING_CART_ROUTE},
+  }]
 
   

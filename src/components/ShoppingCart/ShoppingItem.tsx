@@ -51,14 +51,14 @@ const ShoppingItem: FC<Props> = ({
               <div className="card flex flex-column align-items-center">
                 <span className=" mb-5 flex items-center gap-x-2">
                   <div
-                    onClick={() => incrementQuantity(index)}
+                    onClick={() => incrementQuantity(item.id)}
                     className="cursor-pointer"
                   >
                     <FaPlus />
                   </div>
                   <div className="font-bold text-4xl">{item.quantity}</div>
                   <div
-                    onClick={() => decrementQuantity(index)}
+                    onClick={() => decrementQuantity(item.id)}
                     className="cursor-pointer"
                   >
                     <FaMinus />
@@ -68,7 +68,7 @@ const ShoppingItem: FC<Props> = ({
             </div>
             <div
               className="flex gap-x-2 items-center cursor-pointer"
-              onClick={() => handleRemoveItem(index)}
+              onClick={() => handleRemoveItem(item.id)}
             >
               <IoTrashOutline />
               <span className="text-base fullHd:text-xl text-black">

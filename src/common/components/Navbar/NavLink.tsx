@@ -1,13 +1,12 @@
-import { FC, ReactNode } from "react";
+import { FC, PropsWithChildren, ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
   link: string;
   icon: ReactNode;
-  children: string;
 };
 
-const NavLink: FC<Props> = ({ link, icon, children }) => {
+const NavLink: FC<PropsWithChildren<Props>> = ({ link, icon, children }) => {
   return (
     <li className="flex gap-x-2 items-center text-base ">
       <div className="text-lg">{icon}</div>

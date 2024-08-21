@@ -4,8 +4,16 @@
 @tailwind components;
 @tailwind utilities;
 
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.05);
+  transition-timing-function: ease-in;
+}
+
 .ITPbutton {
-  /* border rounded-sm text-black font-lora font-normal text-xs border-black w-full md:w-1/3 py-1.5 fullHd:w-[232px] fullHd:h-[40px] */
   border: 1px solid black;
   font-family: Lora;
   font-style: normal;

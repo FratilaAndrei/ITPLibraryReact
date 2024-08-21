@@ -1,33 +1,35 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
+import { ButtonGroupType } from "../../types/type";
 
 type Props = {
-  linkFirstBtn: string;
-  linkSecondBtn: string;
-  labelFirstBtn: string;
-  labelSecondBtn: string;
+  buttonGroup: ButtonGroupType[];
 };
 
-const ButtonGroup: FC<Props> = ({
-  linkFirstBtn,
-  linkSecondBtn,
-  labelFirstBtn,
-  labelSecondBtn,
-}) => {
+const ButtonGroup: FC<Props> = ({ buttonGroup }) => {
   return (
-    <div>
-      <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
-        <Link to={linkFirstBtn}>
-          <button className=" rounded-sm ITPbutton text-black ">
-            {labelFirstBtn}
+    <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
+      {buttonGroup.map((button: ButtonGroupType) =>
+        button.link ? (
+          <Link
+            to={button.link}
+            key={button.id}
+            className={` ${
+              button.className ? button.className : null
+            } ITPbutton bg-black text-white flex items-center justify-center `}
+            onClick={button?.onClick}
+          >
+            <button onClick={button?.onClick}>{button.label}</button>
+          </Link>
+        ) : (
+          <button
+            className={`${button.className} ITPbutton`}
+            onClick={button?.onClick}
+          >
+            {button.label}
           </button>
-        </Link>
-        <Link to={linkSecondBtn}>
-          <button className="rounded ITPbutton text-white bg-black ">
-            {labelSecondBtn}
-          </button>
-        </Link>
-      </div>
+        )
+      )}
     </div>
   );
 };

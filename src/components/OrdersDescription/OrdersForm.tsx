@@ -4,9 +4,22 @@ import { Nullable } from "primereact/ts-helpers";
 import { useState } from "react";
 import ButtonGroup from "../../common/components/ButtonGroup";
 import { HOME_PAGE_ROUTE, SHOPPING_CART_ROUTE } from "../../common/data/routes";
+import { ButtonGroupType } from "../../types/type";
 import InputSection from "./InputSection";
 
 const PAYMENT_TYPE_DATA = ["Online", "Cash"];
+const BUTTON_GROUP_ORDERS: ButtonGroupType[] = [
+  {
+    id: 1,
+    link: SHOPPING_CART_ROUTE,
+    label: "Cancel Order",
+  },
+  {
+    id: 2,
+    link: HOME_PAGE_ROUTE,
+    label: "Place Order",
+  },
+];
 
 const OrdersForm = () => {
   const [date, setDate] = useState<Nullable<Date>>(null);
@@ -82,12 +95,7 @@ const OrdersForm = () => {
         optionLabel="Would you recommand us?"
         hasInputFields={false}
       />
-      <ButtonGroup
-        linkFirstBtn={SHOPPING_CART_ROUTE}
-        linkSecondBtn={HOME_PAGE_ROUTE}
-        labelFirstBtn="Cancel Order"
-        labelSecondBtn="Place Order"
-      />
+      <ButtonGroup buttonGroup={BUTTON_GROUP_ORDERS} />
     </form>
   );
 };

@@ -1,5 +1,6 @@
+import "primeicons/primeicons.css";
 import { PrimeReactProvider } from "primereact/api";
-// import "primereact/resources/themes/mdc-light-deeppurple/theme.css";
+import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/lara-light-cyan/theme.css";
 
 import { StrictMode } from "react";
