@@ -1,6 +1,6 @@
-import { BOOKS_ROWS } from "../../../common/data/constants";
-import { BookRowType } from "../../../types/type";
-import BooksSection from "./BooksSection";
+import BooksSection from "../../components/Home/BooksSection";
+import { BOOKS_ROWS } from "../../data/constants";
+import { BookRowType } from "../../data/types/type";
 
 const BooksSectionsContainer = () => {
   return (

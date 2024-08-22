@@ -1,8 +1,8 @@
 import { useState } from "react";
 import ButtonGroup from "../../common/components/ButtonGroup";
-import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../common/data/routes";
-import { BookType, ButtonGroupType } from "../../types/type";
-import ShoppingItem from "./ShoppingItem";
+import ShoppingItem from "../../components/ShoppingItem";
+import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../data/routes";
+import { BookType, ButtonGroupType } from "../../data/types/type";
 
 const BUTTON_CANCEL_PLACE_ORDER_GROUP: ButtonGroupType[] = [
   {

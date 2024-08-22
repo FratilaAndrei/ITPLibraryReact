@@ -1,7 +1,7 @@
 import Footer from "../common/components/Footer/Footer";
 import Navbar from "../common/components/Navbar/Navbar";
-import BooksSectionsContainer from "../components/Home/BooksDisplay/BooksSectionsContainer";
-import Hero from "../components/Home/Hero";
+import BooksSectionsContainer from "../containers/Home/BooksSectionsContainer";
+import Hero from "../containers/Home/Hero";
 
 const Homepage = () => {
   return (

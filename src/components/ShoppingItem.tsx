@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
-import { BookType } from "../../types/type";
+import { BookType } from "../../data/types/type";
 
 type Props = {
   shoppingArray: BookType[];

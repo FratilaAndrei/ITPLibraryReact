@@ -1,9 +1,6 @@
 import { ReactNode } from "react";
 
-export type CarrouselItem = {
-    id: number;
-    image: string;
-  };
+
 
   export type BookType = {
     id: number;
@@ -29,4 +26,9 @@ export type ButtonGroupType = {
   icon?: ReactNode,
   onClick?: () => void,
   className?: string, 
+}
+
+export type CarrouselItemType = {
+  id: number,
+  image: string,
 }

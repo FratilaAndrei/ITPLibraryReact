@@ -7,7 +7,7 @@ import {
   LOGIN_ROUTE,
   ORDERS_ROUTE,
   SHOPPING_CART_ROUTE,
-} from "../../data/routes";
+} from "../../../data/routes";
 import NavLink from "./NavLink";
 import Sidebar from "./Sidebar";
 

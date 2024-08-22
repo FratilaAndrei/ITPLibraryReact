@@ -1,6 +1,6 @@
 import Footer from "../common/components/Footer/Footer";
 import Navbar from "../common/components/Navbar/Navbar";
-import ShoppingCartContainer from "../components/ShoppingCart/ShoppingCartContainer";
+import ShoppingCartContainer from "../containers/ShoppingCart/ShoppingCartContainer";
 
 const ShoppingCart = () => {
   return (

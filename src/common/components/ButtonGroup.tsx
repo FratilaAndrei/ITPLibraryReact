@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { ButtonGroupType } from "../../types/type";
+import { ButtonGroupType } from "../../data/types/type";
 
 type Props = {
   buttonGroup: ButtonGroupType[];

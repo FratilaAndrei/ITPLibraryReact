@@ -1,12 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import Homepage from "../../../pages/Home.page";
-import OrdersDescription from "../../../pages/OrdersDescription.page";
-import ShoppingCart from "../../../pages/ShoppingCart.page";
 import {
   HOME_PAGE_ROUTE,
   ORDER_DETAILS_ROUTE,
   SHOPPING_CART_ROUTE,
-} from "../../data/routes";
+} from "../../../data/routes";
+import Homepage from "../../../pages/Home.page";
+import OrdersDescription from "../../../pages/OrdersDescription.page";
+import ShoppingCart from "../../../pages/ShoppingCart.page";
 
 const RoutesProvider = () => {
   return (

@@ -3,9 +3,9 @@ import { InputTextarea } from "primereact/inputtextarea";
 import { Nullable } from "primereact/ts-helpers";
 import { useState } from "react";
 import ButtonGroup from "../../common/components/ButtonGroup";
-import { HOME_PAGE_ROUTE, SHOPPING_CART_ROUTE } from "../../common/data/routes";
-import { ButtonGroupType } from "../../types/type";
-import InputSection from "./InputSection";
+import InputSection from "../../components/OrdersDescription/InputSection";
+import { HOME_PAGE_ROUTE, SHOPPING_CART_ROUTE } from "../../data/routes";
+import { ButtonGroupType } from "../../data/types/type";
 
 const PAYMENT_TYPE_DATA = ["Online", "Cash"];
 const BUTTON_GROUP_ORDERS: ButtonGroupType[] = [
