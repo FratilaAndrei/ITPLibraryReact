@@ -8,20 +8,23 @@ import { HOME_PAGE_ROUTE, SHOPPING_CART_ROUTE } from "../../data/routes";
 import { ButtonGroupType } from "../../data/types/type";
 
 const PAYMENT_TYPE_DATA = ["Online", "Cash"];
-const BUTTON_GROUP_ORDERS: ButtonGroupType[] = [
-  {
-    id: 1,
-    link: SHOPPING_CART_ROUTE,
-    label: "Cancel Order",
-  },
-  {
-    id: 2,
-    link: HOME_PAGE_ROUTE,
-    label: "Place Order",
-  },
-];
 
 const OrdersForm = () => {
+  const BUTTON_GROUP_ORDERS: ButtonGroupType[] = [
+    {
+      id: 1,
+      link: SHOPPING_CART_ROUTE,
+      label: "Cancel Order",
+      className: "bg-white",
+    },
+    {
+      id: 2,
+      link: HOME_PAGE_ROUTE,
+      label: "Place Order",
+      className: "text-white",
+    },
+  ];
+
   const [date, setDate] = useState<Nullable<Date>>(null);
   const [value, setValue] = useState<string>("");
   return (

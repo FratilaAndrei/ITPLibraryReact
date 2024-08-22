@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
-import { BookType } from "../../data/types/type";
+import { BookType } from "../data/types/type";
 
 type Props = {
   shoppingArray: BookType[];
@@ -18,11 +18,8 @@ const ShoppingItem: FC<Props> = ({
 }) => {
   return shoppingArray?.map((item: BookType, index: number) => {
     return (
-      <div>
-        <div
-          className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between"
-          key={item.id}
-        >
+      <div key={item.id}>
+        <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
           <div className="flex flex-col md:flex-row gap-x-4">
             <div className="md:w-[92px] md:h-[132px]">
               <img

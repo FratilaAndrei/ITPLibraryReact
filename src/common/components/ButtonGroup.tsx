@@ -16,7 +16,7 @@ const ButtonGroup: FC<Props> = ({ buttonGroup }) => {
             key={button.id}
             className={` ${
               button.className ? button.className : null
-            } ITPbutton bg-black text-white flex items-center justify-center `}
+            } ITPbutton bg-black text-black flex items-center justify-center `}
             onClick={button?.onClick}
           >
             <button onClick={button?.onClick}>{button.label}</button>
@@ -25,6 +25,7 @@ const ButtonGroup: FC<Props> = ({ buttonGroup }) => {
           <button
             className={`${button.className} ITPbutton`}
             onClick={button?.onClick}
+            key={button.id}
           >
             {button.label}
           </button>

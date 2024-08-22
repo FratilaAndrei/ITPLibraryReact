@@ -4,21 +4,21 @@ import ShoppingItem from "../../components/ShoppingItem";
 import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../data/routes";
 import { BookType, ButtonGroupType } from "../../data/types/type";
 
-const BUTTON_CANCEL_PLACE_ORDER_GROUP: ButtonGroupType[] = [
-  {
-    id: 1,
-    label: "Continue Shopping",
-    link: HOME_PAGE_ROUTE,
-    className: "bg-white text-slate-900",
-  },
-  {
-    id: 2,
-    label: "Place Order",
-    link: ORDER_DETAILS_ROUTE,
-  },
-];
-
 const ShoppingCartContainer = () => {
+  const BUTTON_CANCEL_PLACE_ORDER_GROUP: ButtonGroupType[] = [
+    {
+      id: 1,
+      label: "Continue Shopping",
+      link: HOME_PAGE_ROUTE,
+      className: "bg-white",
+    },
+    {
+      id: 2,
+      label: "Place Order",
+      link: ORDER_DETAILS_ROUTE,
+      className: "text-white",
+    },
+  ];
   const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
   const SHOPPING_STORAGE_ARRAY = SHOPPING_STORAGE
     ? JSON.parse(SHOPPING_STORAGE)

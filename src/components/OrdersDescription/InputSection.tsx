@@ -12,10 +12,12 @@ type Props = {
 
 const INPUT_ARRAY_DATA = [
   {
+    id: 1,
     inputType: "text",
     placeholder: "Adress",
   },
   {
+    id: 2,
     inputType: "number",
     placeholder: "Phone Number",
   },
@@ -60,6 +62,7 @@ const AdressInput: FC<Props> = ({
           />
           {INPUT_ARRAY_DATA.map((data) => (
             <input
+              key={data.id}
               type={data.inputType}
               placeholder={data.placeholder}
               required
@@ -89,7 +92,7 @@ const AdressInput: FC<Props> = ({
       {paymentTypeData && (
         <div className="flex gap-x-4">
           {paymentTypeData.map((data) => (
-            <div className="flex gap-x-2 items-center">
+            <div className="flex gap-x-2 items-center" key={data}>
               <Checkbox
                 onChange={(e) =>
                   setChecked(e.checked != undefined ? e.checked : false)
