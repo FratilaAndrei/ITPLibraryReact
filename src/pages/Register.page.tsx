@@ -1,12 +1,12 @@
 import Auth from "../containers/Auth";
 import PageTemplate from "../containers/PageTemplate";
 
-const Login = () => {
+const Register = () => {
   return (
     <PageTemplate>
-      <Auth formType="Login" />
+      <Auth formType="Register" />
     </PageTemplate>
   );
 };
 
-export default Login;
+export default Register;

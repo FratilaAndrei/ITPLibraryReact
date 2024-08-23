@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { HTMLInputTypeAttribute, ReactNode } from "react";
 
 export type BookType = {
   id: number;
@@ -34,5 +34,25 @@ export type CarrouselItemType = {
 export type RoutesType = {
   id: number;
   path: string;
-  name: () => JSX.Element;
+  name: React.ComponentType;
+};
+
+export type LoginPageDataType = {
+  title: string;
+  description: string;
+  inputs?: LoginPageDataInputType[];
+  checkOption?: string;
+  buttonText: string;
+  options?: LoginPageDataOptions[];
+};
+
+export type LoginPageDataInputType = {
+  label: string;
+  placeholder: string;
+  type: HTMLInputTypeAttribute;
+};
+
+export type LoginPageDataOptions = {
+  label: string;
+  link: string;
 };

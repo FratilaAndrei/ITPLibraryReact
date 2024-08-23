@@ -137,9 +137,3 @@ export const BOOKS_ROWS = [
     books: BOOKS.slice(-6),
   },
 ];
-
-// export const BUTTON_GROUP = [{
-//   id: 1,
-//   label: "Cancel Order",
-//   link: {SHOPPING_CART_ROUTE},
-// }]
