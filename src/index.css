@@ -23,6 +23,19 @@ button:hover {
   font-size: 0.75rem;
   line-height: 1rem;
 }
+.order-input {
+  padding-top: 0.25rem; /* py-1 */
+  padding-bottom: 0.25rem; /* py-1 */
+  padding-left: 0.5rem; /* pl-2 */
+  border: 1px solid var(--border-color); /* border-border-color */
+  border-radius: 4px; /* rounded-[4px] */
+  font-family: "Roboto", sans-serif; /* font-roboto */
+  font-weight: 400; /* font-normal */
+  /* placeholder-color: var(--gray-color); placeholder-gray-color */
+  width: 100%; /* w-full */
+  outline: none; /* outline-none */
+  color: var(--order-input); /* text-order-input */
+}
 
 @media screen and (min-width: 768px) {
   .ITPbutton {
@@ -35,5 +48,11 @@ button:hover {
   .ITPbutton {
     width: 232px;
     height: 40px;
+  }
+  .order-input {
+    padding-top: 0.5rem; /* fullHd:py-2 */
+    padding-bottom: 0.5rem; /* fullHd:py-2 */
+    padding-left: 0.75rem; /* fullHd:pl-3 */
+    font-size: 1rem; /* fullHd:text-base */
   }
 }

@@ -1,7 +1,7 @@
 import Footer from "../common/components/Footer/Footer";
 import Navbar from "../common/components/Navbar/Navbar";
+import OrderForm2 from "../components/OrdersDescription/OrderForm2";
 import OrdersDescriptionHero from "../components/OrdersDescription/OrdersDescriptionHero";
-import OrdersForm from "../containers/OrdersDescription/OrdersForm";
 
 const OrdersDescription = () => {
   return (
@@ -10,7 +10,7 @@ const OrdersDescription = () => {
       <div className="h-[56px] fullHd:h-[72px]" />
       <div className="flex">
         <OrdersDescriptionHero />
-        <OrdersForm />
+        <OrderForm2 />
       </div>
       <Footer />
     </>
