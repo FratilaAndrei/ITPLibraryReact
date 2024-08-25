@@ -13,6 +13,7 @@ export const initialValues = {
   showDelivery: false,
   paymentType: "Online",
   deliveryDate: new Date(),
+  observations: "",
 };
 
 export const OrderFormValidationSchema = Yup.object().shape({
@@ -60,4 +61,5 @@ export const OrderFormValidationSchema = Yup.object().shape({
     },
   }),
   deliveryDate: Yup.date().required("Delivery date is required"),
+  observations: Yup.string(),
 });

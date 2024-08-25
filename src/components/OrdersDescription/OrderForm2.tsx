@@ -1,11 +1,13 @@
-import { Field, Formik } from "formik";
+import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
+import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SHOPPING_CART_ROUTE } from "../../data/routes";
 import BillingAdressInputs from "./Form/BillingAdressInputs";
 import ContactDetails from "./Form/ContactDetails";
 import DeliveryAdress from "./Form/DeliveryAdress";
+import InputSection from "./InputSection";
 import {
   initialValues,
   OrderFormValidationSchema,
@@ -16,7 +18,7 @@ const OrderForm2 = () => {
   const formStorage = localStorage.getItem("order-form");
   const formStorageArray = formStorage ? JSON.parse(formStorage) : [];
   const [formResult, setFormResult] = useState(formStorageArray);
-  const updateFormArray = (updateForm: any) => {
+  const updateFormArray = (updateForm: typeof initialValues) => {
     localStorage.setItem("order-form", JSON.stringify(updateForm));
     setFormResult(updateForm);
   };
@@ -39,7 +41,7 @@ const OrderForm2 = () => {
         actions.setSubmitting(false);
         setFormResult(formDataObject);
         updateFormArray(formDataObject);
-        console.log(formDataObject);
+        console.log(formResult);
       }}
     >
       {(props) => {
@@ -107,7 +109,27 @@ const OrderForm2 = () => {
                 className="w-full border border-border-color p-2"
                 placeholder="Delivery Date"
               />
+              <ErrorMessage name="deliveryDate" />
             </div>
+            <InputTextarea
+              autoResize
+              value={props.values.observations}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                props.setFieldValue("observations", e.target.value)
+              }
+              rows={5}
+              cols={30}
+              placeholder="Observations"
+              name="observations"
+              className="w-full border border-border-color p-2"
+            />
+            <ErrorMessage name="observations" />
+            <InputSection
+              title="Would you recommand us?"
+              option={true}
+              optionLabel="Would you recommand us?"
+              hasInputFields={false}
+            />
             <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
               <Link
                 to={SHOPPING_CART_ROUTE}
