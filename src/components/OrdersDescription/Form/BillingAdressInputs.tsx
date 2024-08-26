@@ -22,14 +22,22 @@ const BillingAdressInputs = () => {
         placeholder="Adress"
         className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
       />
-      <ErrorMessage name="billingAddress" />
+      <ErrorMessage
+        name="billingAddress"
+        component="div"
+        className="text-red-500"
+      />
       <Field
         type="tel"
         name="billingPhone"
         placeholder="Phone Number"
         className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
       />
-      <ErrorMessage name="billingPhone" />
+      <ErrorMessage
+        name="billingPhone"
+        component="div"
+        className="text-red-500"
+      />
     </div>
   );
 };

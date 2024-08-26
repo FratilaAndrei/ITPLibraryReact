@@ -5,6 +5,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import { useNavigate } from "react-router-dom";
+import { ORDERS_ROUTE } from "../data/routes";
 import { BookType } from "../data/types/type";
 
 export type ShoppingContextType = {
@@ -13,11 +15,9 @@ export type ShoppingContextType = {
   incrementQuantity: (id: number) => void;
   decrementQuantity: (id: number) => void;
   handleRemoveItem: (id: number) => void;
+  placeOrder: () => void;
+  ordersArray: BookType[];
 };
-
-// export const ShoppingContext = createContext<ShoppingContextType | undefined>(
-//   undefined
-// );
 
 export const ShoppingContext = createContext<ShoppingContextType | undefined>(
   undefined
@@ -25,17 +25,33 @@ export const ShoppingContext = createContext<ShoppingContextType | undefined>(
 
 const getInitialShoppingState = (): BookType[] => {
   const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
+  console.log(SHOPPING_STORAGE);
   return SHOPPING_STORAGE ? JSON.parse(SHOPPING_STORAGE) : [];
 };
 
+const initialOrderState = (): BookType[] => {
+  const ORDERS = localStorage.getItem("order-cart");
+  return ORDERS ? JSON.parse(ORDERS) : [];
+};
+
 const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const navigate = useNavigate();
+
   const [shoppingArray, setShoppingArray] = useState<BookType[]>(
     getInitialShoppingState()
+  );
+
+  const [ordersArray, setOrdersArray] = useState<BookType[]>(
+    initialOrderState()
   );
 
   useEffect(() => {
     localStorage.setItem("shopping-cart", JSON.stringify(shoppingArray));
   }, [shoppingArray]);
+
+  useEffect(() => {
+    localStorage.setItem("order-cart", JSON.stringify(ordersArray));
+  }, [ordersArray]);
 
   const shoppingPrice = shoppingArray.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -44,8 +60,13 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const updateShoppingArray = (updatedArray: BookType[]) => {
     localStorage.setItem("shopping-cart", JSON.stringify(updatedArray));
+    setOrdersArray([...updatedArray]);
     setShoppingArray(updatedArray);
   };
+
+  // useEffect(() => {
+  //   updateShoppingArray(shoppingArray);
+  // }, [shoppingArray]);
 
   const incrementQuantity = (id: number) => {
     const updatedArray = [...shoppingArray];
@@ -70,6 +91,14 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     updateShoppingArray(updatedArray);
   };
 
+  const placeOrder = () => {
+    if (shoppingArray.length > 0) {
+      setOrdersArray([...shoppingArray, ...ordersArray]);
+      setShoppingArray([]);
+    }
+    navigate(ORDERS_ROUTE);
+  };
+
   return (
     <ShoppingContext.Provider
       value={{
@@ -78,6 +107,8 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
         incrementQuantity,
         decrementQuantity,
         handleRemoveItem,
+        placeOrder,
+        ordersArray,
       }}
     >
       {children}

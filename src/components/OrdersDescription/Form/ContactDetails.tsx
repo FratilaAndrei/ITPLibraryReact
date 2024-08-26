@@ -14,7 +14,11 @@ const ContactDetails = () => {
             placeholder="First Name"
             className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
           />
-          <ErrorMessage name="firstName" />
+          <ErrorMessage
+            name="firstName"
+            component="div"
+            className="text-red-500"
+          />
         </div>
         <div className="w-full lg:w-[45%] flex flex-col gap-y-2 fullHd:gap-y-4">
           <Field
@@ -23,7 +27,11 @@ const ContactDetails = () => {
             placeholder="Last Name"
             className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
           />
-          <ErrorMessage name="lastName" />
+          <ErrorMessage
+            name="lastName"
+            component="div"
+            className="text-red-500"
+          />
         </div>
       </div>
     </div>

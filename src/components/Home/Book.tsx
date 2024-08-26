@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Link } from "react-router-dom";
-import { BookType } from "../../../data/types/type";
+import { BookType } from "../../data/types/type";
 
 type Props = {
   book: BookType;

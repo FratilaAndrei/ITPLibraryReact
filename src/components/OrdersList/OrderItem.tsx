@@ -1,0 +1,84 @@
+import { useContext } from "react";
+import { GoPencil } from "react-icons/go";
+import { Link } from "react-router-dom";
+import orderBook from "../../assets/images/orderBook.png";
+import { ShoppingContext } from "../../contexts/ShoppingContext";
+import { ORDER_DETAILS_ROUTE } from "../../data/routes";
+
+const OrderItem = () => {
+  const context = useContext(ShoppingContext) || {
+    ordersArray: [],
+  };
+
+  const getAllQuantity = () => {
+    let totalQuantity = 0;
+    context.ordersArray.forEach((order) => {
+      totalQuantity += order.quantity;
+    });
+    return totalQuantity;
+  };
+
+  const getAllPrice = () => {
+    let totalPrice = 0;
+    context.ordersArray.reduce((total, item) => {
+      return (totalPrice += item.price * item.quantity);
+    }, 0);
+
+    return totalPrice;
+  };
+
+  const { ordersArray } = context;
+
+  const orderItemBody = ordersArray.map((order, index) => (
+    <div key={order.id}>
+      <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
+        <div className="flex flex-col md:flex-row gap-x-4">
+          <div className="md:w-[92px] md:h-[132px]">
+            <img
+              src={orderBook}
+              alt={order.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+          <div className=" flex flex-col justify-between mt-2 md:mt-0">
+            <div className="flex flex-col items-center md:items-start gap-y-2 md:gap-y-0">
+              <div className="font-lora font-bold text-xl text-center">
+                Order #{order.id}
+              </div>
+              <div className="flex gap-x-2 items-center font-roboto">
+                <span>Items</span>
+                <div className="font-bold text-lg ">{getAllQuantity()}</div>
+              </div>
+            </div>
+            <div className="flex  gap-x-2 items-center font-roboto">
+              <div>Delivery Status:</div>
+              <div className="font-bold text-lg">{order.status}</div>
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col gap-x-2 items-center font-roboto md:items-end">
+          <div className="text-beige-color font-bold fullHd:text-3xl text-lg">
+            ${getAllPrice()}
+          </div>
+          <Link
+            to={ORDER_DETAILS_ROUTE}
+            className="flex gap-x-2 items-center cursor-pointer"
+          >
+            <GoPencil />
+            <span className="text-base fullHd:text-xl text-black">
+              Edit order details
+            </span>
+          </Link>
+        </div>
+      </div>
+      {}
+      {index != ordersArray.length - 1 && (
+        <div className="h-[1px] w-full bg-border-color my-8" key={index} />
+      )}
+    </div>
+  ));
+
+  return <div>{orderItemBody}</div>;
+};
+
+export default OrderItem;

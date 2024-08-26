@@ -1,8 +1,9 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { SHOPPING_CART_ROUTE } from "../../data/routes";
 import BillingAdressInputs from "./Form/BillingAdressInputs";
 import ContactDetails from "./Form/ContactDetails";
@@ -23,6 +24,12 @@ const OrderForm2 = () => {
     setFormResult(updateForm);
   };
 
+  const context = useContext(ShoppingContext) || {
+    placeOrder: () => {},
+  };
+
+  const { placeOrder } = context;
+
   return (
     <Formik
       initialValues={initialValues}
@@ -42,6 +49,7 @@ const OrderForm2 = () => {
         setFormResult(formDataObject);
         updateFormArray(formDataObject);
         console.log(formResult);
+        placeOrder();
       }}
     >
       {(props) => {
@@ -109,7 +117,11 @@ const OrderForm2 = () => {
                 className="w-full border border-border-color p-2"
                 placeholder="Delivery Date"
               />
-              <ErrorMessage name="deliveryDate" />
+              <ErrorMessage
+                name="deliveryDate"
+                component="div"
+                className="text-red-500"
+              />
             </div>
             <InputTextarea
               autoResize
@@ -123,7 +135,11 @@ const OrderForm2 = () => {
               name="observations"
               className="w-full border border-border-color p-2"
             />
-            <ErrorMessage name="observations" />
+            <ErrorMessage
+              name="observations"
+              component="div"
+              className="text-red-500"
+            />
             <InputSection
               title="Would you recommand us?"
               option={true}
