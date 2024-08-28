@@ -2,6 +2,7 @@ import { FC } from "react";
 import AuthPicture from "../assets/images/auth.png";
 import LoginForm from "../components/Auth/LoginForm";
 import SignUpForm from "../components/Auth/SignUpForm";
+import RegisterProvider from "../contexts/RegisterProvider";
 type Props = {
   formType: "Login" | "Register";
 };
@@ -16,7 +17,9 @@ const Auth: FC<Props> = ({ formType }) => {
           className="h-full xl:h-[90%] w-[70%] md:w-[90%] xl:w-full object-contain mx-auto fullHd:h-[90%] fullHd:w-[90%]"
         />
       </div>
-      {formType === "Login" ? <LoginForm /> : <SignUpForm />}
+      <RegisterProvider>
+        {formType === "Login" ? <LoginForm /> : <SignUpForm />}
+      </RegisterProvider>
     </div>
   );
 };

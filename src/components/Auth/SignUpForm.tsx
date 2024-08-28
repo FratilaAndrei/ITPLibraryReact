@@ -1,28 +1,51 @@
-import { ErrorMessage, Field, Formik } from "formik";
-import { FC } from "react";
-import { SIGN_UP_SCHEMA } from "./AuthValidationSchema";
+import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
+import { Message } from "primereact/message";
+import { FC, useContext, useEffect, useState } from "react";
+import { RegisterContext } from "../../contexts/RegisterProvider";
+import {
+  REGISTER_INITIAL_VALUES,
+  registerValuesType,
+  SIGN_UP_SCHEMA,
+} from "./AuthValidationSchema";
 
 const SignUpForm: FC = (): JSX.Element => {
+  const { checkIfUserExists, findEmail } = useContext(RegisterContext);
+  const [emailExists, setEmailExists] = useState<boolean>(false);
+
+  const handleFormSubmit = (
+    values: registerValuesType,
+    actions: FormikHelpers<registerValuesType>
+  ) => {
+    if (findEmail(values)) {
+      setEmailExists(true);
+    } else {
+      setEmailExists(false);
+      checkIfUserExists(values);
+      alert(JSON.stringify(values, null, 2));
+    }
+    actions.setSubmitting(false);
+  };
+
+  useEffect(() => {
+    if (emailExists) {
+      const timer = setTimeout(() => {
+        setEmailExists(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [emailExists]);
+
   return (
     <Formik
-      initialValues={{
-        email: "",
-        password: "",
-        confirmPassword: "",
-      }}
-      onSubmit={(values, actions) => {
-        setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
-          actions.setSubmitting(false);
-        }, 1000);
-        console.log(values);
-      }}
+      initialValues={REGISTER_INITIAL_VALUES}
+      onSubmit={handleFormSubmit}
       validationSchema={SIGN_UP_SCHEMA}
       validateOnChange={false}
     >
       {(props) => (
         <form
-          className="fullHd:w-[30%] px-6 flex flex-col gap-y-12"
+          className="fullHd:w-[30%] px-6 flex flex-col gap-y-12 relative"
           onSubmit={props.handleSubmit}
         >
           <div className="text-important-black-color font-lora font-bold text-4xl fullHd:text-[48px] flex flex-col gap-y-2">
@@ -82,8 +105,15 @@ const SignUpForm: FC = (): JSX.Element => {
             className="ITPbutton bg-black text-white rounded"
             type="submit"
           >
-            Register
+            {props.isSubmitting ? <p>Submitting...</p> : <div>Register</div>}
           </button>
+          {emailExists && (
+            <Message
+              severity="error"
+              text="Email aready used"
+              className="absolute top-0 right-0"
+            />
+          )}
         </form>
       )}
     </Formik>
