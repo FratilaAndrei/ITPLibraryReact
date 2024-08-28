@@ -1,24 +1,27 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { RegisterContext } from "../../contexts/RegisterProvider";
 import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from "../../data/routes";
+import { LOGIN_INITIAL_VALUES } from "./AuthValidationSchema";
 import { LOG_IN_SCHEMA } from "./LogInValidationSchema";
 
 const LoginForm = () => {
   const [checked, setChecked] = useState<boolean>(false);
+
+  const { findAccount } = useContext(RegisterContext);
+
   return (
     <Formik
-      initialValues={{
-        email: "",
-        password: "",
-      }}
+      initialValues={LOGIN_INITIAL_VALUES}
       onSubmit={(values, actions) => {
         setTimeout(() => {
           alert(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
         }, 1000);
         console.log(values);
+        findAccount(values);
       }}
       validationSchema={LOG_IN_SCHEMA}
       validateOnChange={false}

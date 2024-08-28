@@ -5,13 +5,17 @@ import {
   useEffect,
   useState,
 } from "react";
-import { registerValuesType } from "../components/Auth/AuthValidationSchema";
+import {
+  loginInitialType,
+  registerValuesType,
+} from "../components/Auth/AuthValidationSchema";
 
 export type registerContextType = {
   registerArray: registerValuesType[];
   saveRegisterData: (data: registerValuesType) => void;
   checkIfUserExists: (data: registerValuesType) => void;
   findEmail: (data: registerValuesType) => boolean;
+  findAccount: (data: loginInitialType) => void;
 };
 
 const registerInitialContext = {
@@ -19,6 +23,7 @@ const registerInitialContext = {
   saveRegisterData: () => {},
   checkIfUserExists: () => {},
   findEmail: () => false,
+  findAccount: () => {},
 };
 
 export const RegisterContext = createContext<registerContextType>(
@@ -49,6 +54,18 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
       return false;
     }
   };
+  const findAccount = (account: loginInitialType) => {
+    const accountExists = registerArray.find(
+      (item) =>
+        item.email === account.email && item.password === account.password
+    );
+
+    if (accountExists) {
+      alert("Account exists");
+    } else {
+      alert("Account doesnt exists");
+    }
+  };
 
   const checkIfUserExists = (registerForm: registerValuesType) => {
     const existingAccount = registerArray.find(
@@ -65,7 +82,13 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <RegisterContext.Provider
-      value={{ registerArray, saveRegisterData, checkIfUserExists, findEmail }}
+      value={{
+        registerArray,
+        saveRegisterData,
+        checkIfUserExists,
+        findEmail,
+        findAccount,
+      }}
     >
       {children}
     </RegisterContext.Provider>

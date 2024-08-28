@@ -14,6 +14,16 @@ export const REGISTER_INITIAL_VALUES: registerValuesType = {
   confirmPassword: "",
 };
 
+export type loginInitialType = {
+  email: string;
+  password: string;
+};
+
+export const LOGIN_INITIAL_VALUES: loginInitialType = {
+  email: "",
+  password: "",
+};
+
 export const SIGN_UP_SCHEMA = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
