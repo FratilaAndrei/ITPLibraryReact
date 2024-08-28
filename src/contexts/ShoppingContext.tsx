@@ -19,6 +19,7 @@ export type ShoppingContextType = {
   // ordersArray: BookType[];
   addToShoppingCart: (book: BookType) => void;
   // getInitialShoppingState: () => void;
+  handleAddToCart: (book: BookType) => void;
 };
 
 const initialContext = {
@@ -31,6 +32,7 @@ const initialContext = {
   // ordersArray: [],
   addToShoppingCart: () => {},
   // getInitialShoppingState: () => {},
+  handleAddToCart: () => {},
 };
 
 export const ShoppingContext =
@@ -116,6 +118,18 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     setShoppingArray((prevState) => [...prevState, book]);
   };
 
+  const handleAddToCart = (book: BookType) => {
+    const existingBook = shoppingArray.find(
+      (targetBook: BookType) => targetBook.id === book.id
+    );
+    if (existingBook) {
+      existingBook.quantity += 1;
+      setShoppingArray([...shoppingArray]);
+    } else {
+      addToShoppingCart(book);
+    }
+  };
+
   return (
     <ShoppingContext.Provider
       value={{
@@ -128,6 +142,7 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
         // ordersArray,
         addToShoppingCart,
         // getInitialShoppingState,
+        handleAddToCart,
       }}
     >
       {children}
