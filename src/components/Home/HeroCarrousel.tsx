@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { CarrouselItemType } from "../../../data/types/type";
+import { CarrouselItemType } from "../../data/types/type";
 
 type Props = {
   panel: CarrouselItemType;

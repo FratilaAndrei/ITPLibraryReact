@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useContext } from "react";
 import { Link } from "react-router-dom";
+import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { BookType } from "../../data/types/type";
 
 type Props = {
@@ -7,22 +8,16 @@ type Props = {
 };
 
 const Book: FC<Props> = ({ book }) => {
-  const handleAddToCart = () => {
-    const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
+  const { addToShoppingCart, shoppingArray } = useContext(ShoppingContext);
 
-    if (SHOPPING_STORAGE) {
-      const shoppingCart = JSON.parse(SHOPPING_STORAGE);
-      const existingBook = shoppingCart.find(
-        (targetBook: BookType) => targetBook.id === book.id
-      );
-      if (existingBook) {
-        existingBook.quantity += 1;
-      } else {
-        shoppingCart.push(book);
-      }
-      localStorage.setItem("shopping-cart", JSON.stringify(shoppingCart));
+  const handleAddToCart = () => {
+    const existingBook = shoppingArray.find(
+      (targetBook: BookType) => targetBook.id === book.id
+    );
+    if (existingBook) {
+      existingBook.quantity += 1;
     } else {
-      localStorage.setItem("shopping-cart", JSON.stringify([book]));
+      addToShoppingCart(book);
     }
   };
 
@@ -34,7 +29,7 @@ const Book: FC<Props> = ({ book }) => {
       <Link to="/book-details" className="flex flex-col h-fit w-full xl:w-fit">
         <img
           src={book.image}
-          alt=""
+          alt={book.title}
           className="h-[70%] fullHd:h-[329px] fullHd:w-[232px] w-full"
         />
         <div className="flex flex-col mt-6 fullHd:pt-0 w-full">

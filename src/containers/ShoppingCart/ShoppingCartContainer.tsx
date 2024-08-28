@@ -1,10 +1,7 @@
 import { FC, useContext } from "react";
 import ButtonGroup from "../../common/components/ButtonGroup";
 import ShoppingItem from "../../components/ShoppingItem";
-import {
-  ShoppingContext,
-  ShoppingContextType,
-} from "../../contexts/ShoppingContext";
+import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../data/routes";
 import { ButtonGroupType } from "../../data/types/type";
 
@@ -15,8 +12,9 @@ const ShoppingCart: FC = () => {
     incrementQuantity,
     decrementQuantity,
     handleRemoveItem,
-  } = useContext(ShoppingContext) as ShoppingContextType;
+  } = useContext(ShoppingContext);
 
+  console.log(shoppingArray);
   const navigationButtons: ButtonGroupType[] = [
     {
       id: 1,

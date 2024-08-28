@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { BookRowType, BookType } from "../../../data/types/type";
+import { BookRowType, BookType } from "../../data/types/type";
 import Book from "./Book";
 
 type Props = {

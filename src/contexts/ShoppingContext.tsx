@@ -16,42 +16,55 @@ export type ShoppingContextType = {
   decrementQuantity: (id: number) => void;
   handleRemoveItem: (id: number) => void;
   placeOrder: () => void;
-  ordersArray: BookType[];
+  // ordersArray: BookType[];
+  addToShoppingCart: (book: BookType) => void;
+  // getInitialShoppingState: () => void;
 };
 
-export const ShoppingContext = createContext<ShoppingContextType | undefined>(
-  undefined
-);
-
-const getInitialShoppingState = (): BookType[] => {
-  const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
-  console.log(SHOPPING_STORAGE);
-  return SHOPPING_STORAGE ? JSON.parse(SHOPPING_STORAGE) : [];
+const initialContext = {
+  shoppingArray: [],
+  shoppingPrice: 0,
+  incrementQuantity: () => {},
+  decrementQuantity: () => {},
+  handleRemoveItem: () => {},
+  placeOrder: () => {},
+  // ordersArray: [],
+  addToShoppingCart: () => {},
+  // getInitialShoppingState: () => {},
 };
 
-const initialOrderState = (): BookType[] => {
-  const ORDERS = localStorage.getItem("order-cart");
-  return ORDERS ? JSON.parse(ORDERS) : [];
-};
+export const ShoppingContext =
+  createContext<ShoppingContextType>(initialContext);
 
 const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const getInitialShoppingState = (): BookType[] => {
+    const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
+    console.log(SHOPPING_STORAGE);
+    return SHOPPING_STORAGE ? JSON.parse(SHOPPING_STORAGE) : [];
+  };
+
+  // const initialOrderState = (): BookType[] => {
+  //   const ORDERS = localStorage.getItem("order-cart");
+  //   return ORDERS ? JSON.parse(ORDERS) : [];
+  // };
+
   const navigate = useNavigate();
 
-  const [shoppingArray, setShoppingArray] = useState<BookType[]>(
+  const [shoppingArray, setShoppingArray] = useState<BookType[]>(() =>
     getInitialShoppingState()
   );
 
-  const [ordersArray, setOrdersArray] = useState<BookType[]>(
-    initialOrderState()
-  );
+  // const [ordersArray, setOrdersArray] = useState<BookType[]>(() =>
+  //   initialOrderState()
+  // );
 
   useEffect(() => {
     localStorage.setItem("shopping-cart", JSON.stringify(shoppingArray));
   }, [shoppingArray]);
 
-  useEffect(() => {
-    localStorage.setItem("order-cart", JSON.stringify(ordersArray));
-  }, [ordersArray]);
+  // useEffect(() => {
+  //   localStorage.setItem("order-cart", JSON.stringify(ordersArray));
+  // }, [ordersArray]);
 
   const shoppingPrice = shoppingArray.reduce(
     (total, item) => total + item.price * item.quantity,
@@ -59,8 +72,8 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   const updateShoppingArray = (updatedArray: BookType[]) => {
-    localStorage.setItem("shopping-cart", JSON.stringify(updatedArray));
-    setOrdersArray([...updatedArray]);
+    // localStorage.setItem("shopping-cart", JSON.stringify(updatedArray));
+    // setOrdersArray([...updatedArray]);
     setShoppingArray(updatedArray);
   };
 
@@ -93,10 +106,14 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const placeOrder = () => {
     if (shoppingArray.length > 0) {
-      setOrdersArray([...shoppingArray, ...ordersArray]);
+      // setOrdersArray([...shoppingArray, ...ordersArray]);
       setShoppingArray([]);
     }
     navigate(ORDERS_ROUTE);
+  };
+
+  const addToShoppingCart = (book: BookType) => {
+    setShoppingArray((prevState) => [...prevState, book]);
   };
 
   return (
@@ -108,7 +125,9 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
         decrementQuantity,
         handleRemoveItem,
         placeOrder,
-        ordersArray,
+        // ordersArray,
+        addToShoppingCart,
+        // getInitialShoppingState,
       }}
     >
       {children}
