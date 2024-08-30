@@ -74,7 +74,7 @@ export type formType = {
   deliveryCity: "Romania" | "Italia" | "Germania";
   deliveryAddress: string;
   deliveryPhone: string;
-  payment: "Cash" | "Online";
+  paymentType: "Cash" | "Online";
   deliveryDate: Date;
   observations: string;
   recommended: boolean;

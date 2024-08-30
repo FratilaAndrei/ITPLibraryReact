@@ -12,7 +12,7 @@ export const initialValues: formType = {
   deliveryCity: "Romania",
   deliveryAddress: "",
   showDelivery: false,
-  payment: "Online",
+  paymentType: "Online",
   deliveryDate: new Date(),
   observations: "",
   recommended: false,

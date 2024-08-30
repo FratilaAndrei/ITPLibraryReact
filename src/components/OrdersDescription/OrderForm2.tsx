@@ -31,7 +31,6 @@ const OrderForm2 = () => {
           values.deliveryCity = values.billingCity;
           values.deliveryPhone = values.billingPhone;
         }
-
         actions.setSubmitting(false);
         placeOrder(values);
       }}
@@ -79,7 +78,7 @@ const OrderForm2 = () => {
                   type="radio"
                   name="paymentType"
                   value="Online"
-                  checked={props.values.payment === "Online"}
+                  checked={props.values.paymentType === "Online"}
                 />
                 Online
               </label>

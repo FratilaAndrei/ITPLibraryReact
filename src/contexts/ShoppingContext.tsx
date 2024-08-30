@@ -7,7 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { BookType, orderType } from "../data/types/type";
+import { BookType } from "../data/types/type";
 
 export type ShoppingContextType = {
   shoppingArray: BookType[];
@@ -18,7 +18,7 @@ export type ShoppingContextType = {
   handleRemoveItem: (id: number) => void;
   addToShoppingCart: (book: BookType) => void;
   handleAddToCart: (book: BookType) => void;
-  handleShipment: (order: orderType) => void;
+  // handleShipment: (order: orderType) => void;
 };
 
 const initialContext = {
@@ -31,7 +31,7 @@ const initialContext = {
   placeOrder: () => {},
   addToShoppingCart: () => {},
   handleAddToCart: () => {},
-  handleShipment: () => {},
+  // handleShipment: () => {},
 };
 
 export const ShoppingContext =
@@ -99,9 +99,9 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const handleShipment = (order: orderType) => {
-    order.status = "Completed";
-  };
+  // const handleShipment = (order: orderType) => {
+  //   order.status = "Completed";
+  // };
 
   return (
     <ShoppingContext.Provider
@@ -114,7 +114,7 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
         addToShoppingCart,
         handleAddToCart,
         setShoppingArray,
-        handleShipment,
+        // handleShipment,
       }}
     >
       {children}

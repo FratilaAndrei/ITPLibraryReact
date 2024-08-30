@@ -18,12 +18,16 @@ export type orderContextType = {
   ordersArray: orderType[];
   setOrdersArray: Dispatch<SetStateAction<orderType[]>>;
   placeOrder: (orderDetails: formType) => void;
+  editForm: (orderId: string, updatedForm: formType) => void;
+  handleShipment: (order: string) => void;
 };
 
 const orderInitialContext = {
   ordersArray: [],
   setOrdersArray: () => {},
   placeOrder: () => {},
+  editForm: () => {},
+  handleShipment: () => {},
 };
 
 export const OrderContext =
@@ -66,8 +70,33 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
     navigate(ORDERS_ROUTE);
   };
 
+  const editForm = (orderId: string, updatedForm: formType) => {
+    setOrdersArray((prevState) => {
+      return prevState.map((order: orderType) => {
+        return order.id === orderId ? { ...order, form: updatedForm } : order;
+      });
+    });
+    navigate(ORDERS_ROUTE);
+  };
+
+  const handleShipment = (orderId: string) => {
+    setOrdersArray((prevState) => {
+      return prevState.map((order: orderType) => {
+        return order.id === orderId ? { ...order, status: "Completed" } : order;
+      });
+    });
+  };
+
   return (
-    <OrderContext.Provider value={{ ordersArray, setOrdersArray, placeOrder }}>
+    <OrderContext.Provider
+      value={{
+        ordersArray,
+        setOrdersArray,
+        placeOrder,
+        editForm,
+        handleShipment,
+      }}
+    >
       {children}
     </OrderContext.Provider>
   );

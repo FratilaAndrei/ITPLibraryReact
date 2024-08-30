@@ -3,11 +3,10 @@ import { GoPencil } from "react-icons/go";
 import { Link } from "react-router-dom";
 import orderBook from "../../assets/images/orderBook.png";
 import { OrderContext } from "../../contexts/OrderProvider";
-import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { ORDER_DETAILS_ROUTE } from "../../data/routes";
 
 const OrderItem = () => {
-  const { handleShipment } = useContext(ShoppingContext);
+  const { handleShipment } = useContext(OrderContext);
   const { ordersArray } = useContext(OrderContext);
 
   const getAllQuantity = (id: string) => {
@@ -28,8 +27,8 @@ const OrderItem = () => {
 
   const orderItemBody = ordersArray.map((order, index) => {
     setInterval(() => {
-      handleShipment(order);
-    }, 3000);
+      handleShipment(order.id);
+    }, 60000);
     return (
       <div key={order.id}>
         <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
