@@ -3,7 +3,6 @@ import { formType } from "../../data/types/type";
 
 const phoneNumberRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
 export const initialValues: formType = {
-  id: "",
   firstName: "",
   lastName: "",
   billingPhone: "",

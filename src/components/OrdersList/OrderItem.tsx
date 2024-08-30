@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { GoPencil } from "react-icons/go";
 import { Link } from "react-router-dom";
 import orderBook from "../../assets/images/orderBook.png";
+import { OrderContext } from "../../contexts/OrderProvider";
 import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { ORDER_DETAILS_ROUTE } from "../../data/routes";
 
 const OrderItem = () => {
-  const { ordersArray, handleShipment } = useContext(ShoppingContext);
+  const { handleShipment } = useContext(ShoppingContext);
+  const { ordersArray } = useContext(OrderContext);
 
   const getAllQuantity = (id: string) => {
     let totalQuantity = 0;
@@ -18,7 +20,7 @@ const OrderItem = () => {
 
   const getAllPrice = (id: string) => {
     let totalPrice = 0;
-    ordersArray.reduce((total, item) => {
+    ordersArray.forEach((item) => {
       if (item.id === id) return (totalPrice += item.price * item.quantity);
     }, 0);
     return totalPrice;
@@ -63,7 +65,7 @@ const OrderItem = () => {
             </div>
             {order.status === "In Progress" && order.form ? (
               <Link
-                to={`${ORDER_DETAILS_ROUTE}/edit/${order.form.id}`}
+                to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
                 className="flex gap-x-2 items-center cursor-pointer"
               >
                 <GoPencil />

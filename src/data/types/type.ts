@@ -66,7 +66,6 @@ export type orderType = {
 };
 
 export type formType = {
-  id: string;
   firstName: string;
   lastName: string;
   billingCity: "Romania" | "Italia" | "Germania";

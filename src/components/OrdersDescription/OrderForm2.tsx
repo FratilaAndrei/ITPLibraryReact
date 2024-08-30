@@ -3,8 +3,7 @@ import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { FormContext } from "../../contexts/FormProvider";
-import { ShoppingContext } from "../../contexts/ShoppingContext";
+import { OrderContext } from "../../contexts/OrderProvider";
 import { SHOPPING_CART_ROUTE } from "../../data/routes";
 import BillingAdressInputs from "./Form/BillingAdressInputs";
 import ContactDetails from "./Form/ContactDetails";
@@ -18,9 +17,7 @@ import {
 const OrderForm2 = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  const { formArray, updateFormArray } = useContext(FormContext);
-
-  const { placeOrder } = useContext(ShoppingContext);
+  const { placeOrder } = useContext(OrderContext);
 
   return (
     <Formik
@@ -34,12 +31,9 @@ const OrderForm2 = () => {
           values.deliveryCity = values.billingCity;
           values.deliveryPhone = values.billingPhone;
         }
-        const formData = JSON.stringify(values, null, 2);
-        const formDataObject = JSON.parse(formData);
-        alert(formData);
+
         actions.setSubmitting(false);
-        updateFormArray(formDataObject);
-        placeOrder();
+        placeOrder(values);
       }}
     >
       {(props) => {

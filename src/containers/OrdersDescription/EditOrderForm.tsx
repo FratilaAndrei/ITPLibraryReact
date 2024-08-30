@@ -8,25 +8,22 @@ import ContactDetails from "../../components/OrdersDescription/Form/ContactDetai
 import DeliveryAdress from "../../components/OrdersDescription/Form/DeliveryAdress";
 import InputSection from "../../components/OrdersDescription/InputSection";
 import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
-import { FormContext } from "../../contexts/FormProvider";
+import { OrderContext } from "../../contexts/OrderProvider";
 import { SHOPPING_CART_ROUTE } from "../../data/routes";
-import { formType } from "../../data/types/type";
+import { orderType } from "../../data/types/type";
 
 const EditOrderForm = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  const { formArray, updateFormArray, updateEditedForm } =
-    useContext(FormContext);
-
-  console.log(formArray);
+  const { ordersArray } = useContext(OrderContext);
 
   const { id } = useParams<{ id: string }>();
   if (!id) return;
-  const form = formArray.find((form: formType) => form.id === id);
-  if (!form) {
+  const order = ordersArray.find((order: orderType) => order.id === id);
+  if (!order) {
     return <div>form not found</div>;
   }
-  const { ...initialValues } = form;
+  const { ...initialValues } = order;
 
   return (
     <Formik
@@ -36,16 +33,12 @@ const EditOrderForm = () => {
       validateOnChange={false}
       onSubmit={(values, actions) => {
         if (isDeliveryVisible === false) {
-          values.deliveryAddress = values.billingAddress;
-          values.deliveryCity = values.billingCity;
-          values.deliveryPhone = values.billingPhone;
+          // values.deliveryAddress = values.form.billingAddress;
+          // values.deliveryCity = values.billingCity;
+          // values.deliveryPhone = values.billingPhone;
         }
-        const formData = JSON.stringify(values, null, 2);
-        const formDataObject = JSON.parse(formData);
-        alert(formData);
+
         actions.setSubmitting(false);
-        updateEditedForm(formDataObject);
-        // placeOrder();
       }}
     >
       {(props) => {
@@ -55,9 +48,15 @@ const EditOrderForm = () => {
           props.setFieldValue("showDelivery", e.target.checked);
 
           if (!e.target.checked) {
-            props.setFieldValue("deliveryAddress", props.values.billingAddress);
-            props.setFieldValue("deliveryCity", props.values.billingCity);
-            props.setFieldValue("deliveryPhone", props.values.billingPhone);
+            props.setFieldValue(
+              "deliveryAddress",
+              props.values.form.billingAddress
+            );
+            props.setFieldValue("deliveryCity", props.values.form.billingCity);
+            props.setFieldValue(
+              "deliveryPhone",
+              props.values.form.billingPhone
+            );
           }
         };
 
@@ -91,7 +90,7 @@ const EditOrderForm = () => {
                   type="radio"
                   name="paymentType"
                   value="Online"
-                  checked={props.values.payment === "Online"}
+                  checked={props.values.form.payment === "Online"}
                 />
                 Online
               </label>
@@ -106,7 +105,7 @@ const EditOrderForm = () => {
               </label>
               <Calendar
                 id="buttondisplay"
-                value={props.values.deliveryDate}
+                value={props.values.form.deliveryDate}
                 onChange={(e) => props.setFieldValue("deliveryDate", e.value)}
                 name="deliveryDate"
                 showIcon
@@ -121,7 +120,7 @@ const EditOrderForm = () => {
             </div>
             <InputTextarea
               autoResize
-              value={props.values.observations}
+              value={props.values.form.observations}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 props.setFieldValue("observations", e.target.value)
               }
