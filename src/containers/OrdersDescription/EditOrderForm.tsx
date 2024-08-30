@@ -2,25 +2,31 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import BillingAdressInputs from "../../components/OrdersDescription/Form/BillingAdressInputs";
+import ContactDetails from "../../components/OrdersDescription/Form/ContactDetails";
+import DeliveryAdress from "../../components/OrdersDescription/Form/DeliveryAdress";
+import InputSection from "../../components/OrdersDescription/InputSection";
+import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
 import { FormContext } from "../../contexts/FormProvider";
-import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { SHOPPING_CART_ROUTE } from "../../data/routes";
-import BillingAdressInputs from "./Form/BillingAdressInputs";
-import ContactDetails from "./Form/ContactDetails";
-import DeliveryAdress from "./Form/DeliveryAdress";
-import InputSection from "./InputSection";
-import {
-  initialValues,
-  OrderFormValidationSchema,
-} from "./OrderFormValidationSchema";
+import { formType } from "../../data/types/type";
 
-const OrderForm2 = () => {
+const EditOrderForm = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  const { formArray, updateFormArray } = useContext(FormContext);
+  const { formArray, updateFormArray, updateEditedForm } =
+    useContext(FormContext);
 
-  const { placeOrder } = useContext(ShoppingContext);
+  console.log(formArray);
+
+  const { id } = useParams<{ id: string }>();
+  if (!id) return;
+  const form = formArray.find((form: formType) => form.id === id);
+  if (!form) {
+    return <div>form not found</div>;
+  }
+  const { ...initialValues } = form;
 
   return (
     <Formik
@@ -38,8 +44,8 @@ const OrderForm2 = () => {
         const formDataObject = JSON.parse(formData);
         alert(formData);
         actions.setSubmitting(false);
-        updateFormArray(formDataObject);
-        placeOrder();
+        updateEditedForm(formDataObject);
+        // placeOrder();
       }}
     >
       {(props) => {
@@ -157,4 +163,4 @@ const OrderForm2 = () => {
   );
 };
 
-export default OrderForm2;
+export default EditOrderForm;

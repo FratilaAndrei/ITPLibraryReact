@@ -1,7 +1,9 @@
 import * as Yup from "yup";
+import { formType } from "../../data/types/type";
 
 const phoneNumberRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
-export const initialValues = {
+export const initialValues: formType = {
+  id: "",
   firstName: "",
   lastName: "",
   billingPhone: "",
@@ -11,9 +13,10 @@ export const initialValues = {
   deliveryCity: "Romania",
   deliveryAddress: "",
   showDelivery: false,
-  paymentType: "Online",
+  payment: "Online",
   deliveryDate: new Date(),
   observations: "",
+  recommended: false,
 };
 
 export const OrderFormValidationSchema = Yup.object().shape({

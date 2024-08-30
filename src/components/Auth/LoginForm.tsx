@@ -20,7 +20,6 @@ const LoginForm = () => {
           alert(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
         }, 1000);
-        console.log(values);
         findAccount(values);
       }}
       validationSchema={LOG_IN_SCHEMA}

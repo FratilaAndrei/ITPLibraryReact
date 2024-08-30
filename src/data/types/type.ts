@@ -56,3 +56,28 @@ export type LoginPageDataOptions = {
   label: string;
   link: string;
 };
+
+export type orderType = {
+  id: string;
+  quantity: number;
+  status: "In Progress" | "Completed";
+  price: number;
+  form: formType;
+};
+
+export type formType = {
+  id: string;
+  firstName: string;
+  lastName: string;
+  billingCity: "Romania" | "Italia" | "Germania";
+  billingAddress: string;
+  billingPhone: string;
+  deliveryCity: "Romania" | "Italia" | "Germania";
+  deliveryAddress: string;
+  deliveryPhone: string;
+  payment: "Cash" | "Online";
+  deliveryDate: Date;
+  observations: string;
+  recommended: boolean;
+  showDelivery: boolean;
+};

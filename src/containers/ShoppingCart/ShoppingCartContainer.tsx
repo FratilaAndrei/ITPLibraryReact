@@ -14,7 +14,6 @@ const ShoppingCart: FC = () => {
     handleRemoveItem,
   } = useContext(ShoppingContext);
 
-  console.log(shoppingArray);
   const navigationButtons: ButtonGroupType[] = [
     {
       id: 1,

@@ -8,6 +8,7 @@ import {
   SHOPPING_CART_ROUTE,
 } from "../../../data/routes";
 import BookDescription from "../../../pages/BookDescription.page";
+import EditOrderDescription from "../../../pages/EditOrderDescription.page";
 import Homepage from "../../../pages/Home.page";
 import Login from "../../../pages/Login.page";
 import Orders from "../../../pages/Orders.page";
@@ -30,6 +31,10 @@ const RoutesProvider = () => {
       <Route path={LOGIN_ROUTE} element={<Login />} />
       <Route path={REGISTER_ROUTE} element={<Register />} />
       <Route path="/book/:id" element={<BookDescription />} />
+      <Route
+        path={`${ORDER_DETAILS_ROUTE}/edit/:id`}
+        element={<EditOrderDescription />}
+      />
     </Routes>
   );
 };
