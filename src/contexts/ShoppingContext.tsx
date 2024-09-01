@@ -18,7 +18,7 @@ export type ShoppingContextType = {
   handleRemoveItem: (id: number) => void;
   addToShoppingCart: (book: BookType) => void;
   handleAddToCart: (book: BookType) => void;
-  // handleShipment: (order: orderType) => void;
+  showAddedPopup: boolean;
 };
 
 const initialContext = {
@@ -31,13 +31,14 @@ const initialContext = {
   placeOrder: () => {},
   addToShoppingCart: () => {},
   handleAddToCart: () => {},
-  // handleShipment: () => {},
+  showAddedPopup: false,
 };
 
 export const ShoppingContext =
   createContext<ShoppingContextType>(initialContext);
 
 const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [showAddedPopup, setShowAddedPopup] = useState(false);
   const getInitialShoppingState = (): BookType[] => {
     const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
     return SHOPPING_STORAGE ? JSON.parse(SHOPPING_STORAGE) : [];
@@ -82,9 +83,16 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     const updatedArray = shoppingArray.filter((book) => book.id !== id);
     updateShoppingArray(updatedArray);
   };
+  const showPopup = () => {
+    setShowAddedPopup(true);
+    setTimeout(() => {
+      setShowAddedPopup(false);
+    }, 3000);
+  };
 
   const addToShoppingCart = (book: BookType) => {
     setShoppingArray((prevState) => [...prevState, book]);
+    showPopup();
   };
 
   const handleAddToCart = (book: BookType) => {
@@ -94,14 +102,11 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     if (existingBook) {
       existingBook.quantity += 1;
       setShoppingArray([...shoppingArray]);
+      showPopup();
     } else {
       addToShoppingCart(book);
     }
   };
-
-  // const handleShipment = (order: orderType) => {
-  //   order.status = "Completed";
-  // };
 
   return (
     <ShoppingContext.Provider
@@ -114,7 +119,7 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
         addToShoppingCart,
         handleAddToCart,
         setShoppingArray,
-        // handleShipment,
+        showAddedPopup,
       }}
     >
       {children}

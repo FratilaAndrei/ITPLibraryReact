@@ -4,7 +4,7 @@ import Navbar from "../common/components/Navbar/Navbar";
 
 type Props = {
   className?: string;
-  hasFooterIcon: boolean;
+  hasFooterIcon?: boolean;
 };
 
 const PageTemplate: FC<Props & PropsWithChildren> = ({

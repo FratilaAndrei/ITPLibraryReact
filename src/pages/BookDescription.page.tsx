@@ -1,3 +1,4 @@
+import { Message } from "primereact/message";
 import { useContext } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useParams } from "react-router-dom";
@@ -7,8 +8,9 @@ import { BOOKS } from "../data/constants";
 import { BookType } from "../data/types/type";
 
 const BookDescription = () => {
+  // const [showAddedBookPopup, setShowAddedBookPopup] = useState(false);
   const { id } = useParams<{ id: string }>();
-  const { handleAddToCart } = useContext(ShoppingContext);
+  const { handleAddToCart, showAddedPopup } = useContext(ShoppingContext);
 
   if (!id) {
     return <div>Book ID is missing</div>;
@@ -78,6 +80,13 @@ const BookDescription = () => {
           </div>
         </div>
       </section>
+      {showAddedPopup ? (
+        <Message
+          text="Book Added"
+          severity="success"
+          className="absolute top-24 right-1/2 translate-x-1/2"
+        />
+      ) : null}
     </PageTemplate>
   );
 };
