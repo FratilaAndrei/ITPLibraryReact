@@ -24,8 +24,7 @@ button:hover {
   line-height: 1rem;
 }
 .order-input {
-  padding-top: 0.25rem; /* py-1 */
-  padding-bottom: 0.25rem; /* py-1 */
+  @apply py-1;
   padding-left: 0.5rem; /* pl-2 */
   border: 1px solid var(--border-color); /* border-border-color */
   border-radius: 4px; /* rounded-[4px] */

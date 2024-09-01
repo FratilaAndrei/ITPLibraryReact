@@ -14,7 +14,7 @@ import {
   OrderFormValidationSchema,
 } from "./OrderFormValidationSchema";
 
-const OrderForm2 = () => {
+const OrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
   const { placeOrder } = useContext(OrderContext);
@@ -150,4 +150,4 @@ const OrderForm2 = () => {
   );
 };
 
-export default OrderForm2;
+export default OrderDetails;

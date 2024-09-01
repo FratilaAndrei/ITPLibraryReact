@@ -1,14 +1,18 @@
+import Footer from "../common/components/Footer/Footer";
+import Navbar from "../common/components/Navbar/Navbar";
 import OrdersDescriptionHero from "../components/OrdersDescription/OrdersDescriptionHero";
 import EditOrderForm from "../containers/OrdersDescription/EditOrderForm";
-import PageTemplate from "../containers/PageTemplate";
 const EditOrderDescription = () => {
   return (
-    <PageTemplate>
+    <div className="flex flex-col justify-between">
+      <Navbar />
+      <div className="h-[56px] fullHd:h-[72px]" />
       <div className="flex">
         <OrdersDescriptionHero />
         <EditOrderForm />
       </div>
-    </PageTemplate>
+      <Footer />
+    </div>
   );
 };
 

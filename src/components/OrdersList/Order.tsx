@@ -5,7 +5,7 @@ import orderBook from "../../assets/images/orderBook.png";
 import { OrderContext } from "../../contexts/OrderProvider";
 import { ORDER_DETAILS_ROUTE } from "../../data/routes";
 
-const OrderItem = () => {
+const Order = () => {
   const { handleShipment } = useContext(OrderContext);
   const { ordersArray } = useContext(OrderContext);
 
@@ -86,4 +86,4 @@ const OrderItem = () => {
   return <div>{orderItemBody}</div>;
 };
 
-export default OrderItem;
+export default Order;

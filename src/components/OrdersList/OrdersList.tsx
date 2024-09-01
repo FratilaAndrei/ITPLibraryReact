@@ -1,4 +1,4 @@
-import OrderItem from "./OrderItem";
+import Order from "./Order";
 
 const OrdersList = () => {
   return (
@@ -8,7 +8,7 @@ const OrdersList = () => {
           Your orders
         </h2>
         <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4">
-          <OrderItem />
+          <Order />
         </div>
       </div>
     </div>

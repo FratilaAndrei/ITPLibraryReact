@@ -55,6 +55,7 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
     shoppingArray.reduce((total, item) => total + item.quantity, 0);
 
   const placeOrder = (orderDetails: formType) => {
+    console.log(shoppingArray);
     if (shoppingArray.length > 0) {
       const newOrder: orderType = {
         id: uuidv4(),
@@ -66,8 +67,8 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
       setOrdersArray((prevState) => [...prevState, newOrder]);
       setShoppingArray([]);
       console.log(newOrder);
+      navigate(ORDERS_ROUTE);
     }
-    navigate(ORDERS_ROUTE);
   };
 
   const editForm = (orderId: string, updatedForm: formType) => {

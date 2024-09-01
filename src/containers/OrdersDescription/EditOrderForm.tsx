@@ -9,7 +9,7 @@ import DeliveryAdress from "../../components/OrdersDescription/Form/DeliveryAdre
 import InputSection from "../../components/OrdersDescription/InputSection";
 import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
 import { OrderContext } from "../../contexts/OrderProvider";
-import { SHOPPING_CART_ROUTE } from "../../data/routes";
+import { ORDERS_ROUTE } from "../../data/routes";
 import { orderType } from "../../data/types/type";
 
 const EditOrderForm = () => {
@@ -137,16 +137,16 @@ const EditOrderForm = () => {
             />
             <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
               <Link
-                to={SHOPPING_CART_ROUTE}
+                to={ORDERS_ROUTE}
                 className=" ITPbutton bg-white text-black flex items-center justify-center"
               >
-                <button>Cancel Order</button>
+                <button>Cancel</button>
               </Link>
               <button
                 className="ITPbutton text-white bg-black flex items-center justify-center"
                 type="submit"
               >
-                Submit
+                Update Order
               </button>
             </div>
           </form>
