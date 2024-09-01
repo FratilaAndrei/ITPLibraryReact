@@ -11,7 +11,7 @@ const EditOrderDescription = () => {
         <OrdersDescriptionHero />
         <EditOrderForm />
       </div>
-      <Footer />
+      <Footer hasIcon />
     </div>
   );
 };

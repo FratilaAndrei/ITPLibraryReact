@@ -12,7 +12,7 @@ const OrdersDescription = () => {
         <OrdersDescriptionHero />
         <OrderDetails />
       </div>
-      <Footer />
+      <Footer hasIcon />
     </div>
   );
 };

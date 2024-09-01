@@ -11,7 +11,7 @@ const Homepage = () => {
         <Hero />
         <BooksSectionsContainer />
       </div>
-      <Footer />
+      <Footer hasIcon />
     </div>
   );
 };
