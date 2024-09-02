@@ -2,10 +2,10 @@ import { FC, useContext } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { ShoppingContext } from "../../contexts/ShoppingContext";
-import { BookType } from "../../data/types/type";
+import { BookModel } from "../../data/types/type";
 
 type Props = {
-  book: BookType;
+  book: BookModel;
 };
 
 const Book: FC<Props> = ({ book }) => {

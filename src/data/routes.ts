@@ -4,7 +4,7 @@ import Orders from "../pages/Orders.page";
 import OrdersDescription from "../pages/OrdersDescription.page";
 import Register from "../pages/Register.page";
 import ShoppingCart from "../pages/ShoppingCart.page";
-import { RoutesType } from "./types/type";
+import { RoutesModel } from "./types/type";
 
 export const HOME_PAGE_ROUTE = "/";
 export const SHOPPING_CART_ROUTE = "/ShoppingCart";
@@ -16,7 +16,7 @@ export const FORGOT_PASSWORD_ROUTE = "/ForgotPassword";
 export const BOOKS_ROUTE = "/Books";
 export const BOOK_ROUTE = "/Books/:bookId";
 
-export const ROUTES: RoutesType[] = [
+export const ROUTES: RoutesModel[] = [
   {
     id: 1,
     path: HOME_PAGE_ROUTE,

@@ -11,14 +11,14 @@ import {
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { ORDERS_ROUTE } from "../data/routes";
-import { formType, orderType } from "../data/types/type";
+import { orderDetailsModel, orderModel } from "../data/types/type";
 import { ShoppingContext } from "./ShoppingContext";
 
 export type orderContextType = {
-  ordersArray: orderType[];
-  setOrdersArray: Dispatch<SetStateAction<orderType[]>>;
-  placeOrder: (orderDetails: formType) => void;
-  editForm: (orderId: string, updatedForm: formType) => void;
+  ordersArray: orderModel[];
+  setOrdersArray: Dispatch<SetStateAction<orderModel[]>>;
+  placeOrder: (orderDetails: orderDetailsModel) => void;
+  editForm: (orderId: string, updatedForm: orderDetailsModel) => void;
   handleShipment: (order: string) => void;
 };
 
@@ -34,12 +34,12 @@ export const OrderContext =
   createContext<orderContextType>(orderInitialContext);
 
 const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
-  const getInitialOrderState = (): orderType[] => {
+  const getInitialOrderState = (): orderModel[] => {
     const ORDERS = localStorage.getItem("orders");
     return ORDERS ? JSON.parse(ORDERS) : [];
   };
 
-  const [ordersArray, setOrdersArray] = useState<orderType[]>(() =>
+  const [ordersArray, setOrdersArray] = useState<orderModel[]>(() =>
     getInitialOrderState()
   );
   const { shoppingArray, shoppingPrice, setShoppingArray } =
@@ -54,15 +54,15 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
   const getQuantity = () =>
     shoppingArray.reduce((total, item) => total + item.quantity, 0);
 
-  const placeOrder = (orderDetails: formType) => {
+  const placeOrder = (orderDetails: orderDetailsModel) => {
     console.log(shoppingArray);
     if (shoppingArray.length > 0) {
-      const newOrder: orderType = {
+      const newOrder: orderModel = {
         id: uuidv4(),
         quantity: getQuantity(),
         price: shoppingPrice,
         status: "In Progress",
-        form: orderDetails,
+        orderDetails: orderDetails,
       };
       setOrdersArray((prevState) => [...prevState, newOrder]);
       setShoppingArray([]);
@@ -71,9 +71,9 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
-  const editForm = (orderId: string, updatedForm: formType) => {
+  const editForm = (orderId: string, updatedForm: orderDetailsModel) => {
     setOrdersArray((prevState) => {
-      return prevState.map((order: orderType) => {
+      return prevState.map((order: orderModel) => {
         return order.id === orderId ? { ...order, form: updatedForm } : order;
       });
     });
@@ -82,7 +82,7 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const handleShipment = (orderId: string) => {
     setOrdersArray((prevState) => {
-      return prevState.map((order: orderType) => {
+      return prevState.map((order: orderModel) => {
         return order.id === orderId ? { ...order, status: "Completed" } : order;
       });
     });

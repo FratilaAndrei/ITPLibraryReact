@@ -4,7 +4,7 @@ import PageTemplate from "../containers/PageTemplate";
 const Register = () => {
   return (
     <PageTemplate>
-      <Auth formType="Register" />
+      <Auth orderDetailsModel="Register" />
     </PageTemplate>
   );
 };

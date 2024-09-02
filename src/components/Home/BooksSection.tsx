@@ -1,9 +1,9 @@
 import { FC } from "react";
-import { BookRowType, BookType } from "../../data/types/type";
+import { BookModel, BookRowModel } from "../../data/types/type";
 import Book from "./Book";
 
 type Props = {
-  bookRow: BookRowType;
+  bookRow: BookRowModel;
 };
 const BooksSection: FC<Props> = ({ bookRow }) => {
   return (
@@ -13,7 +13,7 @@ const BooksSection: FC<Props> = ({ bookRow }) => {
           {bookRow.title}
         </div>
         <div className="flex flex-wrap lg:flex-nowrap md:gap-8 lg:gap-y-0 space-y-12 md:space-y-0 mx-auto fullHd:py-8 justify-center fullHd:-my-8 fullHd:max-w-full gap-x-8 fullHd:space-x-3 h-fit">
-          {bookRow.books.map((book: BookType) => (
+          {bookRow.books.map((book: BookModel) => (
             <Book book={book} key={book.id} />
           ))}
         </div>

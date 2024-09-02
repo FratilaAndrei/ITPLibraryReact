@@ -4,10 +4,10 @@ import LoginForm from "../components/Auth/LoginForm";
 import SignUpForm from "../components/Auth/SignUpForm";
 import RegisterProvider from "../contexts/RegisterProvider";
 type Props = {
-  formType: "Login" | "Register";
+  orderDetailsModel: "Login" | "Register";
 };
 
-const Auth: FC<Props> = ({ formType }) => {
+const Auth: FC<Props> = ({ orderDetailsModel }) => {
   return (
     <div className=" md:flex h-[65%] w-4/5 mx-auto">
       <div className="mb-4 md:mb-0 fullHd:h-[85%] fullHd:w-1/2">
@@ -18,7 +18,7 @@ const Auth: FC<Props> = ({ formType }) => {
         />
       </div>
       <RegisterProvider>
-        {formType === "Login" ? <LoginForm /> : <SignUpForm />}
+        {orderDetailsModel === "Login" ? <LoginForm /> : <SignUpForm />}
       </RegisterProvider>
     </div>
   );

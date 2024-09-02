@@ -1,6 +1,6 @@
 import { HTMLInputTypeAttribute, ReactNode } from "react";
 
-export type BookType = {
+export type BookModel = {
   id: number;
   image: string;
   title: string;
@@ -11,9 +11,9 @@ export type BookType = {
   status: string;
 };
 
-export type BookRowType = {
+export type BookRowModel = {
   title: string;
-  books: BookType[];
+  books: BookModel[];
   id: number;
 };
 
@@ -26,46 +26,46 @@ export type ButtonGroupType = {
   className?: string;
 };
 
-export type CarrouselItemType = {
+export type CarrouselItemModel = {
   id: number;
   image: string;
 };
 
-export type RoutesType = {
+export type RoutesModel = {
   id: number;
   path: string;
   name: React.ComponentType;
 };
 
-export type LoginPageDataType = {
+export type LoginPageDataModel = {
   title: string;
   description: string;
-  inputs?: LoginPageDataInputType[];
+  inputs?: LoginPageDataInputModel[];
   checkOption?: string;
   buttonText: string;
-  options?: LoginPageDataOptions[];
+  options?: LoginPageDataOptionsModel[];
 };
 
-export type LoginPageDataInputType = {
+export type LoginPageDataInputModel = {
   label: string;
   placeholder: string;
   type: HTMLInputTypeAttribute;
 };
 
-export type LoginPageDataOptions = {
+export type LoginPageDataOptionsModel = {
   label: string;
   link: string;
 };
 
-export type orderType = {
+export type orderModel = {
   id: string;
   quantity: number;
   status: "In Progress" | "Completed";
   price: number;
-  form: formType;
+  orderDetails: orderDetailsModel;
 };
 
-export type formType = {
+export type orderDetailsModel = {
   firstName: string;
   lastName: string;
   billingCity: "Romania" | "Italia" | "Germania";

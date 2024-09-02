@@ -19,7 +19,7 @@ import ShoppingCart from "../../../pages/ShoppingCart.page";
 const RoutesProvider = () => {
   return (
     <Routes>
-      {/* {ROUTES.map((route: RoutesType) => {
+      {/* {ROUTES.map((route: RoutesModel) => {
         return (
           <Route path={route.path} element={<route.name />} key={route.id} />
         );

@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import PageTemplate from "../containers/PageTemplate";
 import { ShoppingContext } from "../contexts/ShoppingContext";
 import { BOOKS } from "../data/constants";
-import { BookType } from "../data/types/type";
+import { BookModel } from "../data/types/type";
 
 const BookDescription = () => {
   // const [showAddedBookPopup, setShowAddedBookPopup] = useState(false);
@@ -15,7 +15,7 @@ const BookDescription = () => {
   if (!id) {
     return <div>Book ID is missing</div>;
   }
-  const book = BOOKS.find((book: BookType) => book.id === parseInt(id, 10));
+  const book = BOOKS.find((book: BookModel) => book.id === parseInt(id, 10));
   if (!book) {
     return <div>Book not found</div>;
   }

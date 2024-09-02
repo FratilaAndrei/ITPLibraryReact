@@ -1,8 +1,8 @@
 import { FC } from "react";
-import { CarrouselItemType } from "../../data/types/type";
+import { CarrouselItemModel } from "../../data/types/type";
 
 type Props = {
-  panel: CarrouselItemType;
+  panel: CarrouselItemModel;
 };
 
 const HeroCarrousel: FC<Props> = ({ panel }) => {

@@ -1,10 +1,11 @@
 import { FC } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
-import { BookType } from "../data/types/type";
+import { Link } from "react-router-dom";
+import { BookModel } from "../data/types/type";
 
 type Props = {
-  shoppingArray: BookType[];
+  shoppingArray: BookModel[];
   incrementQuantity: (id: number) => void;
   decrementQuantity: (id: number) => void;
   handleRemoveItem: (id: number) => void;
@@ -16,11 +17,14 @@ const ShoppingItem: FC<Props> = ({
   decrementQuantity,
   handleRemoveItem,
 }) => {
-  return shoppingArray?.map((item: BookType, index: number) => {
+  return shoppingArray?.map((item: BookModel, index: number) => {
     return (
       <div key={item.id}>
         <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
-          <div className="flex flex-col md:flex-row gap-x-4">
+          <Link
+            to={`/book/${item.id}`}
+            className="flex flex-col md:flex-row gap-x-4"
+          >
             <div className="md:w-[92px] md:h-[132px]">
               <img
                 src={item.image}
@@ -39,7 +43,7 @@ const ShoppingItem: FC<Props> = ({
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
           <div className="flex flex-col gap-x-2 items-center font-roboto md:items-end">
             <div className="text-beige-color font-bold fullHd:text-3xl text-lg">
               ${item.price}

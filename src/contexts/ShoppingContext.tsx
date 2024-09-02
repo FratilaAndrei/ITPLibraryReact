@@ -7,17 +7,17 @@ import {
   useEffect,
   useState,
 } from "react";
-import { BookType } from "../data/types/type";
+import { BookModel } from "../data/types/type";
 
 export type ShoppingContextType = {
-  shoppingArray: BookType[];
-  setShoppingArray: Dispatch<SetStateAction<BookType[]>>;
+  shoppingArray: BookModel[];
+  setShoppingArray: Dispatch<SetStateAction<BookModel[]>>;
   shoppingPrice: number;
   incrementQuantity: (id: number) => void;
   decrementQuantity: (id: number) => void;
   handleRemoveItem: (id: number) => void;
-  addToShoppingCart: (book: BookType) => void;
-  handleAddToCart: (book: BookType) => void;
+  addToShoppingCart: (book: BookModel) => void;
+  handleAddToCart: (book: BookModel) => void;
   showAddedPopup: boolean;
 };
 
@@ -39,12 +39,12 @@ export const ShoppingContext =
 
 const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [showAddedPopup, setShowAddedPopup] = useState(false);
-  const getInitialShoppingState = (): BookType[] => {
+  const getInitialShoppingState = (): BookModel[] => {
     const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
     return SHOPPING_STORAGE ? JSON.parse(SHOPPING_STORAGE) : [];
   };
 
-  const [shoppingArray, setShoppingArray] = useState<BookType[]>(() =>
+  const [shoppingArray, setShoppingArray] = useState<BookModel[]>(() =>
     getInitialShoppingState()
   );
 
@@ -57,7 +57,7 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     0
   );
 
-  const updateShoppingArray = (updatedArray: BookType[]) => {
+  const updateShoppingArray = (updatedArray: BookModel[]) => {
     setShoppingArray(updatedArray);
   };
 
@@ -90,14 +90,14 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     }, 3000);
   };
 
-  const addToShoppingCart = (book: BookType) => {
+  const addToShoppingCart = (book: BookModel) => {
     setShoppingArray((prevState) => [...prevState, book]);
     showPopup();
   };
 
-  const handleAddToCart = (book: BookType) => {
+  const handleAddToCart = (book: BookModel) => {
     const existingBook = shoppingArray.find(
-      (targetBook: BookType) => targetBook.id === book.id
+      (targetBook: BookModel) => targetBook.id === book.id
     );
     if (existingBook) {
       existingBook.quantity += 1;

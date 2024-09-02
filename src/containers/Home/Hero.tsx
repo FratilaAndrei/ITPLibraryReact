@@ -4,9 +4,9 @@ import carrousel1 from "../../assets/images/carrousel1.png";
 import carrousel2 from "../../assets/images/carrousel2.png";
 import carrousel3 from "../../assets/images/carrousel3.png";
 import HeroCarrousel from "../../components/Home/HeroCarrousel";
-import { CarrouselItemType } from "../../data/types/type";
+import { CarrouselItemModel } from "../../data/types/type";
 
-const CARROUSEL_ITEMS: CarrouselItemType[] = [
+const CARROUSEL_ITEMS: CarrouselItemModel[] = [
   {
     id: 0,
     image: carrousel1,
@@ -28,7 +28,7 @@ const Hero = () => {
         value={CARROUSEL_ITEMS}
         numVisible={1}
         numScroll={1}
-        itemTemplate={(item: CarrouselItemType) => (
+        itemTemplate={(item: CarrouselItemModel) => (
           <HeroCarrousel panel={item} />
         )}
         autoplayInterval={5000}

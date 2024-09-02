@@ -10,7 +10,7 @@ import InputSection from "../../components/OrdersDescription/InputSection";
 import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
 import { OrderContext } from "../../contexts/OrderProvider";
 import { ORDERS_ROUTE } from "../../data/routes";
-import { orderType } from "../../data/types/type";
+import { orderModel } from "../../data/types/type";
 
 const EditOrderForm = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
@@ -19,15 +19,15 @@ const EditOrderForm = () => {
 
   const { id } = useParams<{ id: string }>();
   if (!id) return;
-  const order = ordersArray.find((order: orderType) => order.id === id);
+  const order = ordersArray.find((order: orderModel) => order.id === id);
   if (!order) {
     return <div>form not found</div>;
   }
-  const { form } = order;
+  const { orderDetails } = order;
 
   return (
     <Formik
-      initialValues={form}
+      initialValues={orderDetails}
       validationSchema={OrderFormValidationSchema}
       validateOnBlur
       validateOnChange={false}

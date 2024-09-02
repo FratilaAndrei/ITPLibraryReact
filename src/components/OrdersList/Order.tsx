@@ -62,7 +62,7 @@ const Order = () => {
             <div className="text-beige-color font-bold fullHd:text-3xl text-lg">
               ${getAllPrice(order.id)}
             </div>
-            {order.status === "In Progress" && order.form ? (
+            {order.status === "In Progress" && order.orderDetails ? (
               <Link
                 to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
                 className="flex gap-x-2 items-center cursor-pointer"
