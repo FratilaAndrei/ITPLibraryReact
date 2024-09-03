@@ -12,7 +12,7 @@ import { OrderContext } from "../../contexts/OrderProvider";
 import { ORDERS_ROUTE } from "../../data/routes";
 import { orderModel } from "../../data/types/type";
 
-const EditOrderForm = () => {
+const EditOrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
   const { ordersArray, editForm } = useContext(OrderContext);
@@ -24,6 +24,7 @@ const EditOrderForm = () => {
     return <div>form not found</div>;
   }
   const { orderDetails } = order;
+  const isCompleted = order.status === "Completed";
 
   return (
     <Formik
@@ -62,14 +63,15 @@ const EditOrderForm = () => {
             <div className="text-2xl xl:text-3xl text-important-black-color fullHd:text-[38px] font-semibold font-lora">
               Order Details
             </div>
-            <ContactDetails />
-            <BillingAdressInputs />
+            <ContactDetails isFieldDisabled={isCompleted} />
+            <BillingAdressInputs isFieldDisabled={isCompleted} />
             <div className="flex gap-x-2 items-center">
               <input
                 type="checkbox"
                 name="delivery"
                 onChange={handleCheckboxChange}
                 onClick={() => setIsDeliveryVisible((prev) => !prev)}
+                disabled={isCompleted}
               />
               <label htmlFor="delivery">Use Address for delivery</label>
             </div>
@@ -85,11 +87,17 @@ const EditOrderForm = () => {
                   name="paymentType"
                   value="Online"
                   checked={props.values.paymentType === "Online"}
+                  disabled={isCompleted}
                 />
                 Online
               </label>
               <label className="flex gap-x-2">
-                <Field type="radio" name="paymentType" value="Cash" />
+                <Field
+                  type="radio"
+                  name="paymentType"
+                  value="Cash"
+                  disabled={isCompleted}
+                />
                 Cash
               </label>
             </div>
@@ -105,6 +113,8 @@ const EditOrderForm = () => {
                 showIcon
                 className="w-full border border-border-color p-2"
                 placeholder="Delivery Date"
+                readOnlyInput
+                disabled={isCompleted}
               />
               <ErrorMessage
                 name="deliveryDate"
@@ -123,31 +133,40 @@ const EditOrderForm = () => {
               placeholder="Observations"
               name="observations"
               className="w-full border border-border-color p-2"
+              readOnly={order.status === "Completed" ? true : false}
+              disabled={isCompleted}
             />
             <ErrorMessage
               name="observations"
               component="div"
               className="text-red-500"
             />
-            <InputSection
-              title="Would you recommand us?"
-              option={true}
-              optionLabel="Would you recommand us?"
-              hasInputFields={false}
-            />
+            {order.status === "In Progress" ? (
+              <InputSection
+                title="Would you recommand us?"
+                option={true}
+                optionLabel="Would you recommand us?"
+                hasInputFields={false}
+              />
+            ) : null}
             <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
               <Link
                 to={ORDERS_ROUTE}
                 className=" ITPbutton bg-white text-black flex items-center justify-center"
               >
-                <button>Cancel</button>
+                <button>
+                  {order.status === "In Progress" ? "Cancel" : "Back"}
+                </button>
               </Link>
-              <button
-                className="ITPbutton text-white bg-black flex items-center justify-center"
-                type="submit"
-              >
-                Update Order
-              </button>
+              {order.status === "In Progress" ? (
+                <button
+                  className="ITPbutton text-white bg-black flex items-center justify-center"
+                  type="submit"
+                  disabled={isCompleted}
+                >
+                  Update Order
+                </button>
+              ) : null}
             </div>
           </form>
         );
@@ -156,4 +175,4 @@ const EditOrderForm = () => {
   );
 };
 
-export default EditOrderForm;
+export default EditOrderDetails;

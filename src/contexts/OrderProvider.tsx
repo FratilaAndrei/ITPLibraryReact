@@ -74,7 +74,9 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
   const editForm = (orderId: string, updatedForm: orderDetailsModel) => {
     setOrdersArray((prevState) => {
       return prevState.map((order: orderModel) => {
-        return order.id === orderId ? { ...order, form: updatedForm } : order;
+        return order.id === orderId
+          ? { ...order, orderDetails: updatedForm }
+          : order;
       });
     });
     navigate(ORDERS_ROUTE);

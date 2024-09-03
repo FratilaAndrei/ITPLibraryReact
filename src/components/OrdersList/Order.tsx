@@ -29,6 +29,7 @@ const Order = () => {
     setInterval(() => {
       handleShipment(order.id);
     }, 60000);
+
     return (
       <div key={order.id}>
         <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
@@ -43,7 +44,7 @@ const Order = () => {
             <div className=" flex flex-col justify-between mt-2 md:mt-0">
               <div className="flex flex-col items-center md:items-start gap-y-2 md:gap-y-0">
                 <div className="font-lora font-bold text-xl text-center">
-                  Order #{order.id}
+                  Order #{order.id.slice(0, 5)}
                 </div>
                 <div className="flex gap-x-2 items-center font-roboto">
                   <span>Items</span>
@@ -72,7 +73,16 @@ const Order = () => {
                   Edit order details
                 </span>
               </Link>
-            ) : null}
+            ) : (
+              <Link
+                to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
+                className="flex gap-x-2 items-center cursor-pointer"
+              >
+                <span className="text-base fullHd:text-xl text-black">
+                  View Order
+                </span>
+              </Link>
+            )}
           </div>
         </div>
         {}

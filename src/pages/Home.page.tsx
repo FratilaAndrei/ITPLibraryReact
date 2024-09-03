@@ -7,7 +7,7 @@ import Hero from "../containers/Home/Hero";
 import { ShoppingContext } from "../contexts/ShoppingContext";
 
 const Homepage = () => {
-  const { showAddedPopup } = useContext(ShoppingContext);
+  const { showAddedPopup, lastAddedBook } = useContext(ShoppingContext);
   return (
     <div className="flex flex-col h-full justify-between space-y-14">
       <Navbar />
@@ -16,7 +16,7 @@ const Homepage = () => {
         <BooksSectionsContainer />
         {showAddedPopup ? (
           <Message
-            text="Book Added"
+            text={`${lastAddedBook?.title} added to cart`}
             severity="success"
             className="fixed top-6 right-1/2 translate-x-1/2 z-50"
           />

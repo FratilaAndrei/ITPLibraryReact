@@ -19,6 +19,7 @@ export type ShoppingContextType = {
   addToShoppingCart: (book: BookModel) => void;
   handleAddToCart: (book: BookModel) => void;
   showAddedPopup: boolean;
+  lastAddedBook: BookModel | null;
 };
 
 const initialContext = {
@@ -32,6 +33,7 @@ const initialContext = {
   addToShoppingCart: () => {},
   handleAddToCart: () => {},
   showAddedPopup: false,
+  lastAddedBook: null,
 };
 
 export const ShoppingContext =
@@ -47,6 +49,8 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
   const [shoppingArray, setShoppingArray] = useState<BookModel[]>(() =>
     getInitialShoppingState()
   );
+
+  const [lastAddedBook, setLastAddedBook] = useState<BookModel | null>(null);
 
   useEffect(() => {
     localStorage.setItem("shopping-cart", JSON.stringify(shoppingArray));
@@ -92,6 +96,7 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const addToShoppingCart = (book: BookModel) => {
     setShoppingArray((prevState) => [...prevState, book]);
+    setLastAddedBook(book);
     showPopup();
   };
 
@@ -102,10 +107,11 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
     if (existingBook) {
       existingBook.quantity += 1;
       setShoppingArray([...shoppingArray]);
-      showPopup();
     } else {
       addToShoppingCart(book);
     }
+    setLastAddedBook(book);
+    showPopup();
   };
 
   return (
@@ -120,6 +126,7 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
         handleAddToCart,
         setShoppingArray,
         showAddedPopup,
+        lastAddedBook,
       }}
     >
       {children}

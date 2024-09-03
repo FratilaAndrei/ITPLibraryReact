@@ -1,16 +1,32 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Message } from "primereact/message";
+import { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterContext } from "../../contexts/RegisterProvider";
-import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from "../../data/routes";
+import {
+  FORGOT_PASSWORD_ROUTE,
+  HOME_PAGE_ROUTE,
+  REGISTER_ROUTE,
+} from "../../data/routes";
 import { LOGIN_INITIAL_VALUES } from "./AuthValidationSchema";
 import { LOG_IN_SCHEMA } from "./LogInValidationSchema";
 
 const LoginForm = () => {
   const [checked, setChecked] = useState<boolean>(false);
+  const [showError, setShowError] = useState(false);
+  const navigate = useNavigate();
 
   const { findAccount } = useContext(RegisterContext);
+  useEffect(() => {
+    if (showError) {
+      const timer = setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showError]);
 
   return (
     <Formik
@@ -20,14 +36,19 @@ const LoginForm = () => {
           alert(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
         }, 1000);
-        findAccount(values);
+        const foundAccount = findAccount(values);
+        if (foundAccount) {
+          navigate(HOME_PAGE_ROUTE);
+        } else {
+          setShowError(true);
+        }
       }}
       validationSchema={LOG_IN_SCHEMA}
       validateOnChange={false}
     >
       {(props) => (
         <form
-          className="fullHd:w-[30%] px-6 flex flex-col gap-y-12"
+          className="fullHd:w-[30%] px-6 flex flex-col gap-y-12 relative"
           onSubmit={props.handleSubmit}
         >
           <div className="text-important-black-color font-lora font-bold text-4xl fullHd:text-[48px] flex flex-col gap-y-2">
@@ -98,6 +119,13 @@ const LoginForm = () => {
             <Link to={FORGOT_PASSWORD_ROUTE}>Forgot your password?</Link>
             <Link to={REGISTER_ROUTE}>Register as a new user</Link>
           </div>
+          {showError ? (
+            <Message
+              severity="error"
+              text="Account not found"
+              className="absolute top-0 -right-12"
+            />
+          ) : null}
         </form>
       )}
     </Formik>

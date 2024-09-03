@@ -1,6 +1,11 @@
 import { ErrorMessage, Field } from "formik";
+import { FC } from "react";
 
-const ContactDetails = () => {
+type Props = {
+  isFieldDisabled: boolean;
+};
+
+const ContactDetails: FC<Props> = ({ isFieldDisabled }) => {
   return (
     <div className="flex flex-col gap-y-2 fullHd:gap-y-4">
       <div className="text-xs font-roboto font-semibold fullHd:text-sm text-normal-black-color">
@@ -13,6 +18,7 @@ const ContactDetails = () => {
             name="firstName"
             placeholder="First Name"
             className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
+            disabled={isFieldDisabled}
           />
           <ErrorMessage
             name="firstName"
@@ -26,6 +32,7 @@ const ContactDetails = () => {
             name="lastName"
             placeholder="Last Name"
             className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
+            disabled={isFieldDisabled}
           />
           <ErrorMessage
             name="lastName"

@@ -1,7 +1,7 @@
 import Footer from "../common/components/Footer/Footer";
 import Navbar from "../common/components/Navbar/Navbar";
 import OrdersDescriptionHero from "../components/OrdersDescription/OrdersDescriptionHero";
-import EditOrderForm from "../containers/OrdersDescription/EditOrderForm";
+import EditOrderDetails from "../containers/OrdersDescription/EditOrderDetails";
 const EditOrderDescription = () => {
   return (
     <div className="flex flex-col justify-between">
@@ -9,7 +9,7 @@ const EditOrderDescription = () => {
       <div className="h-[56px] fullHd:h-[72px]" />
       <div className="flex">
         <OrdersDescriptionHero />
-        <EditOrderForm />
+        <EditOrderDetails />
       </div>
       <Footer hasIcon />
     </div>

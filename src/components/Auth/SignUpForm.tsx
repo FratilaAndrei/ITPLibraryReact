@@ -9,7 +9,12 @@ import {
 } from "./AuthValidationSchema";
 
 const SignUpForm: FC = (): JSX.Element => {
-  const { checkIfUserExists, findEmail } = useContext(RegisterContext);
+  const {
+    checkIfUserExists,
+    findEmail,
+    isAccountRegistered,
+    setIsAccountRegistered,
+  } = useContext(RegisterContext);
   const [emailExists, setEmailExists] = useState<boolean>(false);
 
   const handleFormSubmit = (
@@ -34,7 +39,13 @@ const SignUpForm: FC = (): JSX.Element => {
 
       return () => clearTimeout(timer);
     }
-  }, [emailExists]);
+    if (isAccountRegistered) {
+      const timer2 = setTimeout(() => {
+        setIsAccountRegistered(false);
+      }, 3000);
+      return () => clearTimeout(timer2);
+    }
+  }, [emailExists, isAccountRegistered, setIsAccountRegistered]);
 
   return (
     <Formik
@@ -114,6 +125,13 @@ const SignUpForm: FC = (): JSX.Element => {
               className="absolute top-0 right-0"
             />
           )}
+          {isAccountRegistered ? (
+            <Message
+              severity="success"
+              text="Account created successfully"
+              className="absolute top-0 -right-12"
+            />
+          ) : null}
         </form>
       )}
     </Formik>

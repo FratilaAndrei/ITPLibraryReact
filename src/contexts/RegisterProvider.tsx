@@ -15,7 +15,9 @@ export type registerContextType = {
   saveRegisterData: (data: registerValuesType) => void;
   checkIfUserExists: (data: registerValuesType) => void;
   findEmail: (data: registerValuesType) => boolean;
-  findAccount: (data: loginInitialType) => void;
+  findAccount: (data: loginInitialType) => boolean;
+  isAccountRegistered: boolean;
+  setIsAccountRegistered: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const registerInitialContext = {
@@ -23,7 +25,9 @@ const registerInitialContext = {
   saveRegisterData: () => {},
   checkIfUserExists: () => {},
   findEmail: () => false,
-  findAccount: () => {},
+  findAccount: () => false,
+  isAccountRegistered: false,
+  setIsAccountRegistered: () => {},
 };
 
 export const RegisterContext = createContext<registerContextType>(
@@ -38,6 +42,8 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
   const [registerArray, setRegisterArray] = useState<registerValuesType[]>(
     getInitialRegisterState()
   );
+
+  const [isAccountRegistered, setIsAccountRegistered] = useState(false);
 
   const saveRegisterData = (registerForm: registerValuesType) => {
     setRegisterArray((prev) => [...prev, registerForm]);
@@ -60,11 +66,7 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
         item.email === account.email && item.password === account.password
     );
 
-    if (accountExists) {
-      alert("Account exists");
-    } else {
-      alert("Account doesnt exists");
-    }
+    return !!accountExists;
   };
 
   const checkIfUserExists = (registerForm: registerValuesType) => {
@@ -73,6 +75,7 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
     );
     if (!existingAccount) {
       saveRegisterData(registerForm);
+      setIsAccountRegistered(true);
     }
   };
 
@@ -88,6 +91,8 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
         checkIfUserExists,
         findEmail,
         findAccount,
+        isAccountRegistered,
+        setIsAccountRegistered,
       }}
     >
       {children}

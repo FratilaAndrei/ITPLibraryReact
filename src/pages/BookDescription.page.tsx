@@ -82,7 +82,7 @@ const BookDescription = () => {
       </section>
       {showAddedPopup ? (
         <Message
-          text="Book Added"
+          text={`${title} added to cart`}
           severity="success"
           className="absolute top-24 right-1/2 translate-x-1/2"
         />
