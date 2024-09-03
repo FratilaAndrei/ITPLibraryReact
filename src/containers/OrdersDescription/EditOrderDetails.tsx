@@ -58,7 +58,7 @@ const EditOrderDetails = () => {
         return (
           <form
             onSubmit={props.handleSubmit}
-            className="w-full border mt-16 fullHd:space-y-1.5 md:mt-0 border-border-color rounded-[4px] p-4 fullHd:px-10 xl:p-8 xl:my-4 xl:w-3/4 fullHd:w-2/5 flex flex-col gap-y-8 fullHd:mr-20 text-order-input"
+            className="mx-auto w-[90%] md:w-[75%] lg:w-[70%] border my-8 fullHd:space-y-1.5 md:mt-0 border-border-color rounded p-4 fullHd:px-10 xl:w-1/2  flex flex-col gap-y-8 text-order-input"
           >
             <div className="text-2xl xl:text-3xl text-important-black-color fullHd:text-[38px] font-semibold font-lora">
               Order Details
@@ -76,33 +76,44 @@ const EditOrderDetails = () => {
               <label htmlFor="delivery">Use Address for delivery</label>
             </div>
             {isDeliveryVisible && <DeliveryAdress />}
-            <div
-              role="group"
-              aria-labelledby="paymentType-group"
-              className="flex gap-x-2 items-center"
-            >
-              <label className="flex gap-x-2">
-                <Field
-                  type="radio"
-                  name="paymentType"
-                  value="Online"
-                  checked={props.values.paymentType === "Online"}
-                  disabled={isCompleted}
-                />
-                Online
+            <div className="space-y-2">
+              <label
+                htmlFor="paymentType-group"
+                className="mb-2 text-xs font-roboto font-semibold fullHd:text-sm text-normal-black-color"
+              >
+                Payment Type
               </label>
-              <label className="flex gap-x-2">
-                <Field
-                  type="radio"
-                  name="paymentType"
-                  value="Cash"
-                  disabled={isCompleted}
-                />
-                Cash
-              </label>
+              <div
+                className="flex gap-x-2 items-center"
+                role="group"
+                aria-labelledby="paymentType-group"
+              >
+                <label className="flex gap-x-2">
+                  <Field
+                    type="radio"
+                    name="paymentType"
+                    value="Online"
+                    checked={props.values.paymentType === "Online"}
+                    disabled={isCompleted}
+                  />
+                  Online
+                </label>
+                <label className="flex gap-x-2">
+                  <Field
+                    type="radio"
+                    name="paymentType"
+                    value="Cash"
+                    disabled={isCompleted}
+                  />
+                  Cash
+                </label>
+              </div>
             </div>
-            <div>
-              <label htmlFor="buttondisplay" className="font-bold block mb-2">
+            <div className="space-y-2">
+              <label
+                htmlFor="buttondisplay"
+                className="text-xs font-roboto font-semibold fullHd:text-sm text-normal-black-color"
+              >
                 Delivery Date
               </label>
               <Calendar
@@ -111,7 +122,7 @@ const EditOrderDetails = () => {
                 onChange={(e) => props.setFieldValue("deliveryDate", e.value)}
                 name="deliveryDate"
                 showIcon
-                className="w-full border border-border-color p-2"
+                className="py-1 pl-2 border-border-color rounded font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
                 placeholder="Delivery Date"
                 readOnlyInput
                 disabled={isCompleted}
@@ -149,7 +160,7 @@ const EditOrderDetails = () => {
                 hasInputFields={false}
               />
             ) : null}
-            <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
+            <div className="mx-auto w-4/5 lg:w-full flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
               <Link
                 to={ORDERS_ROUTE}
                 className=" ITPbutton bg-white text-black flex items-center justify-center"

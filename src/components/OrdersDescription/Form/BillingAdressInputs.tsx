@@ -2,7 +2,7 @@ import { ErrorMessage, Field } from "formik";
 import { FC } from "react";
 
 type Props = {
-  isFieldDisabled: boolean;
+  isFieldDisabled?: boolean;
 };
 
 const BillingAdressInputs: FC<Props> = ({ isFieldDisabled }) => {
