@@ -1,7 +1,12 @@
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import { Message } from "primereact/message";
-import { FC, useContext, useEffect, useState } from "react";
-import { RegisterContext } from "../../contexts/RegisterProvider";
+import { FC, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  checkIfUserExists,
+  setIsAccountRegistered,
+} from "../../features/userAccount/userAccountSlice";
+import { RootState } from "../../state/store";
 import {
   REGISTER_INITIAL_VALUES,
   registerValuesType,
@@ -9,23 +14,27 @@ import {
 } from "./AuthValidationSchema";
 
 const SignUpForm: FC = (): JSX.Element => {
-  const {
-    checkIfUserExists,
-    findEmail,
-    isAccountRegistered,
-    setIsAccountRegistered,
-  } = useContext(RegisterContext);
+  const dispatch = useDispatch();
+  const isAccountRegistered = useSelector(
+    (state: RootState) => state.userAccount.isAccountRegistered
+  );
+  const registerArray = useSelector(
+    (state: RootState) => state.userAccount.registerArray
+  );
   const [emailExists, setEmailExists] = useState<boolean>(false);
 
   const handleFormSubmit = (
     values: registerValuesType,
     actions: FormikHelpers<registerValuesType>
   ) => {
-    if (findEmail(values)) {
+    const emailAlreadyExists = registerArray.find(
+      (user: registerValuesType) => user.email === values.email
+    );
+    if (emailAlreadyExists) {
       setEmailExists(true);
     } else {
       setEmailExists(false);
-      checkIfUserExists(values);
+      dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
     }
     actions.setSubmitting(false);
@@ -45,7 +54,7 @@ const SignUpForm: FC = (): JSX.Element => {
       }, 3000);
       return () => clearTimeout(timer2);
     }
-  }, [emailExists, isAccountRegistered, setIsAccountRegistered]);
+  }, [emailExists, isAccountRegistered]);
 
   return (
     <Formik

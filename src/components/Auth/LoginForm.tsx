@@ -1,14 +1,16 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
 import { Message } from "primereact/message";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { RegisterContext } from "../../contexts/RegisterProvider";
 import {
   FORGOT_PASSWORD_ROUTE,
   HOME_PAGE_ROUTE,
   REGISTER_ROUTE,
 } from "../../data/routes";
+import { findAccount } from "../../features/userAccount/userAccountSlice";
+import { RootState } from "../../state/store";
 import { LOGIN_INITIAL_VALUES } from "./AuthValidationSchema";
 import { LOG_IN_SCHEMA } from "./LogInValidationSchema";
 
@@ -17,7 +19,19 @@ const LoginForm = () => {
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
 
-  const { findAccount } = useContext(RegisterContext);
+  const dispatch = useDispatch();
+  const isAccountRegistered = useSelector(
+    (state: RootState) => state.userAccount.isAccountRegistered
+  );
+
+  const account = useSelector((state: RootState) => state.userAccount);
+  console.log(account);
+  useEffect(() => {
+    if (isAccountRegistered) {
+      navigate(HOME_PAGE_ROUTE);
+    }
+  }, [isAccountRegistered, navigate]);
+
   useEffect(() => {
     if (showError) {
       const timer = setTimeout(() => {
@@ -33,15 +47,11 @@ const LoginForm = () => {
       initialValues={LOGIN_INITIAL_VALUES}
       onSubmit={(values, actions) => {
         setTimeout(() => {
-          alert(JSON.stringify(values, null, 2));
           actions.setSubmitting(false);
         }, 1000);
-        const foundAccount = findAccount(values);
-        if (foundAccount) {
-          navigate(HOME_PAGE_ROUTE);
-        } else {
-          setShowError(true);
-        }
+
+        dispatch(findAccount(values));
+        if (!isAccountRegistered) setShowError(true);
       }}
       validationSchema={LOG_IN_SCHEMA}
       validateOnChange={false}
