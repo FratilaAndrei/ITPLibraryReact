@@ -7,6 +7,7 @@ import {
 export type userStateModel = {
   registerArray: registerValuesType[];
   isAccountRegistered: boolean;
+  isAccountLoggedIn: boolean;
 };
 const getInitialUserState = (): registerValuesType[] => {
   const REGISTER_STORAGE = localStorage.getItem("register-form");
@@ -16,6 +17,7 @@ const getInitialUserState = (): registerValuesType[] => {
 const initialState: userStateModel = {
   registerArray: getInitialUserState(),
   isAccountRegistered: false,
+  isAccountLoggedIn: false,
 };
 
 export const userAccountSlice = createSlice({
@@ -49,7 +51,14 @@ export const userAccountSlice = createSlice({
           user.email === action.payload.email &&
           user.password === action.payload.password
       );
-      state.isAccountRegistered = accountExists;
+      state.isAccountLoggedIn = accountExists;
+      if (state.isAccountLoggedIn) {
+        alert("Login Succesfull");
+        console.log("Logat");
+      } else {
+        console.log("Nu logat");
+        alert("Login Failed");
+      }
     },
 
     setIsAccountRegistered: (state, action: PayloadAction<boolean>) => {
@@ -61,7 +70,6 @@ export const userAccountSlice = createSlice({
 export const {
   saveRegisterData,
   checkIfUserExists,
-  //   findEmail,
   findAccount,
   setIsAccountRegistered,
 } = userAccountSlice.actions;

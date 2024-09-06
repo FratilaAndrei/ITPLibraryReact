@@ -1,16 +1,23 @@
 import { Message } from "primereact/message";
-import { useContext } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import PageTemplate from "../containers/PageTemplate";
-import { ShoppingContext } from "../contexts/ShoppingContext";
 import { BOOKS } from "../data/constants";
 import { BookModel } from "../data/types/type";
+import {
+  handleAddToCart,
+  showPopup,
+} from "../features/shoppingCart/ShoppingCartSlice";
 
 const BookDescription = () => {
   // const [showAddedBookPopup, setShowAddedBookPopup] = useState(false);
   const { id } = useParams<{ id: string }>();
-  const { handleAddToCart, showAddedPopup } = useContext(ShoppingContext);
+  // const { handleAddToCart, showAddedPopup } = useContext(ShoppingContext);
+  const dispatch = useDispatch();
+  // const showPopup = useSelector(
+  //   (state: RootState) => state.shoppingCart.showPopup
+  // );
 
   if (!id) {
     return <div>Book ID is missing</div>;
@@ -68,7 +75,7 @@ const BookDescription = () => {
                 reiciendis deleniti incidunt.
               </div>
               <button
-                onClick={() => handleAddToCart(book)}
+                onClick={() => dispatch(handleAddToCart(book))}
                 className="flex items-center justify-center bg-black rounded-[4px] text-white mb-6 md:mb-0 xl:px-8 md:w-1/2 xl:w-2/5 fullHd:w-[32%] xl:py-1.5 fullHd:py-2.5 py-1 gap-x-2"
               >
                 <FaShoppingCart />
@@ -80,7 +87,7 @@ const BookDescription = () => {
           </div>
         </div>
       </section>
-      {showAddedPopup ? (
+      {dispatch(showPopup()) ? (
         <Message
           text={`${title} added to cart`}
           severity="success"

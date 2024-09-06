@@ -1,18 +1,23 @@
 import { Message } from "primereact/message";
-import { FC, useContext, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import ShoppingItem from "../../components/ShoppingItem";
-import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { HOME_PAGE_ROUTE, ORDER_DETAILS_ROUTE } from "../../data/routes";
+import { getShoppingPrice } from "../../features/shoppingCart/ShoppingCartSlice";
+import { RootState } from "../../state/store";
 
 const ShoppingCart: FC = () => {
-  const {
-    shoppingArray,
-    shoppingPrice,
-    incrementQuantity,
-    decrementQuantity,
-    handleRemoveItem,
-  } = useContext(ShoppingContext);
+  const dispatch = useDispatch();
+  const shoppingArray = useSelector(
+    (state: RootState) => state.shoppingCart.items
+  );
+  const shoppingPrice = useSelector(
+    (state: RootState) => state.shoppingCart.shoppingPrice
+  );
+  useEffect(() => {
+    dispatch(getShoppingPrice());
+  }, [dispatch, shoppingArray]);
 
   const [showError, setShowError] = useState(false);
   const navigate = useNavigate();
@@ -32,12 +37,7 @@ const ShoppingCart: FC = () => {
           Your products
         </h2>
         <div className="flexflex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4">
-          <ShoppingItem
-            shoppingArray={shoppingArray}
-            incrementQuantity={incrementQuantity}
-            decrementQuantity={decrementQuantity}
-            handleRemoveItem={handleRemoveItem}
-          />
+          <ShoppingItem />
         </div>
       </div>
       <div className="card flex flex-col gap-y-4 w-full md:justify-between fullHd:gap-y-12">

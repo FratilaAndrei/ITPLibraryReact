@@ -2,35 +2,19 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
 import { Message } from "primereact/message";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  FORGOT_PASSWORD_ROUTE,
-  HOME_PAGE_ROUTE,
-  REGISTER_ROUTE,
-} from "../../data/routes";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from "../../data/routes";
 import { findAccount } from "../../features/userAccount/userAccountSlice";
-import { RootState } from "../../state/store";
 import { LOGIN_INITIAL_VALUES } from "./AuthValidationSchema";
 import { LOG_IN_SCHEMA } from "./LogInValidationSchema";
 
 const LoginForm = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const [showError, setShowError] = useState(false);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const isAccountRegistered = useSelector(
-    (state: RootState) => state.userAccount.isAccountRegistered
-  );
-
-  const account = useSelector((state: RootState) => state.userAccount);
-  console.log(account);
-  useEffect(() => {
-    if (isAccountRegistered) {
-      navigate(HOME_PAGE_ROUTE);
-    }
-  }, [isAccountRegistered, navigate]);
 
   useEffect(() => {
     if (showError) {
@@ -46,12 +30,8 @@ const LoginForm = () => {
     <Formik
       initialValues={LOGIN_INITIAL_VALUES}
       onSubmit={(values, actions) => {
-        setTimeout(() => {
-          actions.setSubmitting(false);
-        }, 1000);
-
         dispatch(findAccount(values));
-        if (!isAccountRegistered) setShowError(true);
+        actions.setSubmitting(false);
       }}
       validationSchema={LOG_IN_SCHEMA}
       validateOnChange={false}

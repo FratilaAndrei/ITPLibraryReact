@@ -1,22 +1,37 @@
 import { FC } from "react";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BookModel } from "../data/types/type";
-
-type Props = {
-  shoppingArray: BookModel[];
-  incrementQuantity: (id: number) => void;
-  decrementQuantity: (id: number) => void;
-  handleRemoveItem: (id: number) => void;
-};
-
-const ShoppingItem: FC<Props> = ({
-  shoppingArray,
-  incrementQuantity,
+import {
   decrementQuantity,
   handleRemoveItem,
-}) => {
+  incrementQuantity,
+} from "../features/shoppingCart/ShoppingCartSlice";
+import { RootState } from "../state/store";
+
+// type Props = {
+//   shoppingArray: BookModel[];
+//   incrementQuantity: ActionCreatorWithPayload<
+//     BookModel,
+//     "shoppingCart/incrementQuantity"
+//   >;
+//   decrementQuantity: ActionCreatorWithPayload<
+//     BookModel,
+//     "shoppingCart/decrementQuantity"
+//   >;
+//   handleRemoveItem: ActionCreatorWithPayload<
+//     BookModel,
+//     "shoppingCart/handleRemoveItem"
+//   >;
+// };
+
+const ShoppingItem: FC = () => {
+  const dispatch = useDispatch();
+  const shoppingArray = useSelector(
+    (state: RootState) => state.shoppingCart.items
+  );
   return shoppingArray?.map((item: BookModel, index: number) => {
     return (
       <div key={item.id}>
@@ -52,14 +67,14 @@ const ShoppingItem: FC<Props> = ({
               <div className="card flex flex-column align-items-center">
                 <span className=" mb-5 flex items-center gap-x-2">
                   <div
-                    onClick={() => incrementQuantity(item.id)}
+                    onClick={() => dispatch(incrementQuantity(item))}
                     className="cursor-pointer"
                   >
                     <FaPlus />
                   </div>
                   <div className="font-bold text-4xl">{item.quantity}</div>
                   <div
-                    onClick={() => decrementQuantity(item.id)}
+                    onClick={() => dispatch(decrementQuantity(item))}
                     className="cursor-pointer"
                   >
                     <FaMinus />
@@ -69,7 +84,7 @@ const ShoppingItem: FC<Props> = ({
             </div>
             <div
               className="flex gap-x-2 items-center cursor-pointer"
-              onClick={() => handleRemoveItem(item.id)}
+              onClick={() => dispatch(handleRemoveItem(item))}
             >
               <IoTrashOutline />
               <span className="text-base fullHd:text-xl text-black">

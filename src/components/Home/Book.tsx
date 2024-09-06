@@ -1,15 +1,16 @@
-import { FC, useContext } from "react";
+import { FC } from "react";
 import { FaShoppingCart } from "react-icons/fa";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { ShoppingContext } from "../../contexts/ShoppingContext";
 import { BookModel } from "../../data/types/type";
+import { handleAddToCart } from "../../features/shoppingCart/ShoppingCartSlice";
 
 type Props = {
   book: BookModel;
 };
 
 const Book: FC<Props> = ({ book }) => {
-  const { handleAddToCart } = useContext(ShoppingContext);
+  const dispatch = useDispatch();
 
   return (
     <div
@@ -43,7 +44,7 @@ const Book: FC<Props> = ({ book }) => {
       </Link>
       <button
         className="flex justify-center gap-x-2 xl:mt-6 fullHd:mt-14 fullHd:py-2 text-xs bg-black text-white-color items-center py-1.5 rounded-[4px]"
-        onClick={() => handleAddToCart(book)}
+        onClick={() => dispatch(handleAddToCart(book))}
       >
         <FaShoppingCart />
         <div className="font-lora font-normal fullHd:text-sm">Add to Cart</div>
