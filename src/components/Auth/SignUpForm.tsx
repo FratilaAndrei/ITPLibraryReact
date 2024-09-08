@@ -34,6 +34,8 @@ const SignUpForm: FC = (): JSX.Element => {
       setEmailExists(false);
       dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
+    } else {
+      setEmailExists(true);
     }
     actions.setSubmitting(false);
   };

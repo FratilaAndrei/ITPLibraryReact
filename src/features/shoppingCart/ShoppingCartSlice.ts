@@ -6,6 +6,7 @@ export type ShoppingCartState = {
   shoppingPrice: number;
   showPopup: boolean;
   lastAddedBook: BookModel | null;
+  bookAddedCount: number;
 };
 const getInitialShoppingState = (): BookModel[] => {
   const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
@@ -21,6 +22,7 @@ const initialState: ShoppingCartState = {
   shoppingPrice: 0,
   showPopup: false,
   lastAddedBook: null,
+  bookAddedCount: 0,
 };
 
 export const shoppingCartSlice = createSlice({
@@ -39,7 +41,7 @@ export const shoppingCartSlice = createSlice({
       );
       if (book) {
         book.quantity += 1;
-        saveCartToLocalStorage(state.items);
+        // saveCartToLocalStorage(state.items);
       }
     },
     decrementQuantity: (state, action: PayloadAction<BookModel>) => {
@@ -48,29 +50,26 @@ export const shoppingCartSlice = createSlice({
       );
       if (book) {
         book.quantity -= 1;
-        saveCartToLocalStorage(state.items);
+        // saveCartToLocalStorage(state.items);
       }
     },
     handleRemoveItem: (state, action: PayloadAction<BookModel>) => {
       state.items = state.items.filter(
         (book: BookModel) => book.id !== action.payload.id
       );
-      saveCartToLocalStorage(state.items);
+      // saveCartToLocalStorage(state.items);
     },
     showPopup: (state) => {
       state.showPopup = true;
-      setTimeout(() => {
-        state.showPopup = false;
-      }, 3000);
+    },
+    hidePopup: (state) => {
+      state.showPopup = false;
     },
     addToShoppingCart: (state, action: PayloadAction<BookModel>) => {
       state.items.push(action.payload);
       state.lastAddedBook = action.payload;
       state.showPopup = true;
-      saveCartToLocalStorage(state.items);
-      setTimeout(() => {
-        state.showPopup = false;
-      }, 3000);
+      // saveCartToLocalStorage(state.items);
     },
     handleAddToCart: (state, action: PayloadAction<BookModel>) => {
       const existingBook = state.items.find(
@@ -87,6 +86,12 @@ export const shoppingCartSlice = createSlice({
       state.showPopup = true;
       saveCartToLocalStorage(state.items);
     },
+    addBookCounter: (state) => {
+      state.bookAddedCount += 1;
+    },
+    resetAddedBookCounter: (state) => {
+      state.bookAddedCount = 1;
+    },
   },
 });
 
@@ -98,5 +103,9 @@ export const {
   showPopup,
   addToShoppingCart,
   handleAddToCart,
+  hidePopup,
+  addBookCounter,
+  resetAddedBookCounter,
 } = shoppingCartSlice.actions;
+
 export default shoppingCartSlice.reducer;

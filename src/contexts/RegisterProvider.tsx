@@ -10,7 +10,7 @@ import {
   registerValuesModel,
 } from "../components/Auth/AuthValidationSchema";
 
-export type registerContextType = {
+export type registerContextModel = {
   registerArray: registerValuesModel[];
   saveRegisterData: (data: registerValuesModel) => void;
   checkIfUserExists: (data: registerValuesModel) => void;
@@ -30,7 +30,7 @@ const registerInitialContext = {
   setIsAccountRegistered: () => {},
 };
 
-export const RegisterContext = createContext<registerContextType>(
+export const RegisterContext = createContext<registerContextModel>(
   registerInitialContext
 );
 

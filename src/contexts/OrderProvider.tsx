@@ -12,9 +12,9 @@ import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { ORDERS_ROUTE } from "../data/routes";
 import { orderDetailsModel, orderModel } from "../data/types/type";
-import { ShoppingContext } from "./ShoppingContext";
+import { ShoppingContext } from "./ShoppingProvider";
 
-export type orderContextType = {
+export type orderContextModel = {
   ordersArray: orderModel[];
   setOrdersArray: Dispatch<SetStateAction<orderModel[]>>;
   placeOrder: (orderDetails: orderDetailsModel) => void;
@@ -31,7 +31,7 @@ const orderInitialContext = {
 };
 
 export const OrderContext =
-  createContext<orderContextType>(orderInitialContext);
+  createContext<orderContextModel>(orderInitialContext);
 
 const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
   const getInitialOrderState = (): orderModel[] => {

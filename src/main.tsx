@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import OrderProvider from "./contexts/OrderProvider.tsx";
-import ShoppingContextProvider from "./contexts/ShoppingContext.tsx";
+import ShoppingContextProvider from "./contexts/ShoppingProvider.tsx";
 import "./index.css";
 import { store } from "./state/store.ts";
 

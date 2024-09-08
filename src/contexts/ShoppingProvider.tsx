@@ -9,7 +9,7 @@ import {
 } from "react";
 import { BookModel } from "../data/types/type";
 
-export type ShoppingContextType = {
+export type ShoppingContextModel = {
   shoppingArray: BookModel[];
   setShoppingArray: Dispatch<SetStateAction<BookModel[]>>;
   shoppingPrice: number;
@@ -37,9 +37,9 @@ const initialContext = {
 };
 
 export const ShoppingContext =
-  createContext<ShoppingContextType>(initialContext);
+  createContext<ShoppingContextModel>(initialContext);
 
-const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
+const ShoppingProvider: FC<PropsWithChildren> = ({ children }) => {
   const [showAddedPopup, setShowAddedPopup] = useState(false);
   const getInitialShoppingState = (): BookModel[] => {
     const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
@@ -134,4 +134,4 @@ const ShoppingContextProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 };
 
-export default ShoppingContextProvider;
+export default ShoppingProvider;

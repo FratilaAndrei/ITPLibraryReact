@@ -1,23 +1,36 @@
 import { Message } from "primereact/message";
+import { useEffect, useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PageTemplate from "../containers/PageTemplate";
 import { BOOKS } from "../data/constants";
 import { BookModel } from "../data/types/type";
 import {
   handleAddToCart,
-  showPopup,
+  hidePopup,
 } from "../features/shoppingCart/ShoppingCartSlice";
+import { RootState } from "../state/store";
 
 const BookDescription = () => {
-  // const [showAddedBookPopup, setShowAddedBookPopup] = useState(false);
+  const [bookAddedCount, setBookAddedCount] = useState(0);
   const { id } = useParams<{ id: string }>();
-  // const { handleAddToCart, showAddedPopup } = useContext(ShoppingContext);
   const dispatch = useDispatch();
-  // const showPopup = useSelector(
-  //   (state: RootState) => state.shoppingCart.showPopup
-  // );
+
+  const showPopup = useSelector(
+    (state: RootState) => state.shoppingCart.showPopup
+  );
+
+  useEffect(() => {
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        dispatch(hidePopup());
+        setBookAddedCount(0);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup, dispatch]);
 
   if (!id) {
     return <div>Book ID is missing</div>;
@@ -26,7 +39,7 @@ const BookDescription = () => {
   if (!book) {
     return <div>Book not found</div>;
   }
-  const { title, image, author, price } = book;
+  const { title, image, author, price, description } = book;
 
   return (
     <PageTemplate>
@@ -60,22 +73,15 @@ const BookDescription = () => {
                 </div>
               </div>
               <div className="text-normal-black-color font-roboto font-normal xl:text-sm fullHd:text-base">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
-                harum cupiditate impedit consequatur asperiores, tempore dolor
-                rem facilis veniam molestiae at saepe error ad repellat.
-                Quisquam explicabo quas delectus impedit esse repellat
-                doloremque libero at enim minima cupiditate debitis facilis
-                nobis, aspernatur ipsum. Autem similique dolores rerum optio
-                veniam, earum enim quidem, magni ex odit minus error modi
-                dignissimos ullam placeat maxime, consequatur porro dolorem
-                dolorum repellendus atque et quas laborum. Officia omnis libero
-                necessitatibus? Molestias eius iure a quisquam, tenetur nulla
-                consectetur culpa, minima porro hic minus perferendis
-                dignissimos vitae quod. Nostrum incidunt veniam illo? Veritatis
-                reiciendis deleniti incidunt.
+                {description}
               </div>
               <button
-                onClick={() => dispatch(handleAddToCart(book))}
+                onClick={() =>
+                  dispatch(
+                    handleAddToCart(book),
+                    setBookAddedCount(bookAddedCount + 1)
+                  )
+                }
                 className="flex items-center justify-center bg-black rounded-[4px] text-white mb-6 md:mb-0 xl:px-8 md:w-1/2 xl:w-2/5 fullHd:w-[32%] xl:py-1.5 fullHd:py-2.5 py-1 gap-x-2"
               >
                 <FaShoppingCart />
@@ -87,12 +93,13 @@ const BookDescription = () => {
           </div>
         </div>
       </section>
-      {dispatch(showPopup()) ? (
-        <Message
-          text={`${title} added to cart`}
-          severity="success"
-          className="absolute top-24 right-1/2 translate-x-1/2"
-        />
+      {showPopup ? (
+        <div className="absolute top-24 right-1/2 translate-x-1/2">
+          <Message
+            severity="success"
+            text={`${title} added to cart ${bookAddedCount} `}
+          />
+        </div>
       ) : null}
     </PageTemplate>
   );
