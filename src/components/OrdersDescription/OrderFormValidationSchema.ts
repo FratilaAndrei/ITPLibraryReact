@@ -3,6 +3,7 @@ import { orderDetailsModel } from "../../data/types/type";
 
 const phoneNumberRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
 export const initialValues: orderDetailsModel = {
+  id: "",
   firstName: "",
   lastName: "",
   billingPhone: "",
@@ -13,7 +14,7 @@ export const initialValues: orderDetailsModel = {
   deliveryAddress: "",
   showDelivery: false,
   paymentType: "Online",
-  deliveryDate: new Date(),
+  deliveryDate: new Date().toISOString().split("T")[0],
   observations: "",
   recommended: false,
 };

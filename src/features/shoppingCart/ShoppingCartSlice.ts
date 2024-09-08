@@ -41,23 +41,23 @@ export const shoppingCartSlice = createSlice({
       );
       if (book) {
         book.quantity += 1;
-        // saveCartToLocalStorage(state.items);
+        saveCartToLocalStorage(state.items);
       }
     },
     decrementQuantity: (state, action: PayloadAction<BookModel>) => {
       const book = state.items.find(
         (book: BookModel) => book.id === action.payload.id
       );
-      if (book) {
+      if (book && book.quantity > 1) {
         book.quantity -= 1;
-        // saveCartToLocalStorage(state.items);
+        saveCartToLocalStorage(state.items);
       }
     },
     handleRemoveItem: (state, action: PayloadAction<BookModel>) => {
       state.items = state.items.filter(
         (book: BookModel) => book.id !== action.payload.id
       );
-      // saveCartToLocalStorage(state.items);
+      saveCartToLocalStorage(state.items);
     },
     showPopup: (state) => {
       state.showPopup = true;
@@ -69,7 +69,7 @@ export const shoppingCartSlice = createSlice({
       state.items.push(action.payload);
       state.lastAddedBook = action.payload;
       state.showPopup = true;
-      // saveCartToLocalStorage(state.items);
+      saveCartToLocalStorage(state.items);
     },
     handleAddToCart: (state, action: PayloadAction<BookModel>) => {
       const existingBook = state.items.find(
@@ -92,6 +92,10 @@ export const shoppingCartSlice = createSlice({
     resetAddedBookCounter: (state) => {
       state.bookAddedCount = 1;
     },
+    resetShoppingCartItems: (state) => {
+      state.items = [];
+      saveCartToLocalStorage(state.items);
+    },
   },
 });
 
@@ -106,6 +110,7 @@ export const {
   hidePopup,
   addBookCounter,
   resetAddedBookCounter,
+  resetShoppingCartItems,
 } = shoppingCartSlice.actions;
 
 export default shoppingCartSlice.reducer;

@@ -1,10 +1,13 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import { OrderContext } from "../../contexts/OrderProvider";
-import { SHOPPING_CART_ROUTE } from "../../data/routes";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { ORDERS_ROUTE, SHOPPING_CART_ROUTE } from "../../data/routes";
+import { placeOrder } from "../../features/ordersList/OrdersListSlice";
+import { resetShoppingCartItems } from "../../features/shoppingCart/ShoppingCartSlice";
+import { RootState } from "../../state/store";
 import BillingAdressInputs from "./Form/BillingAdressInputs";
 import ContactDetails from "./Form/ContactDetails";
 import DeliveryAdress from "./Form/DeliveryAdress";
@@ -17,7 +20,21 @@ import {
 const OrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  const { placeOrder } = useContext(OrderContext);
+  const dispatch = useDispatch();
+  const shoppingCartItems = useSelector(
+    (state: RootState) => state.shoppingCart.items
+  );
+
+  const totalQuantity = shoppingCartItems.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+  const totalPrice = shoppingCartItems.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  const navigate = useNavigate();
 
   return (
     <Formik
@@ -32,7 +49,11 @@ const OrderDetails = () => {
           values.deliveryPhone = values.billingPhone;
         }
         actions.setSubmitting(false);
-        placeOrder(values);
+        dispatch(
+          placeOrder({ totalQuantity, totalPrice, orderDetails: values })
+        );
+        navigate(ORDERS_ROUTE);
+        dispatch(resetShoppingCartItems());
       }}
     >
       {(props) => {
@@ -101,7 +122,7 @@ const OrderDetails = () => {
               </label>
               <Calendar
                 id="buttondisplay"
-                value={props.values.deliveryDate}
+                value={new Date(props.values.deliveryDate)}
                 onChange={(e) => props.setFieldValue("deliveryDate", e.value)}
                 name="deliveryDate"
                 showIcon

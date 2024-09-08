@@ -66,6 +66,7 @@ export type orderModel = {
 };
 
 export type orderDetailsModel = {
+  id: string;
   firstName: string;
   lastName: string;
   billingCity: "Romania" | "Italia" | "Germania";
@@ -75,7 +76,7 @@ export type orderDetailsModel = {
   deliveryAddress: string;
   deliveryPhone: string;
   paymentType: "Cash" | "Online";
-  deliveryDate: Date;
+  deliveryDate: string;
   observations: string;
   recommended: boolean;
   showDelivery: boolean;

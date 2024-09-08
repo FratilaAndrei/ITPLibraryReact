@@ -1,25 +1,32 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useContext, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import BillingAdressInputs from "../../components/OrdersDescription/Form/BillingAdressInputs";
 import ContactDetails from "../../components/OrdersDescription/Form/ContactDetails";
 import DeliveryAdress from "../../components/OrdersDescription/Form/DeliveryAdress";
 import InputSection from "../../components/OrdersDescription/InputSection";
 import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
-import { OrderContext } from "../../contexts/OrderProvider";
 import { ORDERS_ROUTE } from "../../data/routes";
 import { orderModel } from "../../data/types/type";
+import { editForm } from "../../features/ordersList/OrdersListSlice";
+import { RootState } from "../../state/store";
 
 const EditOrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  const { ordersArray, editForm } = useContext(OrderContext);
+  // const { ordersArray, editForm } = useContext(OrderContext);
+  const dispatch = useDispatch();
+  const ordersList = useSelector(
+    (state: RootState) => state.ordersList.ordersList
+  );
+  const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
   if (!id) return;
-  const order = ordersArray.find((order: orderModel) => order.id === id);
+  const order = ordersList.find((order: orderModel) => order.id === id);
   if (!order) {
     return <div>form not found</div>;
   }
@@ -38,7 +45,8 @@ const EditOrderDetails = () => {
           values.deliveryCity = values.billingCity;
           values.deliveryPhone = values.billingPhone;
         }
-        editForm(id, values);
+        dispatch(editForm({ id, orderDetails: values }));
+        navigate(ORDERS_ROUTE);
         actions.setSubmitting(false);
       }}
     >
@@ -118,7 +126,7 @@ const EditOrderDetails = () => {
               </label>
               <Calendar
                 id="buttondisplay"
-                value={props.values.deliveryDate}
+                value={new Date(props.values.deliveryDate)}
                 onChange={(e) => props.setFieldValue("deliveryDate", e.value)}
                 name="deliveryDate"
                 showIcon
