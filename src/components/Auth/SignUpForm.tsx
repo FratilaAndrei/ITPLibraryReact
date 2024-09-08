@@ -9,7 +9,7 @@ import {
 import { RootState } from "../../state/store";
 import {
   REGISTER_INITIAL_VALUES,
-  registerValuesType,
+  registerValuesModel,
   SIGN_UP_SCHEMA,
 } from "./AuthValidationSchema";
 
@@ -24,15 +24,13 @@ const SignUpForm: FC = (): JSX.Element => {
   const [emailExists, setEmailExists] = useState<boolean>(false);
 
   const handleFormSubmit = (
-    values: registerValuesType,
-    actions: FormikHelpers<registerValuesType>
+    values: registerValuesModel,
+    actions: FormikHelpers<registerValuesModel>
   ) => {
     const emailAlreadyExists = registerArray.find(
-      (user: registerValuesType) => user.email === values.email
+      (user: registerValuesModel) => user.email === values.email
     );
-    if (emailAlreadyExists) {
-      setEmailExists(true);
-    } else {
+    if (!emailAlreadyExists) {
       setEmailExists(false);
       dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
@@ -83,6 +81,15 @@ const SignUpForm: FC = (): JSX.Element => {
                   name="email"
                   placeholder="Email"
                   className="w-full fullHd:w-[512px]  py-2.5 pl-3  border placeholder:text-normal-black-color font-roboto border-border-color rounded"
+                  onBlur={() => {
+                    const emailAlreadyExists = registerArray.find(
+                      (user: registerValuesModel) =>
+                        user.email === props.values.email
+                    );
+                    if (emailAlreadyExists) {
+                      setEmailExists(true);
+                    }
+                  }}
                 />
                 <ErrorMessage
                   name="email"

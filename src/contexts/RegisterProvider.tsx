@@ -6,16 +6,16 @@ import {
   useState,
 } from "react";
 import {
-  loginInitialType,
-  registerValuesType,
+  loginInitialModel,
+  registerValuesModel,
 } from "../components/Auth/AuthValidationSchema";
 
 export type registerContextType = {
-  registerArray: registerValuesType[];
-  saveRegisterData: (data: registerValuesType) => void;
-  checkIfUserExists: (data: registerValuesType) => void;
-  findEmail: (data: registerValuesType) => boolean;
-  findAccount: (data: loginInitialType) => boolean;
+  registerArray: registerValuesModel[];
+  saveRegisterData: (data: registerValuesModel) => void;
+  checkIfUserExists: (data: registerValuesModel) => void;
+  findEmail: (data: registerValuesModel) => boolean;
+  findAccount: (data: loginInitialModel) => boolean;
   isAccountRegistered: boolean;
   setIsAccountRegistered: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -35,21 +35,21 @@ export const RegisterContext = createContext<registerContextType>(
 );
 
 const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
-  const getInitialRegisterState = (): registerValuesType[] => {
+  const getInitialRegisterState = (): registerValuesModel[] => {
     const REGISTER_STORAGE = localStorage.getItem("register-form");
     return REGISTER_STORAGE ? JSON.parse(REGISTER_STORAGE) : [];
   };
-  const [registerArray, setRegisterArray] = useState<registerValuesType[]>(
+  const [registerArray, setRegisterArray] = useState<registerValuesModel[]>(
     getInitialRegisterState()
   );
 
   const [isAccountRegistered, setIsAccountRegistered] = useState(false);
 
-  const saveRegisterData = (registerForm: registerValuesType) => {
+  const saveRegisterData = (registerForm: registerValuesModel) => {
     setRegisterArray((prev) => [...prev, registerForm]);
   };
 
-  const findEmail = (registerForm: registerValuesType) => {
+  const findEmail = (registerForm: registerValuesModel) => {
     const emailExists = registerArray.find(
       (item) => item.email === registerForm.email
     );
@@ -60,7 +60,7 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
       return false;
     }
   };
-  const findAccount = (account: loginInitialType) => {
+  const findAccount = (account: loginInitialModel) => {
     const accountExists = registerArray.find(
       (item) =>
         item.email === account.email && item.password === account.password
@@ -69,7 +69,7 @@ const RegisterProvider: FC<PropsWithChildren> = ({ children }) => {
     return !!accountExists;
   };
 
-  const checkIfUserExists = (registerForm: registerValuesType) => {
+  const checkIfUserExists = (registerForm: registerValuesModel) => {
     const existingAccount = registerArray.find(
       (item) => item.email === registerForm.email
     );

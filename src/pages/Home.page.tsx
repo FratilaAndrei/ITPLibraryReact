@@ -1,7 +1,7 @@
 import { Message } from "primereact/message";
 import { useSelector } from "react-redux";
-import Footer from "../common/components/Footer/Footer";
-import Navbar from "../common/components/Navbar/Navbar";
+import Footer from "../components/common/Footer/Footer";
+import Navbar from "../components/common/Navbar/Navbar";
 import BooksSectionsContainer from "../containers/Home/BooksSectionsContainer";
 import Hero from "../containers/Home/Hero";
 import { RootState } from "../state/store";

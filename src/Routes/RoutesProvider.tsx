@@ -6,15 +6,15 @@ import {
   ORDERS_ROUTE,
   REGISTER_ROUTE,
   SHOPPING_CART_ROUTE,
-} from "../../../data/routes";
-import BookDescription from "../../../pages/BookDescription.page";
-import EditOrderDescription from "../../../pages/EditOrderDescription.page";
-import Homepage from "../../../pages/Home.page";
-import Login from "../../../pages/Login.page";
-import Orders from "../../../pages/Orders.page";
-import OrdersDescription from "../../../pages/OrdersDescription.page";
-import Register from "../../../pages/Register.page";
-import ShoppingCart from "../../../pages/ShoppingCart.page";
+} from "../data/routes";
+import BookDescription from "../pages/BookDescription.page";
+import EditOrderDescription from "../pages/EditOrderDescription.page";
+import Homepage from "../pages/Home.page";
+import Login from "../pages/Login.page";
+import Orders from "../pages/Orders.page";
+import OrdersDescription from "../pages/OrdersDescription.page";
+import Register from "../pages/Register.page";
+import ShoppingCart from "../pages/ShoppingCart.page";
 
 const RoutesProvider = () => {
   return (

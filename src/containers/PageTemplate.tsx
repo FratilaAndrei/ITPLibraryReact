@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren } from "react";
-import Footer from "../common/components/Footer/Footer";
-import Navbar from "../common/components/Navbar/Navbar";
+import Footer from "../components/common/Footer/Footer";
+import Navbar from "../components/common/Navbar/Navbar";
 
 type Props = {
   className?: string;

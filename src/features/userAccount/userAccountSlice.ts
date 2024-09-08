@@ -1,15 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
-  loginInitialType,
-  registerValuesType,
+  loginInitialModel,
+  registerValuesModel,
 } from "../../components/Auth/AuthValidationSchema";
 
 export type userStateModel = {
-  registerArray: registerValuesType[];
+  registerArray: registerValuesModel[];
   isAccountRegistered: boolean;
   isAccountLoggedIn: boolean;
 };
-const getInitialUserState = (): registerValuesType[] => {
+const getInitialUserState = (): registerValuesModel[] => {
   const REGISTER_STORAGE = localStorage.getItem("register-form");
   return REGISTER_STORAGE ? JSON.parse(REGISTER_STORAGE) : [];
 };
@@ -24,14 +24,14 @@ export const userAccountSlice = createSlice({
   name: "userAccount",
   initialState,
   reducers: {
-    saveRegisterData: (state, action: PayloadAction<registerValuesType>) => {
+    saveRegisterData: (state, action: PayloadAction<registerValuesModel>) => {
       state.registerArray.push(action.payload);
       localStorage.setItem(
         "register-form",
         JSON.stringify(state.registerArray)
       );
     },
-    checkIfUserExists: (state, action: PayloadAction<registerValuesType>) => {
+    checkIfUserExists: (state, action: PayloadAction<registerValuesModel>) => {
       const existingAccount = state.registerArray.find(
         (user) => user.email === action.payload.email
       );
@@ -45,9 +45,9 @@ export const userAccountSlice = createSlice({
       }
     },
 
-    findAccount: (state, action: PayloadAction<loginInitialType>) => {
+    findAccount: (state, action: PayloadAction<loginInitialModel>) => {
       const accountExists = state.registerArray.some(
-        (user: registerValuesType) =>
+        (user: registerValuesModel) =>
           user.email === action.payload.email &&
           user.password === action.payload.password
       );

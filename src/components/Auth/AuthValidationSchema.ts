@@ -2,24 +2,24 @@ import * as Yup from "yup";
 
 const passwordRules = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{5,10}$/;
 
-export type registerValuesType = {
+export type registerValuesModel = {
   email: string;
   password: string;
   confirmPassword: string;
 };
 
-export const REGISTER_INITIAL_VALUES: registerValuesType = {
+export const REGISTER_INITIAL_VALUES: registerValuesModel = {
   email: "",
   password: "",
   confirmPassword: "",
 };
 
-export type loginInitialType = {
+export type loginInitialModel = {
   email: string;
   password: string;
 };
 
-export const LOGIN_INITIAL_VALUES: loginInitialType = {
+export const LOGIN_INITIAL_VALUES: loginInitialModel = {
   email: "",
   password: "",
 };

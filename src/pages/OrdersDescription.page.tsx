@@ -1,5 +1,5 @@
-import Footer from "../common/components/Footer/Footer";
-import Navbar from "../common/components/Navbar/Navbar";
+import Footer from "../components/common/Footer/Footer";
+import Navbar from "../components/common/Navbar/Navbar";
 import OrderDetails from "../components/OrdersDescription/OrderDetails";
 import OrdersDescriptionHero from "../components/OrdersDescription/OrdersDescriptionHero";
 
