@@ -19,6 +19,16 @@ export type loginInitialModel = {
   password: string;
 };
 
+export type userModel = {
+  id?: string;
+  email: string;
+  password: string;
+};
+
+export type userModelWithId = {
+  [key: string]: userModel;
+};
+
 export const LOGIN_INITIAL_VALUES: loginInitialModel = {
   email: "",
   password: "",

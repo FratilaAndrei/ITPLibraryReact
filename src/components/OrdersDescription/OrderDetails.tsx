@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ORDERS_ROUTE, SHOPPING_CART_ROUTE } from "../../data/routes";
-import { placeOrder } from "../../features/ordersList/OrdersListSlice";
+import { placeOrder } from "../../features/ordersList/ordersListSlice";
 import { resetShoppingCartItems } from "../../features/shoppingCart/ShoppingCartSlice";
 import { RootState } from "../../state/store";
 import BillingAdressInputs from "./Form/BillingAdressInputs";
@@ -50,7 +50,14 @@ const OrderDetails = () => {
         }
         actions.setSubmitting(false);
         dispatch(
-          placeOrder({ totalQuantity, totalPrice, orderDetails: values })
+          placeOrder({
+            totalQuantity,
+            totalPrice,
+            orderDetails: {
+              ...values,
+              deliveryDate: new Date(values.deliveryDate).toUTCString(),
+            },
+          })
         );
         navigate(ORDERS_ROUTE);
         dispatch(resetShoppingCartItems());

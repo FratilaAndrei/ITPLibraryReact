@@ -12,10 +12,29 @@ type Props = {
 };
 
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
+  console.log("Comdanda", order);
+  console.log("Comenzi", ordersArray);
+  // const getAllQuantity = (id: string) => {
+  //   let totalQuantity = 0;
+  //   ordersArray.forEach((order) => {
+  //     if (order.id === id) return (totalQuantity += order.quantity);
+  //   });
+  //   return totalQuantity;
+  // };
+
+  // const getAllPrice = (id: string) => {
+  //   let totalPrice = 0;
+  //   ordersArray.forEach((item) => {
+  //     if (item.id === id) return (totalPrice += item.price * item.quantity);
+  //   }, 0);
+  //   return totalPrice;
+  // };
   const getAllQuantity = (id: string) => {
     let totalQuantity = 0;
     ordersArray.forEach((order) => {
-      if (order.id === id) return (totalQuantity += order.quantity);
+      if (order.id === id) {
+        totalQuantity += order.quantity;
+      }
     });
     return totalQuantity;
   };
@@ -23,10 +42,16 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
   const getAllPrice = (id: string) => {
     let totalPrice = 0;
     ordersArray.forEach((item) => {
-      if (item.id === id) return (totalPrice += item.price * item.quantity);
-    }, 0);
+      if (item.id === id) {
+        totalPrice += item.price * item.quantity;
+      }
+    });
     return totalPrice;
   };
+
+  console.log("Order ID:", order.id);
+  console.log("Order Quantity:", order.quantity);
+  console.log("Order Price:", order.price);
 
   return (
     <div key={order.id}>

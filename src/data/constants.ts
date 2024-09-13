@@ -153,7 +153,7 @@ export const BOOKS_ROWS = [
   {
     id: 1,
     title: "Best Books of the Month",
-    books: BOOKS.slice(0, 6),
+    // books: BOOKS.slice(0, 6),
   },
   {
     id: 2,

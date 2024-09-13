@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   checkIfUserExists,
+  saveNewUser,
   setIsAccountRegistered,
 } from "../../features/userAccount/userAccountSlice";
 import { RootState } from "../../state/store";
@@ -12,6 +13,8 @@ import {
   registerValuesModel,
   SIGN_UP_SCHEMA,
 } from "./AuthValidationSchema";
+// import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const SignUpForm: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -30,8 +33,16 @@ const SignUpForm: FC = (): JSX.Element => {
     const emailAlreadyExists = registerArray.find(
       (user: registerValuesModel) => user.email === values.email
     );
+
     if (!emailAlreadyExists) {
       setEmailExists(false);
+      dispatch(
+        saveNewUser({
+          id: uuidv4(),
+          email: values.email,
+          password: values.password,
+        })
+      );
       dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
     } else {

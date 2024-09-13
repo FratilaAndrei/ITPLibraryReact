@@ -1,4 +1,3 @@
-import { collection, onSnapshot } from "firebase/firestore";
 import { Message } from "primereact/message";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,7 @@ import {
   hidePopup,
   resetAddedBookCounter,
 } from "../features/shoppingCart/ShoppingCartSlice";
-import db from "../firebase/firebase";
+import { fetchUsers } from "../services/users.service";
 import { RootState } from "../state/store";
 
 const Homepage = () => {
@@ -27,12 +26,6 @@ const Homepage = () => {
   );
 
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    onSnapshot(collection(db, "users"), (snapshot) => {
-      console.log(snapshot.docs.map((doc) => doc.data()));
-    });
-  });
 
   useEffect(() => {
     dispatch(resetAddedBookCounter());
@@ -58,6 +51,7 @@ const Homepage = () => {
           />
         ) : null}
       </div>
+      <button onClick={() => fetchUsers()}>Fetch Users</button>
       <Footer hasIcon />
     </div>
   );

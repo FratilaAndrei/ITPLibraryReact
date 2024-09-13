@@ -5,15 +5,20 @@ import { orderDetailsModel, orderModel } from "../../data/types/type";
 export type ordersListModel = {
   ordersList: orderModel[];
   quantity: number;
+  loading: boolean;
+  error: string | boolean;
 };
-const getInitialOrderState = (): orderModel[] => {
-  const ORDERS = localStorage.getItem("orders");
-  return ORDERS ? JSON.parse(ORDERS) : [];
-};
+// const getInitialOrderState = (): orderModel[] => {
+//   const ORDERS = localStorage.getItem("orders");
+//   return ORDERS ? JSON.parse(ORDERS) : [];
+// };
 
 const ordersListInitialState: ordersListModel = {
-  ordersList: getInitialOrderState(),
+  // ordersList: getInitialOrderState(),
+  ordersList: [],
   quantity: 0,
+  loading: false,
+  error: false,
 };
 
 export const ordersListSlice = createSlice({
@@ -41,7 +46,9 @@ export const ordersListSlice = createSlice({
         },
       };
       state.ordersList.push(newOrder);
-      localStorage.setItem("orders", JSON.stringify(state.ordersList));
+      // console.log(newOrder);
+
+      // localStorage.setItem("orders", JSON.stringify(state.ordersList));
     },
     editForm: (
       state,
@@ -57,7 +64,7 @@ export const ordersListSlice = createSlice({
         }
         return order;
       });
-      localStorage.setItem("orders", JSON.stringify(state.ordersList));
+      // localStorage.setItem("orders", JSON.stringify(state.ordersList));
     },
     handleShipment: (state, action: PayloadAction<string>) => {
       return {
@@ -69,9 +76,27 @@ export const ordersListSlice = createSlice({
         }),
       };
     },
+    fetchOrderRequest: (state) => {
+      state.loading = true;
+    },
+    fetchOrderSuccess: (state, action: PayloadAction<orderModel[]>) => {
+      state.loading = false;
+      state.ordersList = action.payload;
+    },
+    fetchOrderError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
+      state.loading = false;
+    },
   },
 });
 
-export const { placeOrder, editForm, handleShipment } = ordersListSlice.actions;
+export const {
+  placeOrder,
+  editForm,
+  handleShipment,
+  fetchOrderRequest,
+  fetchOrderSuccess,
+  fetchOrderError,
+} = ordersListSlice.actions;
 
 export default ordersListSlice.reducer;

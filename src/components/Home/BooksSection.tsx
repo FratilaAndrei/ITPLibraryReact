@@ -1,11 +1,21 @@
 import { FC } from "react";
+import { useSelector } from "react-redux";
 import { BookModel, BookRowModel } from "../../data/types/type";
+import { RootState } from "../../state/store";
 import Book from "./Book";
 
 type Props = {
   bookRow: BookRowModel;
 };
 const BooksSection: FC<Props> = ({ bookRow }) => {
+  const { books, loading, error } = useSelector(
+    (state: RootState) => state.books
+  );
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!books || books.length === 0) return <p>No books available.</p>;
+
   return (
     <div className="h-fit xl:px-10  flex flex-col gap-y-6" key={bookRow.id}>
       <div className="w-full">

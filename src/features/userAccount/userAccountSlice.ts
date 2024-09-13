@@ -2,20 +2,29 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   loginInitialModel,
   registerValuesModel,
+  userModel,
 } from "../../components/Auth/AuthValidationSchema";
+
+// import { v4 as uuidv4 } from "uuid";
 
 export type userStateModel = {
   registerArray: registerValuesModel[];
+  users: userModel[];
   isAccountRegistered: boolean;
   isAccountLoggedIn: boolean;
+  loading: boolean;
+  error: string | null;
 };
-const getInitialUserState = (): registerValuesModel[] => {
-  const REGISTER_STORAGE = localStorage.getItem("register-form");
-  return REGISTER_STORAGE ? JSON.parse(REGISTER_STORAGE) : [];
-};
+// const getInitialUserState = (): registerValuesModel[] => {
+//   const REGISTER_STORAGE = localStorage.getItem("register-form");
+//   return REGISTER_STORAGE ? JSON.parse(REGISTER_STORAGE) : [];
+// };
 
 const initialState: userStateModel = {
-  registerArray: getInitialUserState(),
+  registerArray: [],
+  users: [],
+  loading: false,
+  error: null,
   isAccountRegistered: false,
   isAccountLoggedIn: false,
 };
@@ -26,10 +35,10 @@ export const userAccountSlice = createSlice({
   reducers: {
     saveRegisterData: (state, action: PayloadAction<registerValuesModel>) => {
       state.registerArray.push(action.payload);
-      localStorage.setItem(
-        "register-form",
-        JSON.stringify(state.registerArray)
-      );
+      // localStorage.setItem(
+      //   "register-form",
+      //   JSON.stringify(state.registerArray)
+      // );
     },
     checkIfUserExists: (state, action: PayloadAction<registerValuesModel>) => {
       const existingAccount = state.registerArray.find(
@@ -46,11 +55,18 @@ export const userAccountSlice = createSlice({
     },
 
     findAccount: (state, action: PayloadAction<loginInitialModel>) => {
-      const accountExists = state.registerArray.some(
-        (user: registerValuesModel) =>
+      // const accountExists = state.registerArray.some(
+      //   (user: registerValuesModel) =>
+      //     user.email === action.payload.email &&
+      //     user.password === action.payload.password
+      // );
+      const accountExists = state.users.some(
+        (user: userModel) =>
           user.email === action.payload.email &&
           user.password === action.payload.password
       );
+      console.log(accountExists);
+
       state.isAccountLoggedIn = accountExists;
       if (state.isAccountLoggedIn) {
         alert("Login Succesfull");
@@ -64,6 +80,27 @@ export const userAccountSlice = createSlice({
     setIsAccountRegistered: (state, action: PayloadAction<boolean>) => {
       state.isAccountRegistered = action.payload;
     },
+
+    fetchUserRequest: (state) => {
+      state.loading = true;
+    },
+
+    fetchUserSuccess: (state, action: PayloadAction<userModel[]>) => {
+      state.loading = false;
+      state.users = action.payload;
+    },
+
+    fetchUserFail: (state) => {
+      state.loading = false;
+    },
+
+    saveNewUser: (state, action: PayloadAction<userModel>) => {
+      const newUser = {
+        email: action.payload.email,
+        password: action.payload.password,
+      };
+      state.users.push(newUser);
+    },
   },
 });
 
@@ -72,6 +109,10 @@ export const {
   checkIfUserExists,
   findAccount,
   setIsAccountRegistered,
+  fetchUserFail,
+  fetchUserRequest,
+  fetchUserSuccess,
+  saveNewUser,
 } = userAccountSlice.actions;
 
 export default userAccountSlice.reducer;
