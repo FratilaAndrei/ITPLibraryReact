@@ -96,6 +96,7 @@ export const userAccountSlice = createSlice({
 
     saveNewUser: (state, action: PayloadAction<userModel>) => {
       const newUser = {
+        // id: action.payload.id,
         email: action.payload.email,
         password: action.payload.password,
       };

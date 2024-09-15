@@ -14,7 +14,6 @@ import {
   SIGN_UP_SCHEMA,
 } from "./AuthValidationSchema";
 // import { v4 as uuidv4 } from "uuid";
-import { v4 as uuidv4 } from "uuid";
 
 const SignUpForm: FC = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -38,7 +37,7 @@ const SignUpForm: FC = (): JSX.Element => {
       setEmailExists(false);
       dispatch(
         saveNewUser({
-          id: uuidv4(),
+          // id: uuidv4(),
           email: values.email,
           password: values.password,
         })

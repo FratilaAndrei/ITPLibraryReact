@@ -58,12 +58,12 @@ const OrdersList = () => {
               ordersArray={ordersList}
             />
           ))} */}
-          {ordersList.map((order: orderModel, index) => (
+          {listOfOrders.map((order: orderModel, index) => (
             <Order
               index={index}
               key={order.id}
               order={order}
-              ordersArray={ordersList}
+              ordersArray={listOfOrders}
             />
           ))}
         </div>

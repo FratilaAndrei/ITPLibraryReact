@@ -1,6 +1,7 @@
 import axios from "axios";
 import { userModel } from "../components/Auth/AuthValidationSchema";
 // import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const apiURL = import.meta.env.VITE_APP_API_URL;
 
@@ -25,7 +26,16 @@ export const fetchAllUsers = async () => {
 
 export const postUser = async (user: userModel) => {
   try {
-    const res = await axios.post(`${apiURL}/users/${user.id}.json`, user);
+    const id = uuidv4();
+    const res = await axios
+      .put(`${apiURL}/users/${id}.json`, user)
+      .then(function (response) {
+        console.log(response.data);
+        console.log(response.status);
+        console.log(response.statusText);
+        console.log(response.headers);
+      });
+
     console.log("Posted", res);
   } catch (error) {
     console.error("A crapat post user", error);
