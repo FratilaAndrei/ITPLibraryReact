@@ -18,19 +18,28 @@
 //   dbRealTime: import.meta.env.VITE_APP_API_URL,
 // };
 
+const firebaseConfig = {
+  storageBucket: import.meta.env.VITE_APP_BUCKET_STORAGE,
+};
 // Initialize Firebase
 
-// const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 // export default getFirestore();
 // const analytics = getAnalytics(app);
 
-import axios from "axios";
+import { initializeApp } from "firebase/app";
+import { getStorage } from "firebase/storage";
+// Initialize Cloud Storage and get a reference to the servicee
+export const imageDB = getStorage(app);
 
+import axios from "axios";
 const API_URL = import.meta.env.VITE_APP_API_URL;
+export const API_BUCKET = import.meta.env.VITE_APP_BUCKET_STORAGE;
 
 export const axiosInstance = axios.create({
   baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  withCredentials: false,
 });

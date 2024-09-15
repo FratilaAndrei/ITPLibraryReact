@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidv4 } from "uuid";
 import { orderDetailsModel, orderModel } from "../../data/types/type";
 
 export type ordersListModel = {
@@ -36,7 +35,7 @@ export const ordersListSlice = createSlice({
       const { orderDetails, totalQuantity, totalPrice } = action.payload;
 
       const newOrder: orderModel = {
-        id: uuidv4(),
+        // id: uuidv4(),
         quantity: totalQuantity,
         price: totalPrice,
         status: "In Progress",

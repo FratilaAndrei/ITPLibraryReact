@@ -7,19 +7,20 @@ import { RootState } from "../../state/store";
 
 const BooksSectionsContainer = () => {
   const booksData = useSelector((state: RootState) => state.books.books);
+  const bestBooks = booksData.filter((book) => book.isBestBook);
 
   const dispatch = useDispatch();
   const BOOKS_ROWS_2 = [
     {
       id: 1,
       title: "Best Books of the Month",
-      books: booksData.slice(0, 6),
+      books: bestBooks,
     },
-    {
-      id: 2,
-      title: "Recently Added",
-      books: booksData.slice(-6),
-    },
+    // {
+    //   id: 2,
+    //   title: "Recently Added",
+    //   books: booksData.slice(-6),
+    // },
   ];
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const BooksSectionsContainer = () => {
   return (
     <div className="container -mt-28 mx-auto w-full fullHd:w-11/12 z-10 bg-white-color">
       {BOOKS_ROWS_2.map((bookRow: BookRowModel) => {
+        console.log(bookRow);
         if (bookRow.books.length === 0) return null;
         return <BooksSection bookRow={bookRow} key={bookRow.id} />;
       })}

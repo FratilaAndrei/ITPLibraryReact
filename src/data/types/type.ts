@@ -1,10 +1,23 @@
 import { HTMLInputTypeAttribute, ReactNode } from "react";
+// import { v4 as uuidv4 } from "uuid";
 
 export type BookModel = {
   id: number;
   image: string;
   title: string;
   author: string;
+  price: number;
+  isBestBook: boolean;
+  quantity: number;
+  status: string;
+};
+
+export type bookModel2 = {
+  id: string;
+  image: string;
+  title: string;
+  author: string;
+  description: string;
   price: number;
   isBestBook: boolean;
   quantity: number;
@@ -58,7 +71,7 @@ export type LoginPageDataOptionsModel = {
 };
 
 export type orderModel = {
-  id: string;
+  // id: string;
   quantity: number;
   status: "In Progress" | "Completed";
   price: number;
