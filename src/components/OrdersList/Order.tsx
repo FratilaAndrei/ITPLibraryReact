@@ -12,8 +12,6 @@ type Props = {
 };
 
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
-  console.log("Comdanda", order);
-  console.log("Comenzi", ordersArray);
   // const getAllQuantity = (id: string) => {
   //   let totalQuantity = 0;
   //   ordersArray.forEach((order) => {
@@ -48,10 +46,6 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
     });
     return totalPrice;
   };
-
-  console.log("Order ID:", order.id);
-  console.log("Order Quantity:", order.quantity);
-  console.log("Order Price:", order.price);
 
   return (
     <div key={order.id}>

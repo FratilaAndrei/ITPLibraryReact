@@ -31,7 +31,9 @@ import { getStorage } from "firebase/storage";
 // };
 // Initialize Firebase
 export const API_BUCKET = import.meta.env.VITE_APP_STORAGE_BUCKET;
+
 export const API_URL = import.meta.env.VITE_APP_DATABASE_URL;
+
 export const SERVICE_ACCOUNT = import.meta.env.VITE_APP_SERVICE_ACCOUNT;
 
 // export default getFirestore();

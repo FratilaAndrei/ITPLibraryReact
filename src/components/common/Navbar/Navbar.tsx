@@ -8,6 +8,7 @@ import {
   ORDERS_ROUTE,
   SHOPPING_CART_ROUTE,
 } from "../../../data/routes";
+import { auth22 } from "../../../firebase/firebase";
 import NavLink from "./NavLink";
 import Sidebar from "./Sidebar";
 
@@ -31,6 +32,7 @@ const Navbar = () => {
         <NavLink link={LOGIN_ROUTE} icon={<IoPersonOutline />}>
           Login
         </NavLink>
+        {auth22.currentUser?.email?.split("@")[0]}
       </ul>
       <Sidebar />
     </nav>

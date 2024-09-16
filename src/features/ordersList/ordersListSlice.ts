@@ -45,7 +45,6 @@ export const ordersListSlice = createSlice({
         },
       };
       state.ordersList.push(newOrder);
-      // console.log(newOrder);
 
       // localStorage.setItem("orders", JSON.stringify(state.ordersList));
     },

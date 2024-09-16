@@ -7,7 +7,6 @@ import { createOrder } from "../../services/createOrder.service";
 function* createOrderSaga(action: PayloadAction<orderModel>) {
   try {
     const response: orderModel = yield call(createOrder, action.payload);
-    console.log(response);
   } catch (error) {
     console.error("There was an error!", error);
   }

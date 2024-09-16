@@ -55,7 +55,6 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
     shoppingArray.reduce((total, item) => total + item.quantity, 0);
 
   const placeOrder = (orderDetails: orderDetailsModel) => {
-    console.log(shoppingArray);
     if (shoppingArray.length > 0) {
       const newOrder: orderModel = {
         id: uuidv4(),
@@ -66,7 +65,6 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
       };
       setOrdersArray((prevState) => [...prevState, newOrder]);
       setShoppingArray([]);
-      console.log(newOrder);
       navigate(ORDERS_ROUTE);
     }
   };

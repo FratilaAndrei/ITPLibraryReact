@@ -1,3 +1,4 @@
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import { Message } from "primereact/message";
 import { FC, useEffect, useState } from "react";
@@ -7,12 +8,14 @@ import {
   saveNewUser,
   setIsAccountRegistered,
 } from "../../features/userAccount/userAccountSlice";
+import { auth22 } from "../../firebase/firebase";
 import { RootState } from "../../state/store";
 import {
   REGISTER_INITIAL_VALUES,
   registerValuesModel,
   SIGN_UP_SCHEMA,
 } from "./AuthValidationSchema";
+
 // import { v4 as uuidv4 } from "uuid";
 
 const SignUpForm: FC = (): JSX.Element => {
@@ -24,6 +27,19 @@ const SignUpForm: FC = (): JSX.Element => {
     (state: RootState) => state.userAccount.registerArray
   );
   const [emailExists, setEmailExists] = useState<boolean>(false);
+
+  const registerUser = async (email, password) => {
+    try {
+      const user = await createUserWithEmailAndPassword(
+        auth22,
+        email,
+        password
+      );
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   const handleFormSubmit = (
     values: registerValuesModel,
@@ -42,6 +58,7 @@ const SignUpForm: FC = (): JSX.Element => {
           password: values.password,
         })
       );
+      registerUser(values.email, values.password);
       dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
     } else {
@@ -146,6 +163,7 @@ const SignUpForm: FC = (): JSX.Element => {
           >
             {props.isSubmitting ? <p>Submitting...</p> : <div>Register</div>}
           </button>
+          {auth22.currentUser?.email}
           {emailExists && (
             <Message
               severity="error"

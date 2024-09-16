@@ -29,8 +29,6 @@ const OrdersList = () => {
     (state: RootState) => state.ordersList.ordersList
   );
 
-  console.log(listOfOrders);
-
   useEffect(() => {
     dispatch(fetchOrderRequest());
   }, [dispatch]);

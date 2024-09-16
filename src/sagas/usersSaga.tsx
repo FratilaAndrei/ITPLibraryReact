@@ -10,7 +10,6 @@ import { fetchUsers, postUser } from "../services/users.service";
 function* fetchUsersSaga() {
   try {
     const res: userModel[] = yield call(fetchUsers);
-    console.log(res);
   } catch (error) {
     console.error("There was an error!", error);
   }
@@ -19,7 +18,6 @@ function* fetchUsersSaga() {
 function* postUsersSaga(action: PayloadAction<userModel>) {
   try {
     const res: userModel = yield call(postUser, action.payload);
-    console.log(res);
   } catch (error) {
     console.error("There was an error!", error);
   }
