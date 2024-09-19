@@ -8,8 +8,7 @@ import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
-import OrderProvider from "./contexts/OrderProvider.tsx";
-import ShoppingContextProvider from "./contexts/ShoppingProvider.tsx";
+import UserProvider from "./contexts/UsersProvider.tsx";
 import "./firebase/firebase.tsx";
 import "./index.css";
 import { store } from "./state/store.ts";
@@ -19,11 +18,13 @@ createRoot(document.getElementById("root")!).render(
     <BrowserRouter>
       <PrimeReactProvider>
         <Provider store={store}>
-          <ShoppingContextProvider>
-            <OrderProvider>
-              <App />
-            </OrderProvider>
-          </ShoppingContextProvider>
+          {/* <ShoppingContextProvider> */}
+          {/* <OrderProvider> */}
+          <UserProvider>
+            <App />
+          </UserProvider>
+          {/* </OrderProvider> */}
+          {/* </ShoppingContextProvider> */}
         </Provider>
       </PrimeReactProvider>
     </BrowserRouter>

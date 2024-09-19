@@ -14,6 +14,7 @@ export type userStateModel = {
   isAccountLoggedIn: boolean;
   loading: boolean;
   error: string | null;
+  loggedAccount: userModel;
 };
 // const getInitialUserState = (): registerValuesModel[] => {
 //   const REGISTER_STORAGE = localStorage.getItem("register-form");
@@ -27,6 +28,10 @@ const initialState: userStateModel = {
   error: null,
   isAccountRegistered: false,
   isAccountLoggedIn: false,
+  loggedAccount: {
+    email: "",
+    password: "",
+  },
 };
 
 export const userAccountSlice = createSlice({
@@ -96,10 +101,11 @@ export const userAccountSlice = createSlice({
 
     saveNewUser: (state, action: PayloadAction<userModel>) => {
       const newUser = {
-        // id: action.payload.id,
         email: action.payload.email,
         password: action.payload.password,
       };
+      // state.isAccountLoggedIn = true;
+      state.loggedAccount = newUser;
       state.users.push(newUser);
     },
   },

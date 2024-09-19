@@ -9,7 +9,6 @@ import {
   hidePopup,
   resetAddedBookCounter,
 } from "../features/shoppingCart/ShoppingCartSlice";
-import { createBook } from "../services/books.service";
 import { RootState } from "../state/store";
 
 const Homepage = () => {
@@ -51,7 +50,7 @@ const Homepage = () => {
           />
         ) : null}
       </div>
-      <button onClick={() => createBook()}>Fetch Users</button>
+      {/* <button onClick={() => createBook()}>Fetch Users</button> */}
       <Footer hasIcon />
     </div>
   );

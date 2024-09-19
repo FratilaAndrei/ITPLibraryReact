@@ -1,11 +1,13 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import { Message } from "primereact/message";
-import { FC, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../contexts/UsersProvider";
+import { HOME_PAGE_ROUTE } from "../../data/routes";
 import {
   checkIfUserExists,
-  saveNewUser,
   setIsAccountRegistered,
 } from "../../features/userAccount/userAccountSlice";
 import { auth22 } from "../../firebase/firebase";
@@ -20,22 +22,30 @@ import {
 
 const SignUpForm: FC = (): JSX.Element => {
   const dispatch = useDispatch();
+  const { setCurrentUser } = useContext(UserContext);
+
   const isAccountRegistered = useSelector(
     (state: RootState) => state.userAccount.isAccountRegistered
   );
+
   const registerArray = useSelector(
     (state: RootState) => state.userAccount.registerArray
   );
   const [emailExists, setEmailExists] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  const registerUser = async (email, password) => {
+  const registerUser = async (email: string, password: string) => {
     try {
       const user = await createUserWithEmailAndPassword(
         auth22,
         email,
         password
       );
-      console.log(user);
+      // tine token in  cookie
+      const actualUser = user.user;
+      setCurrentUser(actualUser);
+      navigate(HOME_PAGE_ROUTE);
+      console.log("USER_TOKEN", user.user.getIdToken(true));
     } catch (error) {
       console.log(error.message);
     }
@@ -51,13 +61,6 @@ const SignUpForm: FC = (): JSX.Element => {
 
     if (!emailAlreadyExists) {
       setEmailExists(false);
-      dispatch(
-        saveNewUser({
-          // id: uuidv4(),
-          email: values.email,
-          password: values.password,
-        })
-      );
       registerUser(values.email, values.password);
       dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
@@ -163,7 +166,6 @@ const SignUpForm: FC = (): JSX.Element => {
           >
             {props.isSubmitting ? <p>Submitting...</p> : <div>Register</div>}
           </button>
-          {auth22.currentUser?.email}
           {emailExists && (
             <Message
               severity="error"

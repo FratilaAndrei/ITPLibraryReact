@@ -8,6 +8,7 @@ import { RootState } from "../../state/store";
 const BooksSectionsContainer = () => {
   const booksData = useSelector((state: RootState) => state.books.books);
   const bestBooks = booksData.filter((book) => book.isBestBook);
+  const mostRecentBooks = booksData.slice(-6);
 
   const dispatch = useDispatch();
   const BOOKS_ROWS_2 = [
@@ -16,11 +17,11 @@ const BooksSectionsContainer = () => {
       title: "Best Books of the Month",
       books: bestBooks,
     },
-    // {
-    //   id: 2,
-    //   title: "Recently Added",
-    //   books: booksData.slice(-6),
-    // },
+    {
+      id: 2,
+      title: "Recently Added",
+      books: mostRecentBooks,
+    },
   ];
 
   useEffect(() => {
