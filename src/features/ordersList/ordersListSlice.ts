@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { orderDetailsModel, orderModel } from "../../data/types/type";
+import { orderDetailsModelWitoutId, orderModel } from "../../data/types/type";
 
 export type ordersListModel = {
   ordersList: orderModel[];
@@ -7,13 +7,8 @@ export type ordersListModel = {
   loading: boolean;
   error: string | boolean;
 };
-// const getInitialOrderState = (): orderModel[] => {
-//   const ORDERS = localStorage.getItem("orders");
-//   return ORDERS ? JSON.parse(ORDERS) : [];
-// };
 
 const ordersListInitialState: ordersListModel = {
-  // ordersList: getInitialOrderState(),
   ordersList: [],
   quantity: 0,
   loading: false,
@@ -27,7 +22,7 @@ export const ordersListSlice = createSlice({
     placeOrder: (
       state,
       action: PayloadAction<{
-        orderDetails: orderDetailsModel;
+        orderDetails: orderDetailsModelWitoutId;
         totalQuantity: number;
         totalPrice: number;
       }>
@@ -35,7 +30,8 @@ export const ordersListSlice = createSlice({
       const { orderDetails, totalQuantity, totalPrice } = action.payload;
 
       const newOrder: orderModel = {
-        // id: uuidv4(),
+        // id: uuidv4()
+        // id: auth22.currentUser?.uid,
         quantity: totalQuantity,
         price: totalPrice,
         status: "In Progress",
@@ -45,12 +41,13 @@ export const ordersListSlice = createSlice({
         },
       };
       state.ordersList.push(newOrder);
-
-      // localStorage.setItem("orders", JSON.stringify(state.ordersList));
     },
     editForm: (
       state,
-      action: PayloadAction<{ orderDetails: orderDetailsModel; id: string }>
+      action: PayloadAction<{
+        orderDetails: orderDetailsModelWitoutId;
+        id: string;
+      }>
     ) => {
       const { orderDetails, id } = action.payload;
       state.ordersList = state.ordersList.map((order) => {
@@ -62,7 +59,6 @@ export const ordersListSlice = createSlice({
         }
         return order;
       });
-      // localStorage.setItem("orders", JSON.stringify(state.ordersList));
     },
     handleShipment: (state, action: PayloadAction<string>) => {
       return {

@@ -7,9 +7,11 @@ import {
 } from "../features/userAccount/userAccountSlice";
 import { fetchUsers, postUser } from "../services/users.service";
 
+// const { registerUser } = useContext(UserContext);
+
 function* fetchUsersSaga() {
   try {
-    const res: userModel[] = yield call(fetchUsers);
+    yield call(fetchUsers);
   } catch (error) {
     console.error("There was an error!", error);
   }
@@ -17,7 +19,7 @@ function* fetchUsersSaga() {
 
 function* postUsersSaga(action: PayloadAction<userModel>) {
   try {
-    const res: userModel = yield call(postUser, action.payload);
+    yield call(postUser, action.payload);
   } catch (error) {
     console.error("There was an error!", error);
   }
@@ -34,6 +36,7 @@ function* postUsersSaga(action: PayloadAction<userModel>) {
 export function* watchFetchUsers() {
   yield takeLatest(fetchUserSuccess.type, fetchUsersSaga);
   yield takeLatest(saveNewUser.type, postUsersSaga);
+  // yield takeLatest(registerUser.type, postUsersSaga);
   //   yield takeLatest(fetchUserSuccess.type, getUsers);
   // yield takeLatest(fetchMostRecentBooks, fetchMostRecentBooks);
 }

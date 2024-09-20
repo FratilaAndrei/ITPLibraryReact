@@ -10,7 +10,6 @@ import { readOrders } from "../../services/orders/readOrders.service";
 function* readOrderSaga() {
   try {
     const res: orderModel[] = yield call(readOrders);
-    console.log(res);
     yield put(fetchOrderSuccess(res));
   } catch (error) {
     console.error("There was an error!", error);

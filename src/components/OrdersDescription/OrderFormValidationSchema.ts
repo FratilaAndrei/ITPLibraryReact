@@ -1,9 +1,8 @@
 import * as Yup from "yup";
-import { orderDetailsModel } from "../../data/types/type";
+import { orderDetailsModelWitoutId } from "../../data/types/type";
 
 const phoneNumberRegex = /^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s./0-9]*$/;
-export const initialValues: orderDetailsModel = {
-  id: "",
+export const initialValues: orderDetailsModelWitoutId = {
   firstName: "",
   lastName: "",
   billingPhone: "",

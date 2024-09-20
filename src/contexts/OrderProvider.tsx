@@ -9,7 +9,6 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
 import { ORDERS_ROUTE } from "../data/routes";
 import { orderDetailsModel, orderModel } from "../data/types/type";
 import { ShoppingContext } from "./ShoppingProvider";
@@ -57,7 +56,7 @@ const OrderProvider: FC<PropsWithChildren> = ({ children }) => {
   const placeOrder = (orderDetails: orderDetailsModel) => {
     if (shoppingArray.length > 0) {
       const newOrder: orderModel = {
-        id: uuidv4(),
+        // id: uuidv4(),
         quantity: getQuantity(),
         price: shoppingPrice,
         status: "In Progress",

@@ -70,16 +70,31 @@ export type LoginPageDataOptionsModel = {
   link: string;
 };
 
+export type orderDetailsModelWitoutId = {
+  firstName: string;
+  lastName: string;
+  billingCity: "Romania" | "Italia" | "Germania";
+  billingAddress: string;
+  billingPhone: string;
+  deliveryCity: "Romania" | "Italia" | "Germania";
+  deliveryAddress: string;
+  deliveryPhone: string;
+  paymentType: "Cash" | "Online";
+  deliveryDate: string;
+  observations: string;
+  recommended: boolean;
+  showDelivery: boolean;
+};
+
 export type orderModel = {
-  // id: string;
+  // id: string | undefined;
   quantity: number;
   status: "In Progress" | "Completed";
   price: number;
-  orderDetails: orderDetailsModel;
+  orderDetails: orderDetailsModelWitoutId;
 };
 
 export type orderDetailsModel = {
-  id: string;
   firstName: string;
   lastName: string;
   billingCity: "Romania" | "Italia" | "Germania";

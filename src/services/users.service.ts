@@ -25,7 +25,7 @@ export const fetchAllUsers = async () => {
 export const postUser = async (user: userModel) => {
   try {
     const id = uuidv4();
-    const res = await axios
+    await axios
       .put(`${API_URL}/users/${id}.json`, user)
       .then(function (response) {
         console.log(response.data);

@@ -75,9 +75,9 @@ export const userAccountSlice = createSlice({
       state.isAccountLoggedIn = accountExists;
       if (state.isAccountLoggedIn) {
         alert("Login Succesfull");
-        console.log("Logat");
+        // console.log("Logat");
       } else {
-        console.log("Nu logat");
+        // console.log("Nu logat");
         alert("Login Failed");
       }
     },
@@ -104,7 +104,6 @@ export const userAccountSlice = createSlice({
         email: action.payload.email,
         password: action.payload.password,
       };
-      // state.isAccountLoggedIn = true;
       state.loggedAccount = newUser;
       state.users.push(newUser);
     },

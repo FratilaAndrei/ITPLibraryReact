@@ -1,44 +1,21 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
 import { Message } from "primereact/message";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UsersProvider";
-import {
-  FORGOT_PASSWORD_ROUTE,
-  HOME_PAGE_ROUTE,
-  REGISTER_ROUTE,
-} from "../../data/routes";
+import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from "../../data/routes";
 import { findAccount } from "../../features/userAccount/userAccountSlice";
-import { auth22 } from "../../firebase/firebase";
 import { LOGIN_INITIAL_VALUES } from "./AuthValidationSchema";
 import { LOG_IN_SCHEMA } from "./LogInValidationSchema";
 
 const LoginForm = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const [showError, setShowError] = useState(false);
-  // const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const { setCurrentUser } = useContext(UserContext);
-  const navigate = useNavigate();
-
-  const logUser = async (email, password) => {
-    try {
-      const userCredentials = await signInWithEmailAndPassword(
-        auth22,
-        email,
-        password
-      );
-      const user = userCredentials.user;
-      setCurrentUser(user);
-      navigate(HOME_PAGE_ROUTE);
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  const { logInUser } = useContext(UserContext);
 
   useEffect(() => {
     if (showError) {
@@ -55,7 +32,7 @@ const LoginForm = () => {
       initialValues={LOGIN_INITIAL_VALUES}
       onSubmit={(values, actions) => {
         dispatch(findAccount(values));
-        logUser(values.email, values.password);
+        logInUser(values.email, values.password);
         actions.setSubmitting(false);
       }}
       validationSchema={LOG_IN_SCHEMA}

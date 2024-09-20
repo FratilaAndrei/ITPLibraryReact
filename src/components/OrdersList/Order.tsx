@@ -12,21 +12,6 @@ type Props = {
 };
 
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
-  // const getAllQuantity = (id: string) => {
-  //   let totalQuantity = 0;
-  //   ordersArray.forEach((order) => {
-  //     if (order.id === id) return (totalQuantity += order.quantity);
-  //   });
-  //   return totalQuantity;
-  // };
-
-  // const getAllPrice = (id: string) => {
-  //   let totalPrice = 0;
-  //   ordersArray.forEach((item) => {
-  //     if (item.id === id) return (totalPrice += item.price * item.quantity);
-  //   }, 0);
-  //   return totalPrice;
-  // };
   const getAllQuantity = (id: string) => {
     let totalQuantity = 0;
     ordersArray.forEach((order) => {

@@ -1,16 +1,12 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import { Message } from "primereact/message";
 import { FC, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UsersProvider";
-import { HOME_PAGE_ROUTE } from "../../data/routes";
 import {
   checkIfUserExists,
   setIsAccountRegistered,
 } from "../../features/userAccount/userAccountSlice";
-import { auth22 } from "../../firebase/firebase";
 import { RootState } from "../../state/store";
 import {
   REGISTER_INITIAL_VALUES,
@@ -22,7 +18,7 @@ import {
 
 const SignUpForm: FC = (): JSX.Element => {
   const dispatch = useDispatch();
-  const { setCurrentUser } = useContext(UserContext);
+  const { registerUser } = useContext(UserContext);
 
   const isAccountRegistered = useSelector(
     (state: RootState) => state.userAccount.isAccountRegistered
@@ -32,24 +28,6 @@ const SignUpForm: FC = (): JSX.Element => {
     (state: RootState) => state.userAccount.registerArray
   );
   const [emailExists, setEmailExists] = useState<boolean>(false);
-  const navigate = useNavigate();
-
-  const registerUser = async (email: string, password: string) => {
-    try {
-      const user = await createUserWithEmailAndPassword(
-        auth22,
-        email,
-        password
-      );
-      // tine token in  cookie
-      const actualUser = user.user;
-      setCurrentUser(actualUser);
-      navigate(HOME_PAGE_ROUTE);
-      console.log("USER_TOKEN", user.user.getIdToken(true));
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 
   const handleFormSubmit = (
     values: registerValuesModel,
@@ -62,6 +40,7 @@ const SignUpForm: FC = (): JSX.Element => {
     if (!emailAlreadyExists) {
       setEmailExists(false);
       registerUser(values.email, values.password);
+      // saveNewUser(values);
       dispatch(checkIfUserExists(values));
       alert(JSON.stringify(values, null, 2));
     } else {

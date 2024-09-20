@@ -56,14 +56,16 @@ const OrdersList = () => {
               ordersArray={ordersList}
             />
           ))} */}
-          {listOfOrders.map((order: orderModel, index) => (
-            <Order
-              index={index}
-              key={order.id}
-              order={order}
-              ordersArray={listOfOrders}
-            />
-          ))}
+          {listOfOrders.map((order: orderModel, index) => {
+            return (
+              <Order
+                index={index}
+                key={order.id ?? `order-${index}`}
+                order={order}
+                ordersArray={listOfOrders}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
