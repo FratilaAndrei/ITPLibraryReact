@@ -1,19 +1,20 @@
 import axios from "axios";
+import { User } from "firebase/auth";
 import { orderModel } from "../../data/types/type";
 import { API_URL, auth22 } from "../../firebase/firebase";
 
 const getTokenFromCookies = () => {
-  const token = document.cookie.split("=")[1];
+  // const token = document.cookie.split("=")[1];
+  const token = document.cookie.match(/Auth-jwt=([^;]+)/)?.[1];
+  // Aparent am si Clerk cookies
   console.log("Token DIN COOKIE este - ", token);
   return token;
 };
 
-console.log("User Logged", auth22.currentUser);
-
-const getAccountToken = async () => {
-  if (auth22.currentUser) {
-    const token = await auth22.currentUser.getIdToken();
-    console.log("Token from Firebase Auth:", token);
+const getAccountToken = async (user: User) => {
+  if (user) {
+    const token = await auth22.currentUser?.getIdToken();
+    console.log("Token Account Logged", token);
     return token;
   } else {
     console.error("No user is currently signed in.");
@@ -21,25 +22,43 @@ const getAccountToken = async () => {
   }
 };
 
-export const readOrders = async () => {
-  const accToken = await getAccountToken();
+export const readOrders = async (user: User) => {
+  console.log("User 3", user);
+
+  if (!user) {
+    console.error("No user is currently signed in.");
+    return;
+  }
+
+  const accToken = await getAccountToken(user);
+  console.log("Token Account Logged:", accToken);
+
+  if (!accToken) {
+    console.log("No valid token");
+    return;
+  }
+
+  console.log("Service User - ", user);
 
   const token = getTokenFromCookies();
-  console.log("Token din Cont", accToken);
 
   if (!token) {
     console.log("no token");
     return;
   }
+  console.log("User", user);
 
-  // NU reusesc sa inteleg, token cont - token cookie, 1 - 1 imi da unauthorized
-  // Req crapa din 3 motive diferite, in res.data sunt date, la metoda de ordersArray nu mai sunt
-  // Nu mai inteleg nimic..
+  if (!user) {
+    console.error("No valid user is currently signed in.");
+    return;
+  }
 
   try {
-    const res = await axios.get(`${API_URL}/orders.json`, {
+    // const res = await axios.get(`${API_URL}/orders/${user.uid}.json`, {
+    const res = await axios.get(`${API_URL}/orders/${user}.json`, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        // Authorization: `Bearer ${token}`,
+        "X-Authorization": `Bearer ${accToken}`,
       },
     });
     // const res = await axios.get(`${API_URL}/orders.json`);
@@ -48,7 +67,7 @@ export const readOrders = async () => {
     //   ...res.data[key],
     // }));
     // return ordersArray;
-    console.log(res.data);
+    console.log("Resultat", res.data);
 
     const ordersArray: orderModel[] = Object.keys(res.data).map((key) => ({
       id: key,

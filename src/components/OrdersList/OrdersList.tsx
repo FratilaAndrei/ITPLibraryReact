@@ -1,5 +1,6 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { UserContext } from "../../contexts/UsersProvider";
 import { orderModel } from "../../data/types/type";
 import {
   fetchOrderRequest,
@@ -13,6 +14,8 @@ const OrdersList = () => {
   const ordersList = useSelector(
     (state: RootState) => state.ordersList.ordersList
   );
+
+  const { currentUser } = useContext(UserContext);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -30,8 +33,9 @@ const OrdersList = () => {
   );
 
   useEffect(() => {
-    dispatch(fetchOrderRequest());
-  }, [dispatch]);
+    if (currentUser === null) return;
+    dispatch(fetchOrderRequest(currentUser.uid));
+  }, [dispatch, currentUser]);
 
   if (loading) {
     return <div>Se incarca pagina stai</div>;

@@ -70,12 +70,18 @@ export const ordersListSlice = createSlice({
         }),
       };
     },
-    fetchOrderRequest: (state) => {
+    fetchOrderRequest: (state, action: PayloadAction<string>) => {
       state.loading = true;
+      console.log("Acc -", action.payload);
     },
-    fetchOrderSuccess: (state, action: PayloadAction<orderModel[]>) => {
+    fetchOrderSuccess: (
+      state,
+      action: PayloadAction<orderModel[]>
+      // user: User
+    ) => {
       state.loading = false;
       state.ordersList = action.payload;
+      // Pe baza de id stochez un array de comanda
     },
     fetchOrderError: (state, action: PayloadAction<string>) => {
       state.error = action.payload;
