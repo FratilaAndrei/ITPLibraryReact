@@ -57,16 +57,34 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     const unsubscribe = onAuthStateChanged(auth22, async (user) => {
       if (user) {
         try {
-          const token = await user.getIdTokenResult();
-          // const mockExpirationTime = new Date(Date.now() - 1000).toISOString();
-          const expirationTime = new Date(token.expirationTime).getTime();
+          // const token = await user.getIdTokenResult();
+          const token = await user.getIdTokenResult(false);
+          const refreshToken = user.refreshToken;
+          console.log("RefreshToken", refreshToken);
+          console.log("token", token.expirationTime);
+          // const mockExpirationTime = new Date(Date.now() - 1000);
+
+          const expirationTime = new Date(token.expirationTime).setHours(
+            22,
+            39,
+            0,
+            0
+          );
+          console.log("EXPtime", expirationTime);
+
+          // Firebase impiedica lucru direct cu Refresh Token, se ocupa el automat la 30zile
+          // token expires in 1h
 
           const currentTime = new Date().getTime();
+          // const currentTime = new Date().getTime();
+          console.log("Curr time", currentTime);
 
-          if (expirationTime && expirationTime < currentTime) {
+          if (expirationTime < currentTime) {
+            // if (mockExpirationTime < currentTime) {
             await signOut(auth22);
             setCurrentUser(null);
             window.location.href = `${HOME_PAGE_ROUTE}`;
+            console.log("Token has expired, logging out.");
           } else {
             setCurrentUser(user);
           }
@@ -93,7 +111,7 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [location.pathname, navigate]);
   const logOut = () => {
     signOut(auth22);
-    document.cookie = "Auth-jwt=;max-age=0"; // reset cookie
+    document.cookie = "Auth-jwt=;max-age=0";
   };
 
   const setTokenInCookie = async (user: User) => {
@@ -106,7 +124,6 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     };
     // document.cookie = `Auth-jwt=${token}; max-age=${options.maxAge}; path=/; secure=${options.secure}; samesite=${options.sameSite}`;
     document.cookie = `Auth-jwt=${token}; path=/; secure; sameSite= strict`;
-    console.log("Token saved in cookies:", token);
   };
   const saveUserInDB = async (user: User, password: string) => {
     const userId = user.uid;
@@ -136,7 +153,6 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
       await setTokenInCookie(actualUser);
       await saveUserInDB(actualUser, password);
       navigate(HOME_PAGE_ROUTE);
-      console.log("USER_TOKEN", user.user.getIdToken(true));
     } catch (error) {
       console.log(error.message);
     }

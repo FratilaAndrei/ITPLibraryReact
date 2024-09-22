@@ -88,6 +88,7 @@ export type orderDetailsModelWitoutId = {
 
 export type orderModel = {
   // id: string | undefined;
+  id: string;
   quantity: number;
   status: "In Progress" | "Completed";
   price: number;

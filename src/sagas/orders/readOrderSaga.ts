@@ -10,7 +10,7 @@ import {
 import { readOrders } from "../../services/orders/readOrders.service";
 
 function* readOrderSaga(PayloadAction: PayloadAction<User>) {
-  console.log("Saga - ", PayloadAction.payload);
+  // console.log("Saga - ", PayloadAction.payload);
   try {
     const res: orderModel[] = yield call(readOrders, PayloadAction.payload);
     yield put(fetchOrderSuccess(res));

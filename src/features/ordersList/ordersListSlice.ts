@@ -30,7 +30,7 @@ export const ordersListSlice = createSlice({
       const { orderDetails, totalQuantity, totalPrice } = action.payload;
 
       const newOrder: orderModel = {
-        // id: uuidv4()
+        // id: uuidv4(),
         // id: auth22.currentUser?.uid,
         quantity: totalQuantity,
         price: totalPrice,
@@ -70,9 +70,9 @@ export const ordersListSlice = createSlice({
         }),
       };
     },
-    fetchOrderRequest: (state, action: PayloadAction<string>) => {
+    fetchOrderRequest: (state) => {
       state.loading = true;
-      console.log("Acc -", action.payload);
+      // console.log("Acc -", action.payload);
     },
     fetchOrderSuccess: (
       state,
