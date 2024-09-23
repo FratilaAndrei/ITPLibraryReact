@@ -34,6 +34,11 @@ const EditOrderDetails = () => {
   if (!order) {
     return <div>form not found</div>;
   }
+
+  const orderCompleted = !!(order.status === "Completed");
+
+  console.log("Salut", orderCompleted);
+
   const { orderDetails } = order;
   const isCompleted = order.status === "Completed";
 
@@ -83,15 +88,15 @@ const EditOrderDetails = () => {
             <div className="text-2xl xl:text-3xl text-important-black-color fullHd:text-[38px] font-semibold font-lora">
               Order Details
             </div>
-            <ContactDetails isFieldDisabled={isCompleted} />
-            <BillingAdressInputs isFieldDisabled={isCompleted} />
+            <ContactDetails isFieldDisabled={orderCompleted} />
+            <BillingAdressInputs isFieldDisabled={orderCompleted} />
             <div className="flex gap-x-2 items-center">
               <input
                 type="checkbox"
                 name="delivery"
                 onChange={handleCheckboxChange}
                 onClick={() => setIsDeliveryVisible((prev) => !prev)}
-                disabled={isCompleted}
+                disabled={orderCompleted}
               />
               <label htmlFor="delivery">Use Address for delivery</label>
             </div>
@@ -114,7 +119,7 @@ const EditOrderDetails = () => {
                     name="paymentType"
                     value="Online"
                     checked={props.values.paymentType === "Online"}
-                    disabled={isCompleted}
+                    disabled={orderCompleted}
                   />
                   Online
                 </label>
@@ -123,7 +128,7 @@ const EditOrderDetails = () => {
                     type="radio"
                     name="paymentType"
                     value="Cash"
-                    disabled={isCompleted}
+                    disabled={orderCompleted}
                   />
                   Cash
                 </label>
@@ -145,7 +150,7 @@ const EditOrderDetails = () => {
                 className="py-1 pl-2 border-border-color rounded font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
                 placeholder="Delivery Date"
                 readOnlyInput
-                disabled={isCompleted}
+                disabled={orderCompleted}
               />
               <ErrorMessage
                 name="deliveryDate"
@@ -165,7 +170,7 @@ const EditOrderDetails = () => {
               name="observations"
               className="w-full border border-border-color p-2"
               readOnly={order.status === "Completed" ? true : false}
-              disabled={isCompleted}
+              disabled={orderCompleted}
             />
             <ErrorMessage
               name="observations"
@@ -189,15 +194,15 @@ const EditOrderDetails = () => {
                   {order.status === "In Progress" ? "Cancel" : "Back"}
                 </button>
               </Link>
-              {/* {order.status === "In Progress" ? ( */}
-              <button
-                className="ITPbutton text-white bg-black flex items-center justify-center"
-                type="submit"
-                disabled={isCompleted}
-              >
-                Update Order
-              </button>
-              {/* ) : null} */}
+              {orderCompleted === false ? (
+                <button
+                  className="ITPbutton text-white bg-black flex items-center justify-center"
+                  type="submit"
+                  disabled={isCompleted}
+                >
+                  Update Order
+                </button>
+              ) : null}
             </div>
           </form>
         );
