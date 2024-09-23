@@ -96,3 +96,24 @@ export const modifyOrder = async (user: User, order: orderModelFetchModel) => {
     throw error;
   }
 };
+
+export const updateStatusOrder = async (
+  user: User,
+  order: orderModelFetchModel
+) => {
+  const token = getTokenFromCookies();
+  try {
+    const res = await axios.put(
+      `${API_URL}/orders/${user}/${order.id}.json`,
+      order,
+      {
+        headers: {
+          "X-Authorization": `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("Status order updated", res);
+  } catch (error) {
+    console.error("There was an error updating status", error);
+  }
+};

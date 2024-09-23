@@ -12,7 +12,8 @@ type Props = {
 };
 
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
-  const orderStatus: orderModelFetchModel["status"] = "In Progress";
+  console.log("idComanda - ", order.id);
+  console.log("orderStatus - ", order.status);
 
   return (
     <div key={order.id}>
@@ -37,7 +38,7 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
             </div>
             <div className="flex  gap-x-2 items-center font-roboto">
               <div>Delivery Status:</div>
-              <div className="font-bold text-lg">{orderStatus}</div>
+              <div className="font-bold text-lg">{order.status}</div>
             </div>
           </div>
         </div>
@@ -45,7 +46,7 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
           <div className="text-beige-color font-bold fullHd:text-3xl text-lg">
             ${order.totalPrice}
           </div>
-          {orderStatus === "In Progress" && order.orderDetails ? (
+          {order.status === "In Progress" && order.orderDetails ? (
             <Link
               to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
               className="flex gap-x-2 items-center cursor-pointer"

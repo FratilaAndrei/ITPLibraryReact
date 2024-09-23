@@ -53,6 +53,7 @@ const OrderDetails = () => {
           placeOrder({
             totalQuantity,
             totalPrice,
+            status: "In Progress",
             orderDetails: {
               ...values,
               deliveryDate: new Date(values.deliveryDate).toUTCString(),

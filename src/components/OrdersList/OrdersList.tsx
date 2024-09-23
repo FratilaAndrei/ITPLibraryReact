@@ -19,7 +19,7 @@ const OrdersList = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      ordersList.forEach((order) => dispatch(handleShipment(order.id)));
+      ordersList.forEach((order) => dispatch(handleShipment(order)));
     }, 60000);
 
     return () => clearInterval(interval);

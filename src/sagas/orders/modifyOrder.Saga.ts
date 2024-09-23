@@ -1,10 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { call, put, takeLatest } from "redux-saga/effects";
+import { call, takeLatest } from "redux-saga/effects";
 import { orderModel, orderModelFetchModel } from "../../data/types/type";
-import {
-  editForm,
-  fetchOrderError,
-} from "../../features/ordersList/ordersListSlice";
+import { editForm } from "../../features/ordersList/ordersListSlice";
 import { auth22 } from "../../firebase/firebase";
 import { modifyOrder } from "../../services/orders/readOrders.service";
 
@@ -17,7 +14,7 @@ function* modifyOrderSaga(action: PayloadAction<orderModelFetchModel>) {
       action.payload
     );
   } catch (error) {
-    yield put(fetchOrderError("Error fetching orders"));
+    console.log("Update Failed", error);
   }
 }
 

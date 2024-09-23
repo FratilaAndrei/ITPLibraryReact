@@ -8,6 +8,7 @@ import { watchFetchBooks } from "../sagas/booksSaga";
 import { watchOrders } from "../sagas/orders/createOrderSaga";
 import { watchModifyOrder } from "../sagas/orders/modifyOrder.Saga";
 import { watchReadOrder } from "../sagas/orders/readOrderSaga";
+import { watchUpdateStatusOrder } from "../sagas/orders/updateStatusOrderSaga";
 import { watchFetchUsers } from "../sagas/usersSaga";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -28,6 +29,7 @@ sagaMiddleware.run(watchFetchUsers);
 sagaMiddleware.run(watchOrders);
 sagaMiddleware.run(watchReadOrder);
 sagaMiddleware.run(watchModifyOrder);
+sagaMiddleware.run(watchUpdateStatusOrder);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

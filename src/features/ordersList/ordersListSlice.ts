@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   orderDetailsModelWitoutId,
-  orderModel,
   orderModelFetchModel,
 } from "../../data/types/type";
 import { auth22 } from "../../firebase/firebase";
@@ -30,9 +29,11 @@ export const ordersListSlice = createSlice({
         orderDetails: orderDetailsModelWitoutId;
         totalQuantity: number;
         totalPrice: number;
+        status: "In Progress" | "Completed";
       }>
     ) => {
-      const { orderDetails, totalQuantity, totalPrice } = action.payload;
+      const { orderDetails, totalQuantity, totalPrice, status } =
+        action.payload;
       if (!auth22.currentUser) {
         console.log("No ID");
         return;
@@ -44,7 +45,7 @@ export const ordersListSlice = createSlice({
         id: userId,
         totalQuantity: totalQuantity,
         totalPrice: totalPrice,
-        status: "In Progress",
+        status: status,
         orderDetails: {
           ...orderDetails,
           deliveryDate: orderDetails.deliveryDate,
@@ -72,11 +73,11 @@ export const ordersListSlice = createSlice({
       });
       console.log("Updated Orders", state.ordersList);
     },
-    handleShipment: (state, action: PayloadAction<string>) => {
+    handleShipment: (state, action: PayloadAction<orderModelFetchModel>) => {
       return {
         ...state,
         ordersList: state.ordersList.map((order) => {
-          return order.id === action.payload
+          return order.id === action.payload.id
             ? { ...order, status: "Completed" }
             : order;
         }),
@@ -88,7 +89,7 @@ export const ordersListSlice = createSlice({
     },
     fetchOrderSuccess: (
       state,
-      action: PayloadAction<orderModel[]>
+      action: PayloadAction<orderModelFetchModel[]>
       // user: User
     ) => {
       state.loading = false;
