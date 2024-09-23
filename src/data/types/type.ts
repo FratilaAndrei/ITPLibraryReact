@@ -95,6 +95,14 @@ export type orderModel = {
   orderDetails: orderDetailsModelWitoutId;
 };
 
+export type orderModelFetchModel = {
+  id: string;
+  totalPrice: number;
+  totalQuantity: number;
+  orderDetails: orderDetailsModel;
+  status: "In Progress" | "Completed";
+};
+
 export type orderDetailsModel = {
   firstName: string;
   lastName: string;

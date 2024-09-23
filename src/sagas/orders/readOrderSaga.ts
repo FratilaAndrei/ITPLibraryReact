@@ -1,5 +1,4 @@
 import { PayloadAction } from "@reduxjs/toolkit";
-import { User } from "firebase/auth";
 import { call, put, takeLatest } from "redux-saga/effects";
 import { orderModel } from "../../data/types/type";
 import {
@@ -7,16 +6,17 @@ import {
   fetchOrderRequest,
   fetchOrderSuccess,
 } from "../../features/ordersList/ordersListSlice";
+import { auth22 } from "../../firebase/firebase";
 import { readOrders } from "../../services/orders/readOrders.service";
 
-function* readOrderSaga(PayloadAction: PayloadAction<User>) {
-  // console.log("Saga - ", PayloadAction.payload);
+function* readOrderSaga(action: PayloadAction<void>) {
   try {
-    const res: orderModel[] = yield call(readOrders, PayloadAction.payload);
-    yield put(fetchOrderSuccess(res));
+    const user = auth22.currentUser; // Assuming auth22 is the Firebase auth object
+    const res: orderModel[] = yield call(readOrders, user?.uid, []);
+    console.log("Saga res", res);
+    yield put(fetchOrderSuccess(res)); // Dispatch success action with fetched orders
   } catch (error) {
-    console.error("There was an error!", error);
-    yield put(fetchOrderError("Eroare"));
+    yield put(fetchOrderError("Error fetching orders"));
   }
 }
 

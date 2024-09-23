@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { orderDetailsModelWitoutId, orderModel } from "../../data/types/type";
+import {
+  orderDetailsModelWitoutId,
+  orderModel,
+  orderModelFetchModel,
+} from "../../data/types/type";
+import { auth22 } from "../../firebase/firebase";
 
 export type ordersListModel = {
-  ordersList: orderModel[];
+  ordersList: orderModelFetchModel[];
   quantity: number;
   loading: boolean;
   error: string | boolean;
@@ -28,12 +33,17 @@ export const ordersListSlice = createSlice({
       }>
     ) => {
       const { orderDetails, totalQuantity, totalPrice } = action.payload;
+      if (!auth22.currentUser) {
+        console.log("No ID");
+        return;
+      }
+      const userId = auth22.currentUser.uid;
 
-      const newOrder: orderModel = {
+      const newOrder: orderModelFetchModel = {
         // id: uuidv4(),
-        // id: auth22.currentUser?.uid,
-        quantity: totalQuantity,
-        price: totalPrice,
+        id: userId,
+        totalQuantity: totalQuantity,
+        totalPrice: totalPrice,
         status: "In Progress",
         orderDetails: {
           ...orderDetails,
@@ -42,23 +52,25 @@ export const ordersListSlice = createSlice({
       };
       state.ordersList.push(newOrder);
     },
-    editForm: (
-      state,
-      action: PayloadAction<{
-        orderDetails: orderDetailsModelWitoutId;
-        id: string;
-      }>
-    ) => {
-      const { orderDetails, id } = action.payload;
+
+    editForm: (state, action: PayloadAction<orderModelFetchModel>) => {
       state.ordersList = state.ordersList.map((order) => {
-        if (order.id === id) {
+        if (order.id === action.payload.id) {
           return {
             ...order,
-            orderDetails: orderDetails,
+            totalPrice: action.payload.totalPrice, // Update totalPrice
+            totalQuantity: action.payload.totalQuantity, // Update totalQuantity
+            status: action.payload.status,
+            // orderDetails: {
+            //   ...order.orderDetails, // Keep existing order details
+            //   ...action.payload.orderDetails, // Update specific details
+            // },
+            orderDetails: action.payload.orderDetails,
           };
         }
         return order;
       });
+      console.log("Updated Orders", state.ordersList);
     },
     handleShipment: (state, action: PayloadAction<string>) => {
       return {
@@ -70,9 +82,9 @@ export const ordersListSlice = createSlice({
         }),
       };
     },
-    fetchOrderRequest: (state) => {
+    fetchOrderRequest: (state, action: PayloadAction) => {
       state.loading = true;
-      // console.log("Acc -", action.payload);
+      console.log("orderData -", action.payload);
     },
     fetchOrderSuccess: (
       state,

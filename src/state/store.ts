@@ -6,6 +6,7 @@ import shoppingCartReducer from "../features/shoppingCart/ShoppingCartSlice";
 import userAccountReducer from "../features/userAccount/userAccountSlice";
 import { watchFetchBooks } from "../sagas/booksSaga";
 import { watchOrders } from "../sagas/orders/createOrderSaga";
+import { watchModifyOrder } from "../sagas/orders/modifyOrder.Saga";
 import { watchReadOrder } from "../sagas/orders/readOrderSaga";
 import { watchFetchUsers } from "../sagas/usersSaga";
 
@@ -26,6 +27,7 @@ sagaMiddleware.run(watchFetchBooks);
 sagaMiddleware.run(watchFetchUsers);
 sagaMiddleware.run(watchOrders);
 sagaMiddleware.run(watchReadOrder);
+sagaMiddleware.run(watchModifyOrder);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

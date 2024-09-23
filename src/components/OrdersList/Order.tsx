@@ -3,34 +3,16 @@ import { GoPencil } from "react-icons/go";
 import { Link } from "react-router-dom";
 import orderBook from "../../assets/images/orderBook.png";
 import { ORDER_DETAILS_ROUTE } from "../../data/routes";
-import { orderModel } from "../../data/types/type";
+import { orderModelFetchModel } from "../../data/types/type";
 
 type Props = {
-  order: orderModel;
+  order: orderModelFetchModel;
   index: number;
-  ordersArray: orderModel[];
+  ordersArray: orderModelFetchModel[];
 };
 
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
-  const getAllQuantity = (id: string) => {
-    let totalQuantity = 0;
-    ordersArray.forEach((order) => {
-      if (order.id === id) {
-        totalQuantity += order.quantity;
-      }
-    });
-    return totalQuantity;
-  };
-
-  const getAllPrice = (id: string) => {
-    let totalPrice = 0;
-    ordersArray.forEach((item) => {
-      if (item.id === id) {
-        totalPrice += item.price * item.quantity;
-      }
-    });
-    return totalPrice;
-  };
+  const orderStatus: orderModelFetchModel["status"] = "In Progress";
 
   return (
     <div key={order.id}>
@@ -50,22 +32,20 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
               </div>
               <div className="flex gap-x-2 items-center font-roboto">
                 <span>Items</span>
-                <div className="font-bold text-lg ">
-                  {getAllQuantity(order.id)}
-                </div>
+                <div className="font-bold text-lg ">{order.totalQuantity}</div>
               </div>
             </div>
             <div className="flex  gap-x-2 items-center font-roboto">
               <div>Delivery Status:</div>
-              <div className="font-bold text-lg">{order.status}</div>
+              <div className="font-bold text-lg">{orderStatus}</div>
             </div>
           </div>
         </div>
         <div className="flex flex-col gap-x-2 items-center font-roboto md:items-end">
           <div className="text-beige-color font-bold fullHd:text-3xl text-lg">
-            ${getAllPrice(order.id)}
+            ${order.totalPrice}
           </div>
-          {order.status === "In Progress" && order.orderDetails ? (
+          {orderStatus === "In Progress" && order.orderDetails ? (
             <Link
               to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
               className="flex gap-x-2 items-center cursor-pointer"

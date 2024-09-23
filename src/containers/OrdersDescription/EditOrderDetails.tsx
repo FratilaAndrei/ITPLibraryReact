@@ -10,8 +10,8 @@ import DeliveryAdress from "../../components/OrdersDescription/Form/DeliveryAdre
 import InputSection from "../../components/OrdersDescription/InputSection";
 import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
 import { ORDERS_ROUTE } from "../../data/routes";
-import { orderModel } from "../../data/types/type";
-import { editForm } from "../../features/ordersList/OrdersListSlice";
+import { orderModelFetchModel } from "../../data/types/type";
+import { editForm } from "../../features/ordersList/ordersListSlice";
 import { RootState } from "../../state/store";
 
 const EditOrderDetails = () => {
@@ -26,7 +26,11 @@ const EditOrderDetails = () => {
 
   const { id } = useParams<{ id: string }>();
   if (!id) return;
-  const order = ordersList.find((order: orderModel) => order.id === id);
+  const order = ordersList.find(
+    (order: orderModelFetchModel) => order.id === id
+  );
+  console.log("Order Found", order);
+  // console.log("Status Comanda", order.status);
   if (!order) {
     return <div>form not found</div>;
   }
@@ -45,7 +49,15 @@ const EditOrderDetails = () => {
           values.deliveryCity = values.billingCity;
           values.deliveryPhone = values.billingPhone;
         }
-        dispatch(editForm({ id, orderDetails: values }));
+        dispatch(
+          editForm({
+            id,
+            orderDetails: values,
+            totalQuantity: order.totalQuantity,
+            totalPrice: order.totalPrice,
+            status: order.status,
+          })
+        );
         navigate(ORDERS_ROUTE);
         actions.setSubmitting(false);
       }}
@@ -177,15 +189,15 @@ const EditOrderDetails = () => {
                   {order.status === "In Progress" ? "Cancel" : "Back"}
                 </button>
               </Link>
-              {order.status === "In Progress" ? (
-                <button
-                  className="ITPbutton text-white bg-black flex items-center justify-center"
-                  type="submit"
-                  disabled={isCompleted}
-                >
-                  Update Order
-                </button>
-              ) : null}
+              {/* {order.status === "In Progress" ? ( */}
+              <button
+                className="ITPbutton text-white bg-black flex items-center justify-center"
+                type="submit"
+                disabled={isCompleted}
+              >
+                Update Order
+              </button>
+              {/* ) : null} */}
             </div>
           </form>
         );

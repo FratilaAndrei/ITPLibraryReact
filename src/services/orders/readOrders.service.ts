@@ -1,9 +1,9 @@
 import axios from "axios";
 import { User } from "firebase/auth";
-import { orderModel } from "../../data/types/type";
+import { orderModelFetchModel } from "../../data/types/type";
 import { API_URL, auth22 } from "../../firebase/firebase";
 
-const getTokenFromCookies = () => {
+export const getTokenFromCookies = () => {
   // const token = document.cookie.split("=")[1];
   const token = document.cookie.match(/Auth-jwt=([^;]+)/)?.[1];
   // Aparent am si Clerk cookies
@@ -22,14 +22,10 @@ const getAccountToken = async (user: User) => {
   }
 };
 
-export const readOrders = async (user: User) => {
-  // console.log("User 3", user);
-
-  // if (!user) {
-  //   console.error("No user is currently signed in.");
-  //   return;
-  // }
-
+export const readOrders = async (
+  user: User,
+  orderData: orderModelFetchModel[]
+) => {
   const accToken = await getAccountToken(user);
   // console.log("Token Account Logged:", accToken);
 
@@ -54,36 +50,49 @@ export const readOrders = async (user: User) => {
   // }
 
   try {
-    // const res = await axios.get(`${API_URL}/orders/${user.uid}.json`, {
     const res = await axios.get(`${API_URL}/orders/${user}.json`, {
       headers: {
-        // Authorization: `Bearer ${token}`,
-        // "X-Authorization": `Bearer ${accToken}`,
         "X-Authorization": `Bearer ${token}`,
       },
     });
-    // const res = await axios.get(`${API_URL}/orders.json`);
-    // const ordersArray: orderModel[] = Object.keys(res.data).map((key) => ({
-    //   id: key,
-    //   ...res.data[key],
-    // }));
-    // return ordersArray;
-    // console.log("Resultat", res.data);
 
-    const ordersArray: orderModel[] = Object.keys(res.data).map((key) => ({
-      id: key,
-      ...res.data[key],
-    }));
-    return ordersArray;
+    console.log("API Response: ", res); // Check the full response object
+
+    if (res.data && typeof res.data === "object") {
+      const ordersArray: orderModelFetchModel[] = Object.keys(res.data).map(
+        (key) => ({
+          id: key,
+          ...res.data[key],
+        })
+      );
+      orderData.push(...ordersArray);
+    } else {
+      console.warn("No orders found or data is not in expected format.");
+    }
+
+    console.log(orderData);
+    return orderData;
   } catch (error) {
     console.error("There was an error!", error);
-    throw error; // Ensure errors are propagated correctly
+    throw error;
   }
 };
 
-// {
-//   "rules": {
-//     ".read": true,
-//     ".write": true
-//   }
-// }
+export const modifyOrder = async (user: User, order: orderModelFetchModel) => {
+  const token = getTokenFromCookies();
+  try {
+    const res = await axios.put(
+      `${API_URL}/orders/${user}/${order.id}.json`,
+      order,
+      {
+        headers: {
+          "X-Authorization": `Bearer ${token}`,
+        },
+      }
+    );
+    console.log("COMANDA UPDATED dupa form: ", res); // Check the full response object
+  } catch (error) {
+    console.error("There was an error!", error);
+    throw error;
+  }
+};

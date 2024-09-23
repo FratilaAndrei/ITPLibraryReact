@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from "../../contexts/UsersProvider";
-import { orderModel } from "../../data/types/type";
+import { orderModelFetchModel } from "../../data/types/type";
 import {
   fetchOrderRequest,
   handleShipment,
@@ -34,8 +34,8 @@ const OrdersList = () => {
 
   useEffect(() => {
     if (currentUser === null) return;
-    dispatch(fetchOrderRequest(currentUser.uid));
-  }, [dispatch, currentUser]);
+    dispatch(fetchOrderRequest());
+  }, [dispatch, currentUser, ordersList.length]);
 
   if (loading) {
     return <div>Se incarca pagina stai</div>;
@@ -45,6 +45,8 @@ const OrdersList = () => {
     return <div>{error}</div>;
   }
 
+  console.log("Comenzi", listOfOrders);
+
   return (
     <div className="flex flex-col gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4 fullHd:my-16  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
       <div className="flex flex-col w-full gap-y-4">
@@ -52,15 +54,7 @@ const OrdersList = () => {
           Your orders
         </h2>
         <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4">
-          {/* {ordersList.map((order: orderModel, index) => (
-            <Order
-              index={index}
-              key={order.id}
-              order={order}
-              ordersArray={ordersList}
-            />
-          ))} */}
-          {listOfOrders.map((order: orderModel, index) => {
+          {listOfOrders.map((order: orderModelFetchModel, index) => {
             return (
               <Order
                 index={index}
