@@ -3,7 +3,7 @@ import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { BookModel } from "../data/types/type";
+import { bookModel2 } from "../data/types/type";
 import {
   decrementQuantity,
   handleRemoveItem,
@@ -32,7 +32,7 @@ const ShoppingItem: FC = () => {
   const shoppingArray = useSelector(
     (state: RootState) => state.shoppingCart.items
   );
-  return shoppingArray?.map((item: BookModel, index: number) => {
+  return shoppingArray?.map((item: bookModel2, index: number) => {
     return (
       <div key={item.id}>
         <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">

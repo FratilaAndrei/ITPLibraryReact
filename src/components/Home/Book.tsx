@@ -2,14 +2,15 @@ import { FC } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { BookModel } from "../../data/types/type";
+import { bookModel2 } from "../../data/types/type";
 import {
   addBookCounter,
   handleAddToCart,
 } from "../../features/shoppingCart/ShoppingCartSlice";
+import ITPButton from "../common/ITPButton";
 
 type Props = {
-  book: BookModel;
+  book: bookModel2;
 };
 
 const Book: FC<Props> = ({ book }) => {
@@ -45,7 +46,7 @@ const Book: FC<Props> = ({ book }) => {
           </div>
         </div>
       </Link>
-      <button
+      {/* <button
         className="flex justify-center gap-x-2 xl:mt-6 fullHd:mt-14 fullHd:py-2 text-xs bg-black text-white-color items-center py-1.5 rounded-[4px]"
         onClick={() =>
           dispatch(handleAddToCart(book), dispatch(addBookCounter()))
@@ -53,7 +54,16 @@ const Book: FC<Props> = ({ book }) => {
       >
         <FaShoppingCart />
         <div className="font-lora font-normal fullHd:text-sm">Add to Cart</div>
-      </button>
+      </button> */}
+      <ITPButton
+        className="bg-black text-white"
+        onClick={() =>
+          dispatch(handleAddToCart(book), dispatch(addBookCounter()))
+        }
+      >
+        <FaShoppingCart />
+        <div>Add to Cart</div>
+      </ITPButton>
     </div>
   );
 };

@@ -23,6 +23,19 @@ button:hover {
   font-size: 0.75rem;
   line-height: 1rem;
 }
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari and Opera */
+}
+
 .order-input {
   @apply py-1;
   padding-left: 0.5rem; /* pl-2 */

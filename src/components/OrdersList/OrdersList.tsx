@@ -43,7 +43,7 @@ const OrdersList = () => {
           Your orders
         </h2>
         {/* <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-auto scroll-smooth px-4 -mx-4 my-4"> */}
-        <div className="flex flex-col max-h-[90%]  md:overflow-y-scroll  scroll-smooth px-4 -mx-4 my-4">
+        <div className="flex flex-col max-h-[90%]  md:overflow-y-scroll scrollbar-hide  scroll-smooth px-4 -mx-4 my-4">
           {listOfOrders.map((order: orderModelFetchModel, index) => {
             return (
               <Order
