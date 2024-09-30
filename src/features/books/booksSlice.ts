@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookModel } from "../../data/types/type";
+import { BookModel, bookModel2 } from "../../data/types/type";
 interface BooksState {
-  books: BookModel[];
+  // books: BookModel[];
+  books: bookModel2[];
   loading: boolean;
   error: string | null;
   mostRecentBooks: BookModel[];
@@ -21,7 +22,8 @@ const bookSlice = createSlice({
     fetchBooksRequest: (state) => {
       state.loading = true;
     },
-    fetchBooksSuccess: (state, action: PayloadAction<BookModel[]>) => {
+    // fetchBooksSuccess: (state, action: PayloadAction<BookModel[]>) => {
+    fetchBooksSuccess: (state, action: PayloadAction<bookModel2[]>) => {
       state.books = action.payload;
       state.loading = false;
     },

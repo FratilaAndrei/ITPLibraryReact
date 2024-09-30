@@ -16,7 +16,7 @@ import {
   useState,
 } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { HOME_PAGE_ROUTE, LOGIN_ROUTE, REGISTER_ROUTE } from "../data/routes";
+import { HOME_PAGE_ROUTE } from "../data/routes";
 import { API_URL, auth22 } from "../firebase/firebase";
 
 export type userContextModel = {
@@ -96,14 +96,14 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       } else {
         setCurrentUser(null);
-        if (
-          location.pathname !== HOME_PAGE_ROUTE &&
-          location.pathname !== LOGIN_ROUTE &&
-          location.pathname !== REGISTER_ROUTE
-        )
-          window.location.href = `${HOME_PAGE_ROUTE}`;
+        //   if (
+        //     location.pathname !== HOME_PAGE_ROUTE &&
+        //     location.pathname !== LOGIN_ROUTE &&
+        //     location.pathname !== REGISTER_ROUTE
+        //   )
+        //     window.location.href = `${HOME_PAGE_ROUTE}`;
+        // }
       }
-
       setLoading(false);
     });
 
@@ -112,16 +112,17 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const logOut = () => {
     signOut(auth22);
     document.cookie = "Auth-jwt=;max-age=0";
+    window.location.href = `${HOME_PAGE_ROUTE}`;
   };
 
   const setTokenInCookie = async (user: User) => {
     const token = await user.getIdToken();
     // daca pun true, dau force la refresh token
-    const options = {
-      maxAge: 1000 * 60 * 15, // 15 min token
-      sameSite: "strict",
-      secure: true,
-    };
+    // const options = {
+    //   maxAge: 1000 * 60 * 15, // 15 min token
+    //   sameSite: "strict",
+    //   secure: true,
+    // };
     // document.cookie = `Auth-jwt=${token}; max-age=${options.maxAge}; path=/; secure=${options.secure}; samesite=${options.sameSite}`;
     document.cookie = `Auth-jwt=${token}; path=/; secure; sameSite= strict`;
   };

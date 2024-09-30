@@ -1,6 +1,8 @@
 import * as Yup from "yup";
 
-const passwordRules = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{5,10}$/;
+// const passwordRules = /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*]{5,30}$/;
+const passwordRules =
+  /^(?=.*[0-9])[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>?~`]*$/;
 
 export type registerValuesModel = {
   email: string;
@@ -20,7 +22,6 @@ export type loginInitialModel = {
 };
 
 export type userModel = {
-  // id: string;
   email: string;
   password: string;
 };
@@ -38,7 +39,7 @@ export const SIGN_UP_SCHEMA = Yup.object().shape({
   email: Yup.string().email("Invalid email").required("Required"),
   password: Yup.string()
     .min(5)
-    .matches(passwordRules, { message: "Please create a stronger password" })
+    .matches(passwordRules, { message: "Password doesnt match rules" })
     .required("Required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")

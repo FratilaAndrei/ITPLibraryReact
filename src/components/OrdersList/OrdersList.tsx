@@ -2,10 +2,7 @@ import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from "../../contexts/UsersProvider";
 import { orderModelFetchModel } from "../../data/types/type";
-import {
-  fetchOrderRequest,
-  handleShipment,
-} from "../../features/ordersList/ordersListSlice";
+import { fetchOrderRequest } from "../../features/ordersList/ordersListSlice";
 import { RootState } from "../../state/store";
 import Order from "./Order";
 
@@ -16,14 +13,6 @@ const OrdersList = () => {
   );
 
   const { currentUser } = useContext(UserContext);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      ordersList.forEach((order) => dispatch(handleShipment(order)));
-    }, 60000);
-
-    return () => clearInterval(interval);
-  }, [ordersList, dispatch]);
 
   const { loading, error } = useSelector(
     (state: RootState) => state.ordersList
@@ -53,7 +42,7 @@ const OrdersList = () => {
         <h2 className="font-lora font-bold text-3xl fullHd:text-[38px]">
           Your orders
         </h2>
-        <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4">
+        <div className="flex flex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-auto scroll-smooth px-4 -mx-4 my-4">
           {listOfOrders.map((order: orderModelFetchModel, index) => {
             return (
               <Order

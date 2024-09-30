@@ -1,19 +1,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { BookModel } from "./../../data/types/type";
+import { bookModel2 } from "./../../data/types/type";
 
 export type ShoppingCartState = {
-  items: BookModel[];
+  items: bookModel2[];
   shoppingPrice: number;
   showPopup: boolean;
-  lastAddedBook: BookModel | null;
+  lastAddedBook: bookModel2 | null;
   bookAddedCount: number;
 };
-const getInitialShoppingState = (): BookModel[] => {
+const getInitialShoppingState = (): bookModel2[] => {
   const SHOPPING_STORAGE = localStorage.getItem("shopping-cart");
   return SHOPPING_STORAGE ? JSON.parse(SHOPPING_STORAGE) : [];
 };
 
-const saveCartToLocalStorage = (items: BookModel[]) => {
+const saveCartToLocalStorage = (items: bookModel2[]) => {
   localStorage.setItem("shopping-cart", JSON.stringify(items));
 };
 
@@ -35,27 +35,27 @@ export const shoppingCartSlice = createSlice({
         0
       );
     },
-    incrementQuantity: (state, action: PayloadAction<BookModel>) => {
+    incrementQuantity: (state, action: PayloadAction<bookModel2>) => {
       const book = state.items.find(
-        (book: BookModel) => book.id === action.payload.id
+        (book: bookModel2) => book.id === action.payload.id
       );
       if (book) {
         book.quantity += 1;
         saveCartToLocalStorage(state.items);
       }
     },
-    decrementQuantity: (state, action: PayloadAction<BookModel>) => {
+    decrementQuantity: (state, action: PayloadAction<bookModel2>) => {
       const book = state.items.find(
-        (book: BookModel) => book.id === action.payload.id
+        (book: bookModel2) => book.id === action.payload.id
       );
       if (book && book.quantity > 1) {
         book.quantity -= 1;
         saveCartToLocalStorage(state.items);
       }
     },
-    handleRemoveItem: (state, action: PayloadAction<BookModel>) => {
+    handleRemoveItem: (state, action: PayloadAction<bookModel2>) => {
       state.items = state.items.filter(
-        (book: BookModel) => book.id !== action.payload.id
+        (book: bookModel2) => book.id !== action.payload.id
       );
       saveCartToLocalStorage(state.items);
     },
@@ -65,15 +65,15 @@ export const shoppingCartSlice = createSlice({
     hidePopup: (state) => {
       state.showPopup = false;
     },
-    addToShoppingCart: (state, action: PayloadAction<BookModel>) => {
+    addToShoppingCart: (state, action: PayloadAction<bookModel2>) => {
       state.items.push(action.payload);
       state.lastAddedBook = action.payload;
       state.showPopup = true;
       saveCartToLocalStorage(state.items);
     },
-    handleAddToCart: (state, action: PayloadAction<BookModel>) => {
+    handleAddToCart: (state, action: PayloadAction<bookModel2>) => {
       const existingBook = state.items.find(
-        (book: BookModel) => book.id === action.payload.id
+        (book: bookModel2) => book.id === action.payload.id
       );
 
       if (existingBook) {

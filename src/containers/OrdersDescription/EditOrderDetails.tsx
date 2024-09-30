@@ -198,7 +198,7 @@ const EditOrderDetails = () => {
                 <button
                   className="ITPbutton text-white bg-black flex items-center justify-center"
                   type="submit"
-                  disabled={isCompleted}
+                  disabled={orderCompleted}
                 >
                   Update Order
                 </button>

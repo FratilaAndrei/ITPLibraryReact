@@ -2,11 +2,9 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
 import { Message } from "primereact/message";
 import { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UsersProvider";
 import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from "../../data/routes";
-import { findAccount } from "../../features/userAccount/userAccountSlice";
 import { LOGIN_INITIAL_VALUES } from "./AuthValidationSchema";
 import { LOG_IN_SCHEMA } from "./LogInValidationSchema";
 
@@ -14,7 +12,6 @@ const LoginForm = () => {
   const [checked, setChecked] = useState<boolean>(false);
   const [showError, setShowError] = useState(false);
 
-  const dispatch = useDispatch();
   const { logInUser } = useContext(UserContext);
 
   useEffect(() => {
@@ -31,7 +28,6 @@ const LoginForm = () => {
     <Formik
       initialValues={LOGIN_INITIAL_VALUES}
       onSubmit={(values, actions) => {
-        dispatch(findAccount(values));
         logInUser(values.email, values.password);
         actions.setSubmitting(false);
       }}

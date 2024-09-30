@@ -50,7 +50,6 @@ const Homepage = () => {
           />
         ) : null}
       </div>
-      {/* <button onClick={() => createBook()}>Fetch Users</button> */}
       <Footer hasIcon />
     </div>
   );

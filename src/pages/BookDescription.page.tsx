@@ -4,8 +4,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PageTemplate from "../containers/PageTemplate";
-import { BOOKS } from "../data/constants";
-import { BookModel } from "../data/types/type";
+import { bookModel2 } from "../data/types/type";
 import {
   handleAddToCart,
   hidePopup,
@@ -20,6 +19,7 @@ const BookDescription = () => {
   const showPopup = useSelector(
     (state: RootState) => state.shoppingCart.showPopup
   );
+  const books = useSelector((state: RootState) => state.books.books);
 
   useEffect(() => {
     if (showPopup) {
@@ -35,7 +35,10 @@ const BookDescription = () => {
   if (!id) {
     return <div>Book ID is missing</div>;
   }
-  const book = BOOKS.find((book: BookModel) => book.id === parseInt(id, 10));
+
+  console.log("Carti", books);
+  const book = books.find((book: bookModel2) => book.id === id);
+  console.log("Carte", book);
   if (!book) {
     return <div>Book not found</div>;
   }

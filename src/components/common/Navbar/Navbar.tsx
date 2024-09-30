@@ -30,9 +30,11 @@ const Navbar = () => {
         <NavLink link={SHOPPING_CART_ROUTE} icon={<CiShoppingCart />}>
           Shopping Cart
         </NavLink>
-        <NavLink link={ORDERS_ROUTE} icon={<PiTruck />}>
-          Orders
-        </NavLink>
+        {currentUser ? (
+          <NavLink link={ORDERS_ROUTE} icon={<PiTruck />}>
+            Orders
+          </NavLink>
+        ) : null}
         {loading ? (
           <div>Loading...</div>
         ) : currentUser ? (

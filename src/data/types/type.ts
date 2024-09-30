@@ -26,7 +26,8 @@ export type bookModel2 = {
 
 export type BookRowModel = {
   title: string;
-  books: BookModel[];
+  books: bookModel2[];
+  // books: BookModel[];
   id: number;
 };
 
