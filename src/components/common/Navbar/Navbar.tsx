@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { FC, useContext, useState } from "react";
 import { CiShoppingCart } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
 import { PiHouse, PiTruck } from "react-icons/pi";
@@ -13,12 +13,18 @@ import {
 import NavLink from "./NavLink";
 import Sidebar from "./Sidebar";
 
-const Navbar = () => {
+type Props = {
+  className?: string;
+};
+
+const Navbar: FC<Props> = ({ className }) => {
   const { currentUser, loading, logOut } = useContext(UserContext);
   const [isAccountMenuOpened, setIsAccountMenuOpened] = useState(false);
 
   return (
-    <nav className="bg-white h-[56px] fixed z-50 w-full flex fullHd:px-28 items-center justify-between fullHd:h-[72px]">
+    <nav
+      className={` ${className} bg-white h-[56px] fixed  z-50 w-full flex fullHd:px-28 items-center justify-between fullHd:h-[72px] `}
+    >
       <ul className="flex  items-center font-medium font-lora text-xl fullHd:text-[28px] ">
         <img src={logoImage} alt="logo-img" className="h-[55px] width-[70px]" />
         <li className="">ITP Library</li>

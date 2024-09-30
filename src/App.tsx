@@ -18,7 +18,7 @@ function App() {
     const interval = setInterval(() => {
       ordersList.forEach((order) => dispatch(handleShipment(order)));
       console.log("Se updateaza starea");
-    }, 60000);
+    }, 6000);
 
     return () => clearInterval(interval);
   }, [ordersList, dispatch]);

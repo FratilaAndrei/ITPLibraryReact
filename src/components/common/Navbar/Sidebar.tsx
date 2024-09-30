@@ -53,7 +53,7 @@ const SidebarMenu = () => {
             Login
           </NavLink>
         ) : (
-          <div className="bg-slate-100 w-11/12 py-0 rounded-lg text-center text-xl ">
+          <div className="bg-zinc-200/30 shadow-md w-11/12 py-0 rounded-lg text-center text-xl ">
             {currentUser.email?.split("@")[0]}
           </div>
         )}
