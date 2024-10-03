@@ -1,14 +1,11 @@
 import { Message } from "primereact/message";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PageTemplate from "../containers/PageTemplate";
 import { bookModel2 } from "../data/types/type";
-import {
-  handleAddToCart,
-  hidePopup,
-} from "../features/shoppingCart/ShoppingCartSlice";
+import { handleAddToCart } from "../features/shoppingCart/ShoppingCartSlice";
 import { RootState } from "../state/store";
 
 const BookDescription = () => {
@@ -21,24 +18,22 @@ const BookDescription = () => {
   );
   const books = useSelector((state: RootState) => state.books.books);
 
-  useEffect(() => {
-    if (showPopup) {
-      const timer = setTimeout(() => {
-        dispatch(hidePopup());
-        setBookAddedCount(0);
-      }, 3000);
+  // useEffect(() => {
+  //   if (showPopup) {
+  //     const timer = setTimeout(() => {
+  //       dispatch(hidePopup());
+  //       setBookAddedCount(0);
+  //     }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [showPopup, dispatch]);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [showPopup, dispatch]);
 
   if (!id) {
     return <div>Book ID is missing</div>;
   }
 
-  console.log("Carti", books);
   const book = books.find((book: bookModel2) => book.id === id);
-  console.log("Carte", book);
   if (!book) {
     return <div>Book not found</div>;
   }

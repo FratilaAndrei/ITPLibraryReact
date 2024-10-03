@@ -1,9 +1,12 @@
+import { Skeleton } from "primereact/skeleton";
 import { FC } from "react";
 import { GoPencil } from "react-icons/go";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import orderBook from "../../assets/images/orderBook.png";
 import { ORDER_DETAILS_ROUTE } from "../../data/routes";
 import { orderModelFetchModel } from "../../data/types/type";
+import { RootState } from "../../state/store";
 
 type Props = {
   order: orderModelFetchModel;
@@ -12,12 +15,75 @@ type Props = {
 };
 
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
-  console.log("idComanda - ", order.id);
-  console.log("orderStatus - ", order.status);
+  const { loading } = useSelector((state: RootState) => state.ordersList);
 
   return (
     <div key={order.id}>
-      <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
+      {loading ? (
+        <Skeleton
+          pt={{
+            root: {
+              style: { height: "100px" },
+            },
+          }}
+        />
+      ) : (
+        <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
+          <div className="flex flex-col md:flex-row gap-x-4">
+            <div className="md:w-[92px] md:h-[132px]">
+              <img
+                src={orderBook}
+                alt={"pozaImagine"}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            <div className=" flex flex-col justify-between mt-2 md:mt-0">
+              <div className="flex flex-col items-center md:items-start gap-y-2 md:gap-y-0">
+                <div className="font-lora font-bold text-xl text-center">
+                  Order #{order.id.slice(0, 5)}
+                </div>
+                <div className="flex gap-x-2 items-center font-roboto">
+                  <span>Items</span>
+                  <div className="font-bold text-lg ">
+                    {order.totalQuantity}
+                  </div>
+                </div>
+              </div>
+              <div className="flex  gap-x-2 items-center font-roboto">
+                <div>Delivery Status:</div>
+                <div className="font-bold text-lg">{order.status}</div>
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-col gap-x-2 items-center font-roboto md:items-end">
+            <div className="text-beige-color font-bold fullHd:text-3xl text-lg">
+              ${order.totalPrice}
+            </div>
+            {order.status === "In Progress" && order.orderDetails ? (
+              <Link
+                to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
+                className="flex gap-x-2 items-center cursor-pointer"
+              >
+                <GoPencil />
+                <span className="text-base fullHd:text-xl text-black">
+                  Edit order details
+                </span>
+              </Link>
+            ) : (
+              <Link
+                to={`${ORDER_DETAILS_ROUTE}/edit/${order.id}`}
+                className="flex gap-x-2 items-center cursor-pointer"
+              >
+                <span className="text-base fullHd:text-xl text-black">
+                  View Order
+                </span>
+              </Link>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* <div className="card flex flex-col items-center md:flex-row md:w-full md:items-start md:justify-between">
         <div className="flex flex-col md:flex-row gap-x-4">
           <div className="md:w-[92px] md:h-[132px]">
             <img
@@ -67,8 +133,7 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
             </Link>
           )}
         </div>
-      </div>
-      {}
+      </div> */}
       {index != ordersArray.length - 1 && (
         <div className="h-[1px] w-full bg-border-color my-8" key={index} />
       )}

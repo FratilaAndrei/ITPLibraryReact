@@ -8,10 +8,8 @@ import {
 } from "firebase/auth";
 import {
   createContext,
-  Dispatch,
   FC,
   PropsWithChildren,
-  SetStateAction,
   useEffect,
   useState,
 } from "react";
@@ -22,7 +20,8 @@ import { API_URL, auth22 } from "../firebase/firebase";
 export type userContextModel = {
   // users: User[];
   currentUser: User | null;
-  setCurrentUser: Dispatch<SetStateAction<User | null>>;
+  // setCurrentUser: Dispatch<SetStateAction<User | null>>;
+  isUserLogged: boolean;
   loading: boolean;
   logOut: () => void;
   registerUser: (email: string, password: string) => void;
@@ -32,11 +31,12 @@ export type userContextModel = {
 const initialContext = {
   // users: [],
   currentUser: null,
-  setCurrentUser: null,
+  // setCurrentUser: null,
   loading: true,
-  logOut: null,
-  registerUser: null,
-  logInUser: null,
+  logOut: () => {},
+  registerUser: () => {},
+  isUserLogged: false,
+  logInUser: () => {},
 };
 
 export const UserContext = createContext<userContextModel>(initialContext);
@@ -44,6 +44,7 @@ export const UserContext = createContext<userContextModel>(initialContext);
 const UserProvider: FC<PropsWithChildren> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [users, setUsers] = useState<User[]>([]);
+  const [isUserLogged, setIsUserLogged] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,13 +56,12 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     // });
 
     const unsubscribe = onAuthStateChanged(auth22, async (user) => {
+      console.log("---------------------------------->>>", user);
       if (user) {
         try {
           // const token = await user.getIdTokenResult();
           const token = await user.getIdTokenResult(false);
           const refreshToken = user.refreshToken;
-          console.log("RefreshToken", refreshToken);
-          console.log("token", token.expirationTime);
           // const mockExpirationTime = new Date(Date.now() - 1000);
 
           const expirationTime = new Date(token.expirationTime).setHours(
@@ -70,32 +70,32 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
             0,
             0
           );
-          console.log("EXPtime", expirationTime);
 
           // Firebase impiedica lucru direct cu Refresh Token, se ocupa el automat la 30zile
           // token expires in 1h
 
           const currentTime = new Date().getTime();
           // const currentTime = new Date().getTime();
-          console.log("Curr time", currentTime);
 
           if (expirationTime < currentTime) {
             // if (mockExpirationTime < currentTime) {
             await signOut(auth22);
             setCurrentUser(null);
             window.location.href = `${HOME_PAGE_ROUTE}`;
-            console.log("Token has expired, logging out.");
           } else {
             setCurrentUser(user);
+            setIsUserLogged(true);
           }
         } catch (error) {
           console.error("Error refreshing token:", error);
           await auth22.signOut();
           setCurrentUser(null);
+          setIsUserLogged(false);
           window.location.href = `${HOME_PAGE_ROUTE}`;
         }
       } else {
-        setCurrentUser(null);
+        // setCurrentUser(null);
+        //Decomenteaza
         //   if (
         //     location.pathname !== HOME_PAGE_ROUTE &&
         //     location.pathname !== LOGIN_ROUTE &&
@@ -108,7 +108,8 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     });
 
     return () => unsubscribe();
-  }, [location.pathname, navigate]);
+  }, []);
+  // }, [location.pathname, navigate]);
   const logOut = () => {
     signOut(auth22);
     document.cookie = "Auth-jwt=;max-age=0";
@@ -150,6 +151,7 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
       );
       const actualUser = user.user;
       setCurrentUser(actualUser);
+      setIsUserLogged(true);
       setUsers([...users, actualUser]);
       await setTokenInCookie(actualUser);
       await saveUserInDB(actualUser, password);
@@ -169,6 +171,7 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
       const user = userCredentials.user;
       console.log(userCredentials);
       setCurrentUser(user);
+      setIsUserLogged(true);
       await setTokenInCookie(user);
       navigate(HOME_PAGE_ROUTE);
     } catch (error) {
@@ -180,12 +183,13 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     <UserContext.Provider
       value={{
         currentUser,
-        setCurrentUser,
+        // setCurrentUser,
         loading,
         logOut,
         registerUser,
         logInUser,
         // users,
+        isUserLogged,
       }}
     >
       {children}

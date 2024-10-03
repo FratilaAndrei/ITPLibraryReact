@@ -70,14 +70,11 @@ export const userAccountSlice = createSlice({
           user.email === action.payload.email &&
           user.password === action.payload.password
       );
-      console.log(accountExists);
 
       state.isAccountLoggedIn = accountExists;
       if (state.isAccountLoggedIn) {
         alert("Login Succesfull");
-        // console.log("Logat");
       } else {
-        // console.log("Nu logat");
         alert("Login Failed");
       }
     },

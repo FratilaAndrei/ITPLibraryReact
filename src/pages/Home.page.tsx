@@ -1,14 +1,9 @@
 import { Message } from "primereact/message";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Footer from "../components/common/Footer/Footer";
 import Navbar from "../components/common/Navbar/Navbar";
 import BooksSectionsContainer from "../containers/Home/BooksSectionsContainer";
 import Hero from "../containers/Home/Hero";
-import {
-  hidePopup,
-  resetAddedBookCounter,
-} from "../features/shoppingCart/ShoppingCartSlice";
 import { RootState } from "../state/store";
 
 const Homepage = () => {
@@ -24,17 +19,17 @@ const Homepage = () => {
     (state: RootState) => state.shoppingCart.bookAddedCount
   );
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(resetAddedBookCounter());
-    if (showPopup) {
-      const timer = setTimeout(() => {
-        dispatch(hidePopup());
-      }, 3000);
-      return () => clearTimeout(timer);
-    }
-  }, [showPopup, dispatch, lastAddedBook]);
+  // useEffect(() => {
+  //   dispatch(resetAddedBookCounter());
+  //   if (showPopup) {
+  //     const timer = setTimeout(() => {
+  //       dispatch(hidePopup());
+  //     }, 3000);
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [showPopup, dispatch, lastAddedBook]);
 
   return (
     <div className="flex flex-col h-full justify-between space-y-14">

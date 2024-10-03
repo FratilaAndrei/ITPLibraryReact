@@ -17,7 +17,6 @@ import { RootState } from "../../state/store";
 const EditOrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  // const { ordersArray, editForm } = useContext(OrderContext);
   const dispatch = useDispatch();
   const ordersList = useSelector(
     (state: RootState) => state.ordersList.ordersList
@@ -29,15 +28,11 @@ const EditOrderDetails = () => {
   const order = ordersList.find(
     (order: orderModelFetchModel) => order.id === id
   );
-  console.log("Order Found", order);
-  // console.log("Status Comanda", order.status);
   if (!order) {
     return <div>form not found</div>;
   }
 
   const orderCompleted = !!(order.status === "Completed");
-
-  console.log("Salut", orderCompleted);
 
   const { orderDetails } = order;
   const isCompleted = order.status === "Completed";

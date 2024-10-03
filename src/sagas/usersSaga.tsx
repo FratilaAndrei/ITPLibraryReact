@@ -24,19 +24,8 @@ function* postUsersSaga(action: PayloadAction<userModel>) {
     console.error("There was an error!", error);
   }
 }
-// function getUsers() {
-//   try {
-//     const res = yield call(fetchAllUsers);
-//     console.log(res.data);
-//   } catch (error) {
-//     console.error("There was an error!", error);
-//   }
-// }
 
 export function* watchFetchUsers() {
   yield takeLatest(fetchUserSuccess.type, fetchUsersSaga);
   yield takeLatest(saveNewUser.type, postUsersSaga);
-  // yield takeLatest(registerUser.type, postUsersSaga);
-  //   yield takeLatest(fetchUserSuccess.type, getUsers);
-  // yield takeLatest(fetchMostRecentBooks, fetchMostRecentBooks);
 }

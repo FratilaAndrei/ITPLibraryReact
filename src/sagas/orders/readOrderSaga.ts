@@ -13,7 +13,6 @@ function* readOrderSaga(action: PayloadAction<void>) {
   try {
     const user = auth22.currentUser; // Assuming auth22 is the Firebase auth object
     const res: orderModel[] = yield call(readOrders, user?.uid, []);
-    console.log("Saga res", res);
     yield put(fetchOrderSuccess(res)); // Dispatch success action with fetched orders
   } catch (error) {
     yield put(fetchOrderError("Error fetching orders"));

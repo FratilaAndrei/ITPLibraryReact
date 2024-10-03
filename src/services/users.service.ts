@@ -6,8 +6,7 @@ import { API_URL } from "../firebase/firebase";
 
 export const fetchUsers = async () => {
   try {
-    const res = await axios.get(`${API_URL}/users.json`);
-    console.log(res);
+    await axios.get(`${API_URL}/users.json`);
   } catch (error) {
     console.error("There was an error!", error);
   }
@@ -25,14 +24,7 @@ export const fetchAllUsers = async () => {
 export const postUser = async (user: userModel) => {
   try {
     const id = uuidv4();
-    await axios
-      .put(`${API_URL}/users/${id}.json`, user)
-      .then(function (response) {
-        console.log(response.data);
-        console.log(response.status);
-        console.log(response.statusText);
-        console.log(response.headers);
-      });
+    await axios.put(`${API_URL}/users/${id}.json`, user);
   } catch (error) {
     console.error("A crapat post user", error);
   }

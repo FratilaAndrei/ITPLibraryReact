@@ -71,7 +71,6 @@ export const ordersListSlice = createSlice({
         }
         return order;
       });
-      console.log("Updated Orders", state.ordersList);
     },
     handleShipment: (state, action: PayloadAction<orderModelFetchModel>) => {
       return {
@@ -85,7 +84,6 @@ export const ordersListSlice = createSlice({
     },
     fetchOrderRequest: (state, action: PayloadAction) => {
       state.loading = true;
-      console.log("orderData -", action.payload);
     },
     fetchOrderSuccess: (
       state,

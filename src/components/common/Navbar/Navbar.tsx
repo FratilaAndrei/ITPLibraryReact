@@ -11,7 +11,7 @@ import {
   SHOPPING_CART_ROUTE,
 } from "../../../data/routes";
 import NavLink from "./NavLink";
-import Sidebar from "./Sidebar";
+import SidebarMenu from "./SidebarMenu";
 
 type Props = {
   className?: string;
@@ -20,6 +20,7 @@ type Props = {
 const Navbar: FC<Props> = ({ className }) => {
   const { currentUser, loading, logOut } = useContext(UserContext);
   const [isAccountMenuOpened, setIsAccountMenuOpened] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <nav
@@ -48,14 +49,19 @@ const Navbar: FC<Props> = ({ className }) => {
             <div
               onMouseEnter={() => setIsAccountMenuOpened(true)}
               onMouseLeave={() => setIsAccountMenuOpened(false)}
+              className=""
             >
               <div className="relative">{currentUser.email?.split("@")[0]}</div>
               {isAccountMenuOpened ? (
-                <div className="absolute bg-white shadow-lg rounded-xl py-4 px-4">
+                <div className="absolute bg-white lowercase rounded-xl shadow-lg rounded-t-none flex flex-col gap-y-2 px-4 py-4">
                   <div>{currentUser.email}</div>
-                  <div onClick={logOut} className="cursor-pointer">
+                  <div className="first-letter:uppercase">Show Profile</div>
+                  <button
+                    onClick={logOut}
+                    className="cursor-pointer bg-slate-300/20 rounded-lg px-4"
+                  >
                     Log Out
-                  </div>
+                  </button>
                 </div>
               ) : null}
             </div>
@@ -66,7 +72,7 @@ const Navbar: FC<Props> = ({ className }) => {
           </NavLink>
         )}
       </ul>
-      <Sidebar />
+      <SidebarMenu />
     </nav>
   );
 };

@@ -13,7 +13,6 @@ function* updateStatusOrderSaga(action: PayloadAction<orderModelFetchModel>) {
       user?.uid,
       action.payload
     );
-    console.log("Update worked", res);
   } catch (error) {
     console.log("Update Failed", error);
   }

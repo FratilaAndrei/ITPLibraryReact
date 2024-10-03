@@ -9,7 +9,6 @@ export const createOrder = async (order: orderModel) => {
   const userId = auth22.currentUser?.uid;
   try {
     await axios.put(`${API_URL}/orders/${userId}/${id}.json`, order);
-    // console.log(res);
   } catch (error) {
     console.error("There was an error!", error);
   }
