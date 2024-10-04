@@ -2,11 +2,12 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
+import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ORDERS_ROUTE, SHOPPING_CART_ROUTE } from "../../data/routes";
-import { placeOrder } from "../../features/ordersList/ordersListSlice";
 import { resetShoppingCartItems } from "../../features/shoppingCart/ShoppingCartSlice";
+import { createOrder, order_id } from "../../services/createOrder.service";
 import { RootState } from "../../state/store";
 import BillingAdressInputs from "./Form/BillingAdressInputs";
 import ContactDetails from "./Form/ContactDetails";
@@ -16,6 +17,7 @@ import {
   initialValues,
   OrderFormValidationSchema,
 } from "./OrderFormValidationSchema";
+// import { v4 as uuidv4 } from "uuid";
 
 const OrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
@@ -33,6 +35,13 @@ const OrderDetails = () => {
     (total, item) => total + item.price * item.quantity,
     0
   );
+  const mutation = useMutation({
+    mutationFn: createOrder,
+    onSuccess: () => {
+      dispatch(resetShoppingCartItems());
+      navigate(ORDERS_ROUTE);
+    },
+  });
 
   const navigate = useNavigate();
 
@@ -49,19 +58,32 @@ const OrderDetails = () => {
           values.deliveryPhone = values.billingPhone;
         }
         actions.setSubmitting(false);
-        dispatch(
-          placeOrder({
-            totalQuantity,
-            totalPrice,
-            status: "In Progress",
-            orderDetails: {
-              ...values,
-              deliveryDate: new Date(values.deliveryDate).toUTCString(),
-            },
-          })
-        );
-        navigate(ORDERS_ROUTE);
-        dispatch(resetShoppingCartItems());
+        // dispatch(
+        //   placeOrder({
+        //     totalQuantity,
+        //     totalPrice,
+        //     status: "In Progress",
+        //     orderDetails: {
+        //       ...values,
+        //       deliveryDate: new Date(values.deliveryDate).toUTCString(),
+        //     },
+        //   })
+        // );
+
+        mutation.mutate({
+          // id: uuidv4(),
+          id: order_id,
+          totalQuantity,
+          totalPrice,
+          status: "In Progress",
+          orderDetails: {
+            ...values,
+            deliveryDate: new Date(values.deliveryDate).toUTCString(),
+          },
+        });
+
+        // navigate(ORDERS_ROUTE);
+        // dispatch(resetShoppingCartItems());
       }}
     >
       {(props) => {

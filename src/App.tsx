@@ -21,6 +21,7 @@ function App() {
   const showPopup = useSelector(
     (state: RootState) => state.shoppingCart.showPopup
   );
+
   useEffect(() => {
     dispatch(resetAddedBookCounter());
     if (showPopup) {
@@ -34,7 +35,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       ordersList.forEach((order) => dispatch(handleShipment(order)));
-    }, 60000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [ordersList, dispatch]);

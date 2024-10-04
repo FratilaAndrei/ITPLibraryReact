@@ -1,33 +1,68 @@
 import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useState } from "react";
+import { useMutation, useQuery } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BillingAdressInputs from "../../components/OrdersDescription/Form/BillingAdressInputs";
 import ContactDetails from "../../components/OrdersDescription/Form/ContactDetails";
 import DeliveryAdress from "../../components/OrdersDescription/Form/DeliveryAdress";
 import InputSection from "../../components/OrdersDescription/InputSection";
 import { OrderFormValidationSchema } from "../../components/OrdersDescription/OrderFormValidationSchema";
+import { UserContext } from "../../contexts/UsersProvider";
 import { ORDERS_ROUTE } from "../../data/routes";
 import { orderModelFetchModel } from "../../data/types/type";
-import { editForm } from "../../features/ordersList/ordersListSlice";
-import { RootState } from "../../state/store";
+import {
+  modifyOrder,
+  readOrders,
+} from "../../services/orders/readOrders.service";
 
 const EditOrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
-  const dispatch = useDispatch();
-  const ordersList = useSelector(
-    (state: RootState) => state.ordersList.ordersList
-  );
+  const { currentUser } = useContext(UserContext);
+
+  const { data: listOfOrders } = useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      if (currentUser) {
+        return readOrders(currentUser.uid, []);
+      }
+    },
+  });
+
+  // const mutation = useMutation({
+  //   mutationFn: async () => modifyOrder,
+  //   onSuccess: () => {
+  //     navigate(ORDERS_ROUTE);
+  //   },
+  // });
+
+  const mutation = useMutation({
+    mutationFn: async (data: { uid: string; order: orderModelFetchModel }) => {
+      const { uid, order } = data;
+      return modifyOrder(uid, order);
+    },
+    onSuccess: () => {
+      navigate(ORDERS_ROUTE);
+    },
+  });
+
+  // const dispatch = useDispatch();
+  // const ordersList = useSelector(
+  //   (state: RootState) => state.ordersList.ordersList
+  // );
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
   if (!id) return;
-  const order = ordersList.find(
+  // const order = ordersList.find(
+  //   (order: orderModelFetchModel) => order.id === id
+  // );
+  const order = listOfOrders?.find(
     (order: orderModelFetchModel) => order.id === id
   );
+  console.log("COMANDA ---- ", order);
   if (!order) {
     return <div>form not found</div>;
   }
@@ -35,7 +70,7 @@ const EditOrderDetails = () => {
   const orderCompleted = !!(order.status === "Completed");
 
   const { orderDetails } = order;
-  const isCompleted = order.status === "Completed";
+  // const isCompleted = order.status === "Completed";
 
   return (
     <Formik
@@ -49,16 +84,27 @@ const EditOrderDetails = () => {
           values.deliveryCity = values.billingCity;
           values.deliveryPhone = values.billingPhone;
         }
-        dispatch(
-          editForm({
-            id,
-            orderDetails: values,
-            totalQuantity: order.totalQuantity,
-            totalPrice: order.totalPrice,
-            status: order.status,
-          })
-        );
-        navigate(ORDERS_ROUTE);
+        // dispatch(
+        //   editForm({
+        //     id,
+        //     orderDetails: values,
+        //     totalQuantity: order.totalQuantity,
+        //     totalPrice: order.totalPrice,
+        //     status: order.status,
+        //   })
+        // );
+        // navigate(ORDERS_ROUTE);
+
+        const updatedOrder = {
+          ...order,
+          orderDetails: values,
+        };
+
+        mutation.mutate({
+          uid: currentUser.uid,
+          order: updatedOrder,
+        });
+
         actions.setSubmitting(false);
       }}
     >

@@ -19,6 +19,7 @@ const getAccountToken = async (user: User) => {
 };
 
 export const readOrders = async (
+  // user: User,
   user: User,
   orderData: orderModelFetchModel[]
 ) => {
@@ -55,15 +56,11 @@ export const readOrders = async (
 export const modifyOrder = async (user: User, order: orderModelFetchModel) => {
   const token = getTokenFromCookies();
   try {
-    const res = await axios.put(
-      `${API_URL}/orders/${user}/${order.id}.json`,
-      order,
-      {
-        headers: {
-          "X-Authorization": `Bearer ${token}`,
-        },
-      }
-    );
+    await axios.put(`${API_URL}/orders/${user}/${order.id}.json`, order, {
+      headers: {
+        "X-Authorization": `Bearer ${token}`,
+      },
+    });
   } catch (error) {
     console.error("There was an error!", error);
     throw error;

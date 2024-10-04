@@ -17,6 +17,9 @@ type Props = {
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
   const { loading } = useSelector((state: RootState) => state.ordersList);
 
+  console.log("ORDER ------ ", order.id);
+  console.log("ORDER_PRICE ---- ", order.totalPrice);
+
   return (
     <div key={order.id}>
       {loading ? (
