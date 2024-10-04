@@ -31,6 +31,8 @@ const Homepage = () => {
   //   }
   // }, [showPopup, dispatch, lastAddedBook]);
 
+  // Installed React Query
+
   return (
     <div className="flex flex-col h-full justify-between space-y-14">
       <Navbar />
