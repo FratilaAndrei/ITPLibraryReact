@@ -24,19 +24,15 @@ const EditOrderDetails = () => {
 
   const { data: listOfOrders } = useQuery({
     queryKey: ["orders"],
+
     queryFn: async () => {
       if (currentUser) {
         return readOrders(currentUser.uid, []);
       }
     },
+    staleTime: 0,
+    refetchInterval: false, // disabled refetching
   });
-
-  // const mutation = useMutation({
-  //   mutationFn: async () => modifyOrder,
-  //   onSuccess: () => {
-  //     navigate(ORDERS_ROUTE);
-  //   },
-  // });
 
   const mutation = useMutation({
     mutationFn: async (data: { uid: string; order: orderModelFetchModel }) => {
@@ -48,29 +44,20 @@ const EditOrderDetails = () => {
     },
   });
 
-  // const dispatch = useDispatch();
-  // const ordersList = useSelector(
-  //   (state: RootState) => state.ordersList.ordersList
-  // );
   const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
   if (!id) return;
-  // const order = ordersList.find(
-  //   (order: orderModelFetchModel) => order.id === id
-  // );
+
   const order = listOfOrders?.find(
     (order: orderModelFetchModel) => order.id === id
   );
-  console.log("COMANDA ---- ", order);
   if (!order) {
     return <div>form not found</div>;
   }
-
   const orderCompleted = !!(order.status === "Completed");
 
   const { orderDetails } = order;
-  // const isCompleted = order.status === "Completed";
 
   return (
     <Formik
@@ -84,16 +71,6 @@ const EditOrderDetails = () => {
           values.deliveryCity = values.billingCity;
           values.deliveryPhone = values.billingPhone;
         }
-        // dispatch(
-        //   editForm({
-        //     id,
-        //     orderDetails: values,
-        //     totalQuantity: order.totalQuantity,
-        //     totalPrice: order.totalPrice,
-        //     status: order.status,
-        //   })
-        // );
-        // navigate(ORDERS_ROUTE);
 
         const updatedOrder = {
           ...order,

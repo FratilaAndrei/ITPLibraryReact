@@ -4,12 +4,6 @@ import { BookRowModel } from "../../data/types/type";
 import { getBooksData } from "../../services/books.service";
 
 const BooksSectionsContainer = () => {
-  // const booksData = useSelector((state: RootState) => state.books.books);
-  // const bestBooks = booksData.filter((book) => book.isBestBook);
-  // const mostRecentBooks = booksData.slice(-6);
-
-  // const queryClient = useQueryClient;
-
   const {
     data: books,
     isLoading,
@@ -17,6 +11,9 @@ const BooksSectionsContainer = () => {
   } = useQuery({
     queryKey: ["books"],
     queryFn: getBooksData,
+    staleTime: 1000 * 60 * 60, // an hour because its not changing that often it shouldnt trigger a refresh
+    cacheTime: 1000 * 60 * 60, // 30 minute cache time before carbage collection and refresh will be triggered
+    refetchOnWindowFocus: false, // it shouldnt trigger a refresh if the window is focused
   });
 
   if (error) {
@@ -28,28 +25,9 @@ const BooksSectionsContainer = () => {
     return <div>Se Incarca</div>;
   }
 
-  // useEffect(() => {
-  //   // dispatch(fetchBooksRequest());
-  //   getBooksData();
-  // }, [query]);
-
   if (!books) return <div>No books Were Found</div>;
   const bestBooks = books.filter((book) => book.isBestBook);
   const mostRecentBooks = books.slice(-6);
-
-  // const dispatch = useDispatch();
-  // const BOOKS_ROWS_2 = [
-  //   {
-  //     id: 1,
-  //     title: "Best Books of the Month",
-  //     books: bestBooks,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Recently Added",
-  //     books: mostRecentBooks,
-  //   },
-  // ];
 
   const BOOKS_ROWS_2 = [
     {

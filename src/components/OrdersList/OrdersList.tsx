@@ -6,34 +6,8 @@ import { readOrders } from "../../services/orders/readOrders.service";
 import Order from "./Order";
 
 const OrdersList = () => {
-  // const dispatch = useDispatch();
-  // const ordersList = useSelector(
-  //   (state: RootState) => state.ordersList.ordersList
-  // );
-
-  // const { currentUser } = useContext(UserContext);
-
-  // const { error } = useSelector((state: RootState) => state.ordersList);
-  // const listOfOrders = useSelector(
-  //   (state: RootState) => state.ordersList.ordersList
-  // );
-
-  // useEffect(() => {
-  //   if (currentUser === null) return;
-  //   dispatch(fetchOrderRequest());
-  // }, [dispatch, currentUser, ordersList.length]);
-
-  // // if (loading) {
-  // //   return <div>Se incarca pagina stai</div>;
-  // // }
-
-  // if (error) {
-  //   return <div>{error}</div>;
-  // }
   const { currentUser } = useContext(UserContext);
-  // if (!currentUser) return <div>NU EXISTA USER</div>;
 
-  // console.log("USER ID", currentUser?.uid);
   const idUser = currentUser?.uid;
   const { data: listOfOrders } = useQuery({
     queryKey: ["orders"],
@@ -42,13 +16,12 @@ const OrdersList = () => {
         return readOrders(idUser, []);
       }
     },
+    staleTime: 0,
+    cacheTime: 60000,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    refetchInterval: 60000,
   });
-
-  console.log("ORDERS ---- ", listOfOrders);
-  console.log(
-    "PRICES ------ ",
-    listOfOrders?.map((order) => order.totalPrice)
-  );
 
   return (
     <div className="flex flex-col h-full gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4 fullHd:my-16  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
