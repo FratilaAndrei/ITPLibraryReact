@@ -12,6 +12,7 @@ import App from "./App.tsx";
 import UserProvider from "./contexts/UsersProvider.tsx";
 import "./firebase/firebase.tsx";
 import "./index.css";
+import "./languages/i18n.ts";
 import { store } from "./state/store.ts";
 
 const queryClient = new QueryClient();

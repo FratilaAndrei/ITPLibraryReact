@@ -1,4 +1,5 @@
 import { FC, useContext, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { CiShoppingCart } from "react-icons/ci";
 import { IoPersonOutline } from "react-icons/io5";
 import { PiHouse, PiTruck } from "react-icons/pi";
@@ -17,10 +18,18 @@ type Props = {
   className?: string;
 };
 
+const lngs = {
+  en: { nativeName: "English" },
+  de: { nativeName: "Deutsch" },
+  fr: { nativeName: "French" },
+};
+
 const Navbar: FC<Props> = ({ className }) => {
   const { currentUser, loading, logOut } = useContext(UserContext);
   const [isAccountMenuOpened, setIsAccountMenuOpened] = useState(false);
-  const [visible, setVisible] = useState<boolean>(false);
+  // const [visible, setVisible] = useState<boolean>(false);
+
+  const { i18n } = useTranslation();
 
   return (
     <nav
@@ -31,15 +40,26 @@ const Navbar: FC<Props> = ({ className }) => {
         <li className="">ITP Library</li>
       </ul>
       <ul className="hidden sm:flex  uppercase font-medium text-sm gap-x-2 font-roboto pr-4 fullHd:text-base fullHd:gap-x-12 fullHd:pr-8">
+        {Object.keys(lngs).map((lng) => (
+          <button
+            key={lng}
+            style={{ fontWeight: i18n.language === lng ? 700 : 400 }}
+            type="submit"
+            onClick={() => i18n.changeLanguage(lng)}
+          >
+            {lngs[lng].nativeName}
+          </button>
+        ))}
+
         <NavLink link={HOME_PAGE_ROUTE} icon={<PiHouse />}>
-          Home
+          <Trans i18nKey={"navbar.home"}>Home</Trans>
         </NavLink>
         <NavLink link={SHOPPING_CART_ROUTE} icon={<CiShoppingCart />}>
-          Shopping Cart
+          <Trans i18nKey={"navbar.shoppingCart"}>Shopping Cart</Trans>
         </NavLink>
         {currentUser ? (
           <NavLink link={ORDERS_ROUTE} icon={<PiTruck />}>
-            Orders
+            <Trans i18nKey={"navbar.orders"}>Orders</Trans>
           </NavLink>
         ) : null}
         {loading ? (
@@ -68,7 +88,7 @@ const Navbar: FC<Props> = ({ className }) => {
           </>
         ) : (
           <NavLink link={LOGIN_ROUTE} icon={<IoPersonOutline />}>
-            Login
+            <Trans i18nKey={"navbar.logIn"}>Log In</Trans>
           </NavLink>
         )}
       </ul>

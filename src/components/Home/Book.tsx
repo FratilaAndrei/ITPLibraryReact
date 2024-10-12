@@ -1,5 +1,6 @@
 import { Skeleton } from "primereact/skeleton";
-import { FC } from "react";
+import { FC, useTransition } from "react";
+import { Trans } from "react-i18next";
 import { FaShoppingCart } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -17,6 +18,7 @@ type Props = {
 
 const Book: FC<Props> = ({ book }) => {
   const dispatch = useDispatch();
+  useTransition();
 
   const loading = useSelector((state: RootState) => state.books.loading);
 
@@ -61,7 +63,9 @@ const Book: FC<Props> = ({ book }) => {
             }
           >
             <FaShoppingCart />
-            <div>Add to Cart</div>
+            <Trans i18nKey={"addToCart"}>
+              <div>Add to Cart</div>
+            </Trans>
           </ITPButton>
         </>
       )}

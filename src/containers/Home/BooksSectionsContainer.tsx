@@ -1,3 +1,5 @@
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import BooksSection from "../../components/Home/BooksSection";
 import { BookRowModel } from "../../data/types/type";
@@ -15,6 +17,7 @@ const BooksSectionsContainer = () => {
     cacheTime: 1000 * 60 * 60, // 30 minute cache time before carbage collection and refresh will be triggered
     refetchOnWindowFocus: false, // it shouldnt trigger a refresh if the window is focused
   });
+  useTranslation();
 
   if (error) {
     console.error("Error fetching books with query:", error);
@@ -32,12 +35,14 @@ const BooksSectionsContainer = () => {
   const BOOKS_ROWS_2 = [
     {
       id: 1,
-      title: "Best Books of the Month",
+      // title: "Best Books of the Month",
+      title: t("bookRows.bestMonthBooks"),
       books: bestBooks,
     },
     {
       id: 2,
-      title: "Recently Added",
+      // title: "Recently Added",
+      title: t("bookRows.mostRecentBooks"),
       books: mostRecentBooks,
     },
   ];

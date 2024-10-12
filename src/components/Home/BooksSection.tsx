@@ -6,12 +6,6 @@ type Props = {
   bookRow: BookRowModel;
 };
 const BooksSection: FC<Props> = ({ bookRow }) => {
-  // const { books, error } = useSelector((state: RootState) => state.books);
-
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error}</p>;
-  // if (!books || books.length === 0) return <p>No books available.</p>;
-
   return (
     <div className="h-fit xl:px-10  flex flex-col gap-y-6" key={bookRow.id}>
       <div className="w-full">
