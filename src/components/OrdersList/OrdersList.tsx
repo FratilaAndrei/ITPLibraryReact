@@ -1,4 +1,5 @@
 import { useContext } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { UserContext } from "../../contexts/UsersProvider";
 import { orderModelFetchModel } from "../../data/types/type";
@@ -23,11 +24,13 @@ const OrdersList = () => {
     refetchInterval: 60000,
   });
 
+  const { i18n } = useTranslation();
+
   return (
     <div className="flex flex-col h-full gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4 fullHd:my-16  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
       <div className="flex flex-col w-full gap-y-4 h-full">
         <h2 className="font-lora font-bold text-3xl fullHd:text-[38px]">
-          Your orders
+          <Trans i18nKey={"ordersPage.ordersListTitle"} />
         </h2>
         <div className="flex flex-col max-h-[90%]  md:overflow-y-scroll scrollbar-hide  scroll-smooth px-4 -mx-4 my-4">
           {listOfOrders?.map((order: orderModelFetchModel, index) => {

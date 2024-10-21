@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useMutation } from "react-query";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -17,7 +18,6 @@ import {
   initialValues,
   OrderFormValidationSchema,
 } from "./OrderFormValidationSchema";
-// import { v4 as uuidv4 } from "uuid";
 
 const OrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
@@ -44,6 +44,7 @@ const OrderDetails = () => {
   });
 
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   return (
     <Formik
@@ -58,17 +59,6 @@ const OrderDetails = () => {
           values.deliveryPhone = values.billingPhone;
         }
         actions.setSubmitting(false);
-        // dispatch(
-        //   placeOrder({
-        //     totalQuantity,
-        //     totalPrice,
-        //     status: "In Progress",
-        //     orderDetails: {
-        //       ...values,
-        //       deliveryDate: new Date(values.deliveryDate).toUTCString(),
-        //     },
-        //   })
-        // );
 
         mutation.mutate({
           // id: uuidv4(),
@@ -81,9 +71,6 @@ const OrderDetails = () => {
             deliveryDate: new Date(values.deliveryDate).toUTCString(),
           },
         });
-
-        // navigate(ORDERS_ROUTE);
-        // dispatch(resetShoppingCartItems());
       }}
     >
       {(props) => {
@@ -105,7 +92,7 @@ const OrderDetails = () => {
             className="mx-auto w-[90%] md:w-[75%] lg:w-[70%] border my-8 fullHd:space-y-1.5 md:mt-0 border-border-color rounded p-4 fullHd:px-10 xl:w-1/2  flex flex-col gap-y-8 text-order-input"
           >
             <div className="text-2xl xl:text-3xl text-important-black-color fullHd:text-[38px] font-semibold font-lora">
-              Order Details
+              {t("orderDetailsPage.title")}
             </div>
             <ContactDetails />
             <BillingAdressInputs />
@@ -116,7 +103,9 @@ const OrderDetails = () => {
                 onChange={handleCheckboxChange}
                 onClick={() => setIsDeliveryVisible((prev) => !prev)}
               />
-              <label htmlFor="delivery">Use Address for delivery</label>
+              <label htmlFor="delivery">
+                {t("orderDetailsPage.deliveryCheckbox")}
+              </label>
             </div>
             {isDeliveryVisible && <DeliveryAdress />}
             <div className="space-y-2">
@@ -124,7 +113,7 @@ const OrderDetails = () => {
                 htmlFor="paymentType-group"
                 className="font-bold block mb-2"
               >
-                Payment Type
+                {t("orderDetailsPage.paymentType")}
               </label>
               <div
                 className="flex gap-x-2 items-center"
@@ -138,17 +127,17 @@ const OrderDetails = () => {
                     value="Online"
                     checked={props.values.paymentType === "Online"}
                   />
-                  Online
+                  {t("orderDetailsPage.paymentOnline")}
                 </label>
                 <label className="flex gap-x-2">
                   <Field type="radio" name="paymentType" value="Cash" />
-                  Cash
+                  {t("orderDetailsPage.paymentCash")}
                 </label>
               </div>
             </div>
             <div className="space-y-2">
               <label htmlFor="buttondisplay" className="font-bold block mb-2">
-                Delivery Date
+                {t("orderDetailsPage.deliveryDate")}
               </label>
               <Calendar
                 id="buttondisplay"
@@ -173,7 +162,7 @@ const OrderDetails = () => {
               }
               rows={5}
               cols={30}
-              placeholder="Observations"
+              placeholder={t("orderDetailsPage.observations")}
               name="observations"
               className="w-full border border-border-color p-2"
             />
@@ -183,9 +172,9 @@ const OrderDetails = () => {
               className="text-red-500"
             />
             <InputSection
-              title="Would you recommand us?"
+              title={t("orderDetailsPage.recommend")}
               option={true}
-              optionLabel="Would you recommand us?"
+              optionLabel={t("orderDetailsPage.recommend")}
               hasInputFields={false}
             />
             <div className="flex flex-col md:flex-row gap-y-4 md:gap-y-0 justify-between">
@@ -193,13 +182,13 @@ const OrderDetails = () => {
                 to={SHOPPING_CART_ROUTE}
                 className=" ITPbutton bg-white text-black flex items-center justify-center"
               >
-                <button>Cancel Order</button>
+                <button>{t("orderDetailsPage.cancelOrder")}</button>
               </Link>
               <button
                 className="ITPbutton text-white bg-black flex items-center justify-center"
                 type="submit"
               >
-                Submit
+                {t("orderDetailsPage.submitOrder")}
               </button>
             </div>
           </form>

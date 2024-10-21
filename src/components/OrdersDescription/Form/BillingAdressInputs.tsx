@@ -1,15 +1,18 @@
 import { ErrorMessage, Field } from "formik";
 import { FC } from "react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isFieldDisabled?: boolean;
 };
 
 const BillingAdressInputs: FC<Props> = ({ isFieldDisabled }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="flex flex-col gap-y-2 fullHd:gap-y-4">
       <div className="text-xs font-roboto font-semibold fullHd:text-sm text-normal-black-color">
-        Billing Adress
+        {t("orderDetailsPage.billingAddress")}
       </div>
       <Field
         as="select"
@@ -25,7 +28,7 @@ const BillingAdressInputs: FC<Props> = ({ isFieldDisabled }) => {
       <Field
         type="text"
         name="billingAddress"
-        placeholder="Adress"
+        placeholder={t("orderDetailsPage.address")}
         className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
         disabled={isFieldDisabled}
       />
@@ -37,7 +40,7 @@ const BillingAdressInputs: FC<Props> = ({ isFieldDisabled }) => {
       <Field
         type="number"
         name="billingPhone"
-        placeholder="Phone Number"
+        placeholder={t("orderDetailsPage.phone")}
         className="py-1 pl-2 border-border-color rounded-[4px] font-roboto font-normal placeholder-order-input fullHd:py-2 fullHd:pl-3 fullHd:text-base border outline-none w-full text-order-input"
         disabled={isFieldDisabled}
       />

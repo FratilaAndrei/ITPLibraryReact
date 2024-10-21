@@ -1,5 +1,6 @@
 import { Message } from "primereact/message";
 import { FC, useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import ITPButton from "../../components/common/ITPButton";
@@ -31,32 +32,36 @@ const ShoppingCart: FC = () => {
     }
   };
 
+  const { i18n } = useTranslation();
+
   return (
     <div className="flex flex-col h-full gap-y-4 mx-8 md:mx-auto flex-grow my-24 md:my-4 fullHd:my-16  fullHd:w-[70%] md:w-4/5 md:items-start md:justify-between">
       <div className="flex flex-col relative w-full gap-y-4 h-[85%] ">
         <h2 className="font-lora font-bold text-3xl fullHd:text-[38px]">
-          Your products
+          <Trans i18nKey={"shoppingCartPage.yourProducts"} />
         </h2>
-        {/* <div className="flexflex-col md:max-h-[400px] xl:max-h-[600px] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4"> */}
         <div className="flex flex-col md:max-h-[90%] md:overflow-y-scroll scroll-smooth px-4 -mx-4 my-4">
           <ShoppingItem />
         </div>
       </div>
       <div className="card flex flex-col gap-y-4 w-full md:justify-between fullHd:gap-y-0">
         <div className="flex justify-between w-full gap-y-4 font-bold text-lg fullHd:text-3xl">
-          <div className="font-lora">Total:</div>
+          <div className="font-lora">
+            <Trans i18nKey={"shoppingCartPage.total"} />
+          </div>
           <div className="font-roboto text-beige-color">${shoppingPrice}</div>
         </div>
         <div className="flex flex-col md:flex-row w-full gap-y-4 md:gap-y-0 justify-between">
-          {/* <button>Continue Shopping</button> */}
           <ITPButton className="md:w-[15%] bg-white text-black border border-black">
-            <Link to={HOME_PAGE_ROUTE}>Continue Shopping</Link>
+            <Link to={HOME_PAGE_ROUTE}>
+              <Trans i18nKey={"shoppingCartPage.continueShopping"} />
+            </Link>
           </ITPButton>
           <ITPButton
             className=" md:w-[15%] text-white bg-black"
             onClick={handleSwitchToForm}
           >
-            Place Order
+            <Trans i18nKey={"shoppingCartPage.placeOrder"} />
           </ITPButton>
           {showError ? (
             <Message

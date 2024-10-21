@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import { IoTrashOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,27 +12,13 @@ import {
 } from "../features/shoppingCart/ShoppingCartSlice";
 import { RootState } from "../state/store";
 
-// type Props = {
-//   shoppingArray: BookModel[];
-//   incrementQuantity: ActionCreatorWithPayload<
-//     BookModel,
-//     "shoppingCart/incrementQuantity"
-//   >;
-//   decrementQuantity: ActionCreatorWithPayload<
-//     BookModel,
-//     "shoppingCart/decrementQuantity"
-//   >;
-//   handleRemoveItem: ActionCreatorWithPayload<
-//     BookModel,
-//     "shoppingCart/handleRemoveItem"
-//   >;
-// };
-
 const ShoppingItem: FC = () => {
   const dispatch = useDispatch();
   const shoppingArray = useSelector(
     (state: RootState) => state.shoppingCart.items
   );
+  const { i18n } = useTranslation();
+
   return shoppingArray?.map((item: bookModel2, index: number) => {
     return (
       <div key={item.id}>
@@ -88,7 +75,7 @@ const ShoppingItem: FC = () => {
             >
               <IoTrashOutline />
               <span className="text-base fullHd:text-xl text-black">
-                Remove
+                <Trans i18nKey={"shoppingCartPage.remove"} />
               </span>
             </div>
           </div>

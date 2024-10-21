@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Checkbox } from "primereact/checkbox";
 import { Message } from "primereact/message";
 import { useContext, useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../contexts/UsersProvider";
 import { FORGOT_PASSWORD_ROUTE, REGISTER_ROUTE } from "../../data/routes";
@@ -24,6 +25,8 @@ const LoginForm = () => {
     }
   }, [showError]);
 
+  const { t } = useTranslation();
+
   return (
     <Formik
       initialValues={LOGIN_INITIAL_VALUES}
@@ -40,19 +43,21 @@ const LoginForm = () => {
           onSubmit={props.handleSubmit}
         >
           <div className="text-important-black-color font-lora font-bold text-4xl fullHd:text-[48px] flex flex-col gap-y-2">
-            <div>Login</div>
+            <Trans i18nKey={"loginPage.logIn"} />
             <div className="text-normal-black-color font-roboto text-md font-normal fullHd:text-[20px]">
-              Log into an existing account
+              <Trans i18nKey={"loginPage.logInDescription"} />
             </div>
           </div>
           <div className="flex flex-col gap-y-6 w-full fullHd:pb-6">
             <div className="flex flex-col gap-y-2 text-sm md:w-2/3 fullHd:w-full fullHd:gap-y-8">
               <div className="flex flex-col gap-y-4">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">
+                  <Trans i18nKey={"loginPage.email"} />
+                </label>
                 <Field
                   type="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder={t("loginPage.email")}
                   className="w-full fullHd:w-[512px]  py-2.5 pl-3  border placeholder:text-normal-black-color font-roboto border-border-color rounded"
                 />
                 <ErrorMessage
@@ -62,11 +67,13 @@ const LoginForm = () => {
                 />
               </div>
               <div className="flex flex-col gap-y-4">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">
+                  <Trans i18nKey={"loginPage.password"} />
+                </label>
                 <Field
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder={t("loginPage.password")}
                   className="w-full fullHd:w-[512px]  py-2.5 pl-3  border placeholder:text-normal-black-color font-roboto border-border-color rounded"
                 />
                 <ErrorMessage
@@ -92,7 +99,7 @@ const LoginForm = () => {
                   htmlFor="remembear-box"
                   className="font-roboto font-normal text-xs text-gray-color fullHd:text-[14px]"
                 >
-                  Remembear me?
+                  <Trans i18nKey={"loginPage.rememberMe"} />
                 </label>
               </div>
             </div>
@@ -101,11 +108,15 @@ const LoginForm = () => {
             className="ITPbutton bg-black text-white rounded"
             type="submit"
           >
-            Log In
+            <Trans i18nKey={"loginPage.logIn"} />
           </button>
           <div className="flex flex-col gap-y-2 xl:gap-y-8 text-sm underline cursor-pointer xl:text-xs fullHd:text-[14px] font-normal text-important-black-color font-roboto">
-            <Link to={FORGOT_PASSWORD_ROUTE}>Forgot your password?</Link>
-            <Link to={REGISTER_ROUTE}>Register as a new user</Link>
+            <Link to={FORGOT_PASSWORD_ROUTE}>
+              <Trans i18nKey={"loginPage.forgotPassword"} />
+            </Link>
+            <Link to={REGISTER_ROUTE}>
+              <Trans i18nKey={"loginPage.registerNewUser"} />
+            </Link>
           </div>
           {showError ? (
             <Message

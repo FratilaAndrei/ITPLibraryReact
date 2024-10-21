@@ -1,5 +1,6 @@
 import { Skeleton } from "primereact/skeleton";
 import { FC } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { GoPencil } from "react-icons/go";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -17,8 +18,7 @@ type Props = {
 const Order: FC<Props> = ({ order, index, ordersArray }) => {
   const { loading } = useSelector((state: RootState) => state.ordersList);
 
-  console.log("ORDER ------ ", order.id);
-  console.log("ORDER_PRICE ---- ", order.totalPrice);
+  const { i18n } = useTranslation();
 
   return (
     <div key={order.id}>
@@ -43,18 +43,23 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
             <div className=" flex flex-col justify-between mt-2 md:mt-0">
               <div className="flex flex-col items-center md:items-start gap-y-2 md:gap-y-0">
                 <div className="font-lora font-bold text-xl text-center">
-                  Order #{order.id.slice(0, 5)}
+                  <Trans i18nKey={"ordersPage.order"} />#{order.id.slice(0, 5)}
                 </div>
                 <div className="flex gap-x-2 items-center font-roboto">
-                  <span>Items</span>
+                  <span>
+                    <Trans i18nKey={"ordersPage.items"} />
+                  </span>
                   <div className="font-bold text-lg ">
                     {order.totalQuantity}
                   </div>
                 </div>
               </div>
               <div className="flex  gap-x-2 items-center font-roboto">
-                <div>Delivery Status:</div>
-                <div className="font-bold text-lg">{order.status}</div>
+                <Trans i18nKey={"ordersPage.deliveryStatus"} />
+                <div className="font-bold text-lg">
+                  <Trans i18nKey={"ordersPage.status"} />
+                  {/* {order.status} */}
+                </div>
               </div>
             </div>
           </div>
@@ -69,7 +74,7 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
               >
                 <GoPencil />
                 <span className="text-base fullHd:text-xl text-black">
-                  Edit order details
+                  <Trans i18nKey={"ordersPage.editOrderDetails"} />
                 </span>
               </Link>
             ) : (
@@ -78,7 +83,7 @@ const Order: FC<Props> = ({ order, index, ordersArray }) => {
                 className="flex gap-x-2 items-center cursor-pointer"
               >
                 <span className="text-base fullHd:text-xl text-black">
-                  View Order
+                  <Trans i18nKey={"ordersPage.viewOrder"} />
                 </span>
               </Link>
             )}

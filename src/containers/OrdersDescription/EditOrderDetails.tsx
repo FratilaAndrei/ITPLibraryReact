@@ -2,6 +2,7 @@ import { ErrorMessage, Field, Formik } from "formik";
 import { Calendar } from "primereact/calendar";
 import { InputTextarea } from "primereact/inputtextarea";
 import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useMutation, useQuery } from "react-query";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import BillingAdressInputs from "../../components/OrdersDescription/Form/BillingAdressInputs";
@@ -21,6 +22,7 @@ const EditOrderDetails = () => {
   const [isDeliveryVisible, setIsDeliveryVisible] = useState(false);
 
   const { currentUser } = useContext(UserContext);
+  const { t } = useTranslation();
 
   const { data: listOfOrders } = useQuery({
     queryKey: ["orders"],
@@ -104,7 +106,7 @@ const EditOrderDetails = () => {
             className="mx-auto w-[90%] md:w-[75%] lg:w-[70%] border my-8 fullHd:space-y-1.5 md:mt-0 border-border-color rounded p-4 fullHd:px-10 xl:w-1/2  flex flex-col gap-y-8 text-order-input"
           >
             <div className="text-2xl xl:text-3xl text-important-black-color fullHd:text-[38px] font-semibold font-lora">
-              Order Details
+              {t("orderDetailsPage.title")}
             </div>
             <ContactDetails isFieldDisabled={orderCompleted} />
             <BillingAdressInputs isFieldDisabled={orderCompleted} />
@@ -116,7 +118,9 @@ const EditOrderDetails = () => {
                 onClick={() => setIsDeliveryVisible((prev) => !prev)}
                 disabled={orderCompleted}
               />
-              <label htmlFor="delivery">Use Address for delivery</label>
+              <label htmlFor="delivery">
+                {t("orderDetailsPage.deliveryCheckbox")}
+              </label>
             </div>
             {isDeliveryVisible && <DeliveryAdress />}
             <div className="space-y-2">
@@ -124,7 +128,7 @@ const EditOrderDetails = () => {
                 htmlFor="paymentType-group"
                 className="mb-2 text-xs font-roboto font-semibold fullHd:text-sm text-normal-black-color"
               >
-                Payment Type
+                {t("orderDetailsPage.paymentType")}
               </label>
               <div
                 className="flex gap-x-2 items-center"
@@ -139,7 +143,7 @@ const EditOrderDetails = () => {
                     checked={props.values.paymentType === "Online"}
                     disabled={orderCompleted}
                   />
-                  Online
+                  {t("orderDetailsPage.paymentOnline")}
                 </label>
                 <label className="flex gap-x-2">
                   <Field
@@ -148,7 +152,7 @@ const EditOrderDetails = () => {
                     value="Cash"
                     disabled={orderCompleted}
                   />
-                  Cash
+                  {t("orderDetailsPage.paymentCash")}
                 </label>
               </div>
             </div>
@@ -157,7 +161,7 @@ const EditOrderDetails = () => {
                 htmlFor="buttondisplay"
                 className="text-xs font-roboto font-semibold fullHd:text-sm text-normal-black-color"
               >
-                Delivery Date
+                {t("orderDetailsPage.deliveryDate")}
               </label>
               <Calendar
                 id="buttondisplay"
@@ -184,7 +188,7 @@ const EditOrderDetails = () => {
               }
               rows={5}
               cols={30}
-              placeholder="Observations"
+              placeholder={t("orderDetailsPage.observations")}
               name="observations"
               className="w-full border border-border-color p-2"
               readOnly={order.status === "Completed" ? true : false}
@@ -197,9 +201,9 @@ const EditOrderDetails = () => {
             />
             {order.status === "In Progress" ? (
               <InputSection
-                title="Would you recommand us?"
+                title={t("orderDetailsPage.recommend")}
                 option={true}
-                optionLabel="Would you recommand us?"
+                optionLabel={t("orderDetailsPage.recommend")}
                 hasInputFields={false}
               />
             ) : null}
@@ -209,7 +213,9 @@ const EditOrderDetails = () => {
                 className=" ITPbutton bg-white text-black flex items-center justify-center"
               >
                 <button>
-                  {order.status === "In Progress" ? "Cancel" : "Back"}
+                  {order.status === "In Progress"
+                    ? t("orderDetailsPage.cancelOrder")
+                    : t("orderDetailsPage.backButton")}
                 </button>
               </Link>
               {orderCompleted === false ? (
@@ -218,7 +224,7 @@ const EditOrderDetails = () => {
                   type="submit"
                   disabled={orderCompleted}
                 >
-                  Update Order
+                  {t("orderDetailsPage.updateOrder")}
                 </button>
               ) : null}
             </div>

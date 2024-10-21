@@ -1,6 +1,7 @@
 import { ErrorMessage, Field, Formik, FormikHelpers } from "formik";
 import { Message } from "primereact/message";
 import { FC, useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { UserContext } from "../../contexts/UsersProvider";
 import {
@@ -14,8 +15,6 @@ import {
   SIGN_UP_SCHEMA,
 } from "./AuthValidationSchema";
 
-// import { v4 as uuidv4 } from "uuid";
-
 const SignUpForm: FC = (): JSX.Element => {
   const dispatch = useDispatch();
   const { registerUser } = useContext(UserContext);
@@ -28,6 +27,8 @@ const SignUpForm: FC = (): JSX.Element => {
     (state: RootState) => state.userAccount.registerArray
   );
   const [emailExists, setEmailExists] = useState<boolean>(false);
+
+  const { t } = useTranslation();
 
   const handleFormSubmit = (
     values: registerValuesModel,
@@ -78,19 +79,19 @@ const SignUpForm: FC = (): JSX.Element => {
           onSubmit={props.handleSubmit}
         >
           <div className="text-important-black-color font-lora font-bold text-4xl fullHd:text-[48px] flex flex-col gap-y-2">
-            <div>Register</div>
+            <div>{t("registerPage.register")}</div>
             <div className="text-normal-black-color font-roboto text-md font-normal fullHd:text-[20px]">
-              Create a new account
+              {t("registerPage.registerDescription")}
             </div>
           </div>
           <div className="flex flex-col gap-y-6 w-full fullHd:pb-6">
             <div className="flex flex-col gap-y-2 text-sm md:w-2/3 fullHd:w-full fullHd:gap-y-8">
               <div className="flex flex-col gap-y-4">
-                <label htmlFor="email">Email</label>
+                <label htmlFor="email">{t("registerPage.email")}</label>
                 <Field
                   type="email"
                   name="email"
-                  placeholder="Email"
+                  placeholder={t("registerPage.email")}
                   className="w-full fullHd:w-[512px]  py-2.5 pl-3  border placeholder:text-normal-black-color font-roboto border-border-color rounded"
                   onBlur={() => {
                     const emailAlreadyExists = registerArray.find(
@@ -109,12 +110,12 @@ const SignUpForm: FC = (): JSX.Element => {
                 />
               </div>
               <div className="flex flex-col gap-y-4">
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password">{t("registerPage.password")}</label>
 
                 <Field
                   type="password"
                   name="password"
-                  placeholder="Password"
+                  placeholder={t("registerPage.password")}
                   className="w-full fullHd:w-[512px]  py-2.5 pl-3  border placeholder:text-normal-black-color font-roboto border-border-color rounded"
                 />
                 <ErrorMessage
@@ -124,11 +125,13 @@ const SignUpForm: FC = (): JSX.Element => {
                 />
               </div>
               <div className="flex flex-col gap-y-4">
-                <label htmlFor="confirmPassword">Confirm password</label>
+                <label htmlFor="confirmPassword">
+                  {t("registerPage.confirmPassword")}
+                </label>
                 <Field
                   type="password"
                   name="confirmPassword"
-                  placeholder="Confirm Password"
+                  placeholder={t("registerPage.confirmPassword")}
                   className="w-full fullHd:w-[512px]  py-2.5 pl-3  border placeholder:text-normal-black-color font-roboto border-border-color rounded"
                 />
                 <ErrorMessage
@@ -143,7 +146,11 @@ const SignUpForm: FC = (): JSX.Element => {
             className="ITPbutton bg-black text-white rounded"
             type="submit"
           >
-            {props.isSubmitting ? <p>Submitting...</p> : <div>Register</div>}
+            {props.isSubmitting ? (
+              <p>Submitting...</p>
+            ) : (
+              <div>{t("registerPage.register")}</div>
+            )}
           </button>
           {emailExists && (
             <Message
